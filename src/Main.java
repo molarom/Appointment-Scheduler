@@ -1,26 +1,32 @@
-import java.sql.*;
+import domain.Customer;
+import domain.database.SQLdb;
+import domain.store.CustomerStore;
 
+/**
+ * An application for managing appointment schedules.
+ * <p>
+ * Documentation is located in the root of the project directory underneath the "./docs" folder.
+ * </p>
+ * @author Brandon Epperson
+ */
 class Main {
+
+  /**
+   * The entrypoint of the application.
+   *
+   * @param args Command line arguments to pass to the program at startup.
+   */
   public static void main(String[] args) throws Exception {
     String jdbc_url = "jdbc:mysql://localhost:3306/c195";
     String user = "root";
     String password = "password";
 
-    String query = "SELECT * FROM countries";
-    Class.forName("com.mysql.cj.jdbc.Driver");
+    SQLdb db = new SQLdb(jdbc_url, user, password);
 
-    Connection conn = DriverManager.getConnection(jdbc_url, user, password);
+    CustomerStore cs = new CustomerStore(db);
 
-    Statement stmt = conn.createStatement();
-    ResultSet rs = stmt.executeQuery(query);
+    Customer c = cs.getById(1);
 
-    rs.next();
-
-    String out = rs.getString("country");
-    System.out.println(out);
-
-    stmt.close();
-    conn.close();
-    System.out.println("closed db connection");
+    System.out.println(c.toString());
   }
 }

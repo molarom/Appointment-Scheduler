@@ -47,13 +47,13 @@ SELECT country_id, region FROM province_cte CROSS JOIN uk_cte;
 
 
 INSERT INTO first_level_divisions(country_id, division)
-WITH uk_cte AS (
+WITH us_cte AS (
     SELECT 
         country_id 
     FROM countries
     WHERE
         country = 'United States'
-), province_cte AS (
+), state_cte AS (
     SELECT * FROM ( VALUES
         ROW('Alabama'),
         ROW('Alaska'),
@@ -62,4 +62,26 @@ WITH uk_cte AS (
         ROW('California')
     ) t (region)
 )
-SELECT country_id, region FROM province_cte CROSS JOIN uk_cte;
+SELECT country_id, region FROM state_cte CROSS JOIN us_cte;
+
+INSERT INTO customers (
+    customer_name,
+    address,
+    postal_code,
+    phone,
+    create_date,
+    created_by,
+    last_update,
+    last_updated_by,
+    division_id
+) VALUES (
+    'terry the tester', 
+    '123 street st',
+    '33333',
+    '111-111-1111',
+    CURRENT_TIMESTAMP(),
+    'admin',
+    CURRENT_TIMESTAMP(),
+    'admin',
+    1
+);
