@@ -1,0 +1,14 @@
+services:
+  db:
+    image: "mysql:lts"
+    ports: 
+      - "3309:3306"
+    environment:
+      MYSQL_DATABASE: 'c195'
+      MYSQL_USER: 'admin'
+      MYSQL_PASSWORD: 'password'
+      MYSQL_ROOT_PASSWORD: 'password'
+    volumes:
+      - "mysql:/var/lib/mysql"
+volumes:
+  mysql:
