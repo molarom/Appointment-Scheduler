@@ -1,6 +1,8 @@
 import domain.Customer;
-import domain.database.SQLdb;
-import domain.store.CustomerStore;
+import domain.database.SQL;
+import domain.stores.CustomerStore;
+
+import java.util.List;
 
 /**
  * An application for managing appointment schedules.
@@ -21,12 +23,16 @@ class Main {
     String user = "root";
     String password = "password";
 
-    SQLdb db = new SQLdb(jdbc_url, user, password);
+    SQL db = new SQL(jdbc_url, user, password);
 
     CustomerStore cs = new CustomerStore(db);
 
     Customer c = cs.getById(1);
+    System.out.println("GetById:" + c.toString());
+    List<Customer> customers = cs.getAll();
 
-    System.out.println(c.toString());
+    for (Customer customer : customers) {
+      System.out.println("GetAll:" + customer.toString());
+    }
   }
 }
