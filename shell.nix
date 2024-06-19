@@ -4,11 +4,14 @@ let
       allowUnfree = true;
     };
   };
-  java = pkgs.jdk17.override {enableJavaFX = true;};
+  java = pkgs.jdk17.override {
+    enableJavaFX = true;
+  };
 in
   pkgs.mkShell {
     packages = [
-      pkgs.jetbrains.idea-ultimate
       java
+      pkgs.jetbrains.idea-ultimate
+      pkgs.mysql_jdbc
     ];
   }
