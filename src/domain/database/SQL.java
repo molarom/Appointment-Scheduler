@@ -23,24 +23,81 @@ public class SQL {
         this.ds = ds;
     }
 
+    /**
+     * PreparedQuery Executes a prepared statement against the database
+     * @param query the query to run
+     * @param params any query parameters to provide
+     * @return the resulting Rows
+     */
     public Rows PreparedQuery(String query, Object... params) {
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        Savepoint save = null;
         try {
-            Connection conn = getConnection();
-            PreparedStatement ps = createPreparedStatement(conn, query, params);
-            Rows list = resultSetToRows(ps.executeQuery());
-            conn.close();
-            return list;
+            conn = getConnection();
+            save = conn.setSavepoint();
+            ps = createPreparedStatement(conn, query, params);
+            rs = ps.executeQuery();
+            Rows rows = resultSetToRows(rs);
+            conn.commit();
+            return rows;
         } catch (SQLException e) {
+            if (conn != null) {
+                try {
+                    conn.rollback(save);
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+            }
             e.printStackTrace();
+        } finally {
+            closeConnection(conn);
+            closeResultSet(rs);
+            closePreparedStatement(ps);
         }
         return null;
+    }
+
+    /**
+     * PreparedQueryExec Executes a prepared statement against the database that
+     * doesn't return anything.
+     *
+     * @param query the query to run
+     * @param params any query parameters to provide
+     */
+    public void PreparedQueryExec(String query, Object... params) {
+        Connection conn = null;
+        PreparedStatement ps = null;
+        Savepoint save = null;
+        try {
+            conn = getConnection();
+            save = conn.setSavepoint();
+            ps = createPreparedStatement(conn, query, params);
+            ps.executeUpdate();
+            conn.commit();
+        } catch (SQLException e) {
+                if (conn != null) {
+                    try {
+                        conn.rollback(save);
+                    } catch (SQLException ex) {
+                        ex.printStackTrace();
+                    }
+                }
+            e.printStackTrace();
+        } finally {
+            closeConnection(conn);
+            closePreparedStatement(ps);
+        }
     }
 
     /**
      * @return a new connection to the database
      */
     private Connection getConnection() throws SQLException {
-        return ds.getConnection();
+        Connection conn = ds.getConnection();
+        conn.setAutoCommit(false);
+        return conn;
     }
 
     /**
@@ -76,5 +133,41 @@ public class SQL {
         }
 
         return rows;
+    }
+
+    /**
+     * attempts to close a connection
+     * @param conn the connection to close
+     */
+    private void closeConnection(Connection conn) {
+        if (conn != null) {
+            try {
+                conn.close();
+            } catch (Exception ignored) {}
+        }
+    }
+
+    /**
+     * closeResultSet attempts to close the handle to the resultSet
+     * @param rs the ResultSet to close
+     */
+    private void closeResultSet(ResultSet rs)  {
+        if (rs != null) {
+            try {
+                rs.close();
+            } catch (Exception ignored) {}
+        }
+    }
+
+    /**
+     * closePreparedStatement attempts to close a PreparedStatement
+     * @param ps the PreparedStatement to close
+     */
+    private void closePreparedStatement(PreparedStatement ps) {
+        if (ps != null) {
+            try {
+                ps.close();
+            } catch (Exception ignored) {}
+        }
     }
 }

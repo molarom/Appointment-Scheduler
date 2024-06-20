@@ -3,6 +3,7 @@ package domain.time;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.time.temporal.ChronoUnit;
 
 /**
  * Time serves to provide a standard object to interact with different
@@ -137,4 +138,15 @@ public class Time {
     public String LocaltoString() {
         return UTCtime.toLocalDateTime().atZone(System).toString();
     }
+
+
+    public String getDelta(Time since) {
+        LocalDateTime sinceDt = since.toLocalDateTime();
+        long minutes = sinceDt.until(UTCtime.toLocalDateTime(), ChronoUnit.MINUTES);
+        long seconds = sinceDt.until(UTCtime.toLocalDateTime(), ChronoUnit.SECONDS);
+        long milliseconds = sinceDt.until(UTCtime.toLocalDateTime(), ChronoUnit.MILLIS);
+
+        return minutes + ":" + seconds + ":" + milliseconds;
+    }
+
 }

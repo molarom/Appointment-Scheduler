@@ -2,8 +2,6 @@ package domain;
 
 import domain.time.Time;
 
-import java.time.LocalDate;
-
 /**
  * Customer represents a customer object for use in the application.
  *
@@ -33,25 +31,23 @@ public class Customer {
      * Constructor to create a new Customer.
      *
      * @param customer_name the customer's name
+     * @param address the customer's address
      * @param postal_code the customer's postal_code
      * @param phone the customer's phone number
-     * @param create_date the date the customer was created
      * @param created_by the user that created the customer
-     * @param last_update the date the customer was updated
      * @param last_update_by the user that updated the customer
      */
-    public Customer(String customer_name, String postal_code, String phone, Time create_date, String created_by, Time last_update, String last_update_by) {
+    public Customer(String customer_name, String address, String postal_code, String phone, String created_by, String last_update_by) {
        this.customer_name = customer_name;
+       this.address = address;
        this.postal_code = postal_code;
        this.phone = phone;
        this.created_by = created_by;
        this.last_update_by = last_update_by;
-       this.setCreateDate(create_date);
-       this.setLastUpdate(last_update);
     }
 
     /**
-     * Constructor to create a new Customer from database document.
+     * Constructor to create a new Customer from a database document.
      *
      * @param customer_id the customer's id
      */
@@ -77,7 +73,7 @@ public class Customer {
      * @return the address
      */
     public String getAddress() {
-        return address;
+       return address;
     }
 
     /**

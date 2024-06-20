@@ -22,6 +22,31 @@ public class CustomerStore {
         this.db = db;
     }
 
+    public void add(Customer customer) {
+        String query = "INSERT INTO " +
+                "customers (" +
+                "customer_name, " +
+                "address, " +
+                "postal_code, " +
+                "phone, " +
+                "created_by, " +
+                "last_updated_by, " +
+                "create_date, " +
+                "last_update " +
+                ") VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+
+        db.PreparedQueryExec(query,
+                customer.getName(),
+                customer.getAddress(),
+                customer.getPostalCode(),
+                customer.getPhone(),
+                customer.getCreatedBy(),
+                customer.getLastUpdatedBy(),
+                customer.getCreateDate().toSqlTimestamp(),
+                customer.getLastUpdate().toSqlTimestamp()
+        );
+    }
+
     /**
      * Queries the database for a user based on their customer_id.
      * If no customer is found it returns an empty Customer object.
@@ -33,9 +58,30 @@ public class CustomerStore {
         String query = "SELECT " +
                 "* " +
                 "FROM customers " +
-                "WHERE customer_id = ? LIMIT 1";
+                "WHERE customer_id = ? " +
+                "LIMIT 1";
 
         Rows rows = db.PreparedQuery(query, id);
+
+        Row r = rows.get(0); // We limit the query to 1 result, no need for loops.
+        return rowToCustomer(r);
+    }
+
+    /**
+     * Queries the database for a user based on their customer_id.
+     * If no customer is found it returns an empty Customer object.
+     *
+     * @param name the customer_name to search for.
+     * @return the customer object
+     */
+    public Customer getByName(String name) {
+        String query = "SELECT " +
+                "* " +
+                "FROM customers " +
+                "WHERE customer_name = ? " +
+                "LIMIT 1";
+
+        Rows rows = db.PreparedQuery(query, name);
 
         Row r = rows.get(0); // We limit the query to 1 result, no need for loops.
         return rowToCustomer(r);
@@ -58,13 +104,13 @@ public class CustomerStore {
         return customers;
     }
 
+
     /**
      * Populates a Customer object based on the data contained within a Row.
      *
      * @param r the Row to read from
      * @return the Customer object
      */
-    @SuppressWarnings("DataFlowIssue")
     private Customer rowToCustomer(Row r) {
         Customer customer = new Customer(
                 (int) r.get("customer_id")
