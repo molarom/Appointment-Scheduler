@@ -93,7 +93,9 @@ public class CustomerStore {
     }
 
     /**
-     * @return a list of all customers contained in the database
+     * getAll attempts to fetch all customers contained in the database.
+     * Uses a lambda to scan each row and populate the list.
+     * @return a list of all customers
      */
     public List<Customer> getAll() {
         String query = "SELECT " +

@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * FirstLevelDivsionStore represents a data store for FirstLevelDivision objects.
+ * FirstLevelDivisionStore represents a data store for FirstLevelDivision objects.
  *
  * @author Brandon Epperson
  */
