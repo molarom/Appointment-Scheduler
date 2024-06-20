@@ -1,5 +1,7 @@
 package domain;
 
+import domain.database.annotations.Column;
+import domain.database.annotations.Id;
 import domain.time.Time;
 
 /**
@@ -8,14 +10,32 @@ import domain.time.Time;
  * @author Brandon Epperson
  */
 public class Customer {
+    @Id
+    @Column(name = "customer_id")
     private int customer_id;
+
+    @Column(name = "customer_name")
     private String customer_name;
+
+    @Column(name = "address")
     private String address;
+
+    @Column(name = "postal_code")
     private String postal_code;
+
+    @Column(name = "phone")
     private String phone;
+
+    @Column(name = "created_by")
     private String created_by;
+
+    @Column(name = "last_update_by")
     private String last_update_by;
+
+    @Column(name = "create_date")
     private Time create_date;
+
+    @Column(name = "last_update")
     private Time last_update;
 
     // TODO: Add functionality for setting the division_id

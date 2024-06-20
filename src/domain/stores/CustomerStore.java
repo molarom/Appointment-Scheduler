@@ -7,16 +7,22 @@ import domain.database.models.Rows;
 import domain.time.Time;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * CustomerStore represents a data store for Customer objects.
+ *
+ * @author Brandon Epperson
+ */
 public class CustomerStore {
     private final SQL db;
 
     /**
      * Creates a new CustomerStore to retrieve Customer documents from the database.
      *
-     * @param db the SQLdb instance to use.
+     * @param db the SQL instance to use.
      */
     public CustomerStore(SQL db) {
         this.db = db;
@@ -97,11 +103,14 @@ public class CustomerStore {
                 "ORDER BY customer_id";
 
         Rows rows = db.PreparedQuery(query);
-        List<Customer> customers = new ArrayList<>();
-        for (Row row : rows) {
-            customers.add(rowToCustomer(row));
+        try {
+            @SuppressWarnings("unchecked")
+            List<Customer> scan = (List<Customer>) rows.Scan(Customer.class);
+            return scan;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Collections.emptyList();
         }
-        return customers;
     }
 
 

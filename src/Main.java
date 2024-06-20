@@ -1,6 +1,8 @@
 import domain.Customer;
+import domain.FirstLevelDivision;
 import domain.database.SQL;
 import domain.stores.CustomerStore;
+import domain.stores.FirstLevelDivisionStore;
 import domain.time.Time;
 
 import java.util.List;
@@ -26,25 +28,21 @@ class Main {
 
     SQL db = new SQL(jdbc_url, user, password);
 
+    FirstLevelDivisionStore fs = new FirstLevelDivisionStore(db);
     CustomerStore cs = new CustomerStore(db);
 
     Time t = new Time();
     System.out.println("Time start: " + t.LocaltoString());
-    //Customer c2 = new Customer("knight of nee", "123 not street st.", "44444", "999-888-5555", "admin", "admin");
-    //c2.setCreateDate(t);
-    //c2.setLastUpdate(t);
-    //cs.add(c2);
 
-    Customer c = cs.getById(1);
-    System.out.println("GetById:" + c.toString());
-    List<Customer> customers = cs.getAll();
-
-    for (Customer customer : customers) {
-      System.out.println("GetAll:" + customer.toString());
+    List<FirstLevelDivision> fsDivs = fs.getAllDivisions();
+    for (FirstLevelDivision div : fsDivs) {
+      System.out.println(div.toString());
     }
 
-    Customer c4 = cs.getByName("count of monte cristo");
-    System.out.println("GetByName:" + c4.toString());
+    List<Customer> custs = cs.getAll();
+    for (Customer cust : custs) {
+      System.out.println(cust.toString());
+    }
 
     Time t2 = new Time();
     System.out.println("Time Taken: " + t2.getDelta(t));
