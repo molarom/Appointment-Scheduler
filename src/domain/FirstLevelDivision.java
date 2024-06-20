@@ -36,7 +36,8 @@ public class FirstLevelDivision {
     /**
      * Default constructor to initialize an empty FirstLevelDivision
      */
-    public FirstLevelDivision() {}
+    public FirstLevelDivision() {
+    }
 
     /**
      * Constructor to create a new FirstLevelDivision from a database document.

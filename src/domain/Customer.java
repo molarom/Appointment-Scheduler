@@ -45,25 +45,26 @@ public class Customer {
     /**
      * Default constructor to initialize an empty Customer.
      */
-    public Customer() {}
+    public Customer() {
+    }
 
     /**
      * Constructor to create a new Customer.
      *
-     * @param customer_name the customer's name
-     * @param address the customer's address
-     * @param postal_code the customer's postal_code
-     * @param phone the customer's phone number
-     * @param created_by the user that created the customer
+     * @param customer_name  the customer's name
+     * @param address        the customer's address
+     * @param postal_code    the customer's postal_code
+     * @param phone          the customer's phone number
+     * @param created_by     the user that created the customer
      * @param last_update_by the user that updated the customer
      */
     public Customer(String customer_name, String address, String postal_code, String phone, String created_by, String last_update_by) {
-       this.customer_name = customer_name;
-       this.address = address;
-       this.postal_code = postal_code;
-       this.phone = phone;
-       this.created_by = created_by;
-       this.last_update_by = last_update_by;
+        this.customer_name = customer_name;
+        this.address = address;
+        this.postal_code = postal_code;
+        this.phone = phone;
+        this.created_by = created_by;
+        this.last_update_by = last_update_by;
     }
 
     /**
@@ -86,14 +87,14 @@ public class Customer {
      * @param name the name to set
      */
     public void setName(String name) {
-       this.customer_name = name;
+        this.customer_name = name;
     }
 
     /**
      * @return the address
      */
     public String getAddress() {
-       return address;
+        return address;
     }
 
     /**

@@ -1,11 +1,10 @@
 package domain.database;
 
-import java.sql.*;
-
-
 import com.mysql.cj.jdbc.MysqlDataSource;
 import domain.database.models.Row;
 import domain.database.models.Rows;
+
+import java.sql.*;
 
 /**
  * SQLdb Represents a connection to a SQL database
@@ -25,7 +24,8 @@ public class SQL {
 
     /**
      * PreparedQuery Executes a prepared statement against the database
-     * @param query the query to run
+     *
+     * @param query  the query to run
      * @param params any query parameters to provide
      * @return the resulting Rows
      */
@@ -36,8 +36,8 @@ public class SQL {
         Savepoint save = null;
         try {
             conn = getConnection();
-            save = conn.setSavepoint();
             ps = createPreparedStatement(conn, query, params);
+            save = conn.setSavepoint();
             rs = ps.executeQuery();
             Rows rows = resultSetToRows(rs);
             conn.commit();
@@ -63,7 +63,7 @@ public class SQL {
      * PreparedQueryExec Executes a prepared statement against the database that
      * doesn't return anything.
      *
-     * @param query the query to run
+     * @param query  the query to run
      * @param params any query parameters to provide
      */
     public void PreparedQueryExec(String query, Object... params) {
@@ -72,18 +72,18 @@ public class SQL {
         Savepoint save = null;
         try {
             conn = getConnection();
-            save = conn.setSavepoint();
             ps = createPreparedStatement(conn, query, params);
+            save = conn.setSavepoint();
             ps.executeUpdate();
             conn.commit();
         } catch (SQLException e) {
-                if (conn != null) {
-                    try {
-                        conn.rollback(save);
-                    } catch (SQLException ex) {
-                        ex.printStackTrace();
-                    }
+            if (conn != null) {
+                try {
+                    conn.rollback(save);
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
                 }
+            }
             e.printStackTrace();
         } finally {
             closeConnection(conn);
@@ -103,8 +103,9 @@ public class SQL {
 
     /**
      * Creates a prepareStatement to execute queries.
-     * @param conn the database connection object
-     * @param query the query string
+     *
+     * @param conn   the database connection object
+     * @param query  the query string
      * @param params the query parameters to set
      * @return the PreparedStatement
      */
@@ -118,6 +119,7 @@ public class SQL {
 
     /**
      * Converts a ResultSet to a List for handling of generic types.
+     *
      * @param rs the ResultSet to convert
      * @return the list of converted row objects
      */
@@ -128,7 +130,7 @@ public class SQL {
         while (rs.next()) {
             Row row = new Row(columnCount);
             for (int i = 1; i <= columnCount; i++) {
-               row.put(rsmd.getColumnName(i), rs.getObject(i));
+                row.put(rsmd.getColumnName(i), rs.getObject(i));
             }
             rows.add(row);
         }
@@ -138,37 +140,43 @@ public class SQL {
 
     /**
      * attempts to close a connection
+     *
      * @param conn the connection to close
      */
     private void closeConnection(Connection conn) {
         if (conn != null) {
             try {
                 conn.close();
-            } catch (Exception ignored) {}
+            } catch (Exception ignored) {
+            }
         }
     }
 
     /**
      * closeResultSet attempts to close the handle to the resultSet
+     *
      * @param rs the ResultSet to close
      */
-    private void closeResultSet(ResultSet rs)  {
+    private void closeResultSet(ResultSet rs) {
         if (rs != null) {
             try {
                 rs.close();
-            } catch (Exception ignored) {}
+            } catch (Exception ignored) {
+            }
         }
     }
 
     /**
      * closePreparedStatement attempts to close a PreparedStatement
+     *
      * @param ps the PreparedStatement to close
      */
     private void closePreparedStatement(PreparedStatement ps) {
         if (ps != null) {
             try {
                 ps.close();
-            } catch (Exception ignored) {}
+            } catch (Exception ignored) {
+            }
         }
     }
 }

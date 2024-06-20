@@ -6,4 +6,5 @@ package domain.database.annotations;
  *
  * @author Brandon Epperson
  */
-public @interface Id { }
+public @interface Id {
+}

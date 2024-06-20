@@ -50,6 +50,7 @@ public class Time {
     /**
      * fromObject attempt to convert a generic object to a Time
      * returns null on error.
+     *
      * @param o the object to convert
      */
     public static Time fromObject(Object o) {
@@ -75,6 +76,7 @@ public class Time {
 
     /**
      * fromSqlTime converts a sql.Time to Time
+     *
      * @param sqlTime the time to convert
      */
     public void fromSqlTime(java.sql.Time sqlTime) {
@@ -84,6 +86,7 @@ public class Time {
 
     /**
      * fromSqlTimestamp converts a sql.Timestamp to Time
+     *
      * @param sqlTimestamp the timestamp to convert
      */
     public void fromSqlTimestamp(java.sql.Timestamp sqlTimestamp) {
@@ -100,6 +103,7 @@ public class Time {
 
     /**
      * fromSqlDate converts a sql.Date to Time
+     *
      * @param sqlDate the date to convert
      */
     public void fromSqlDate(java.sql.Date sqlDate) {
@@ -108,6 +112,7 @@ public class Time {
 
     /**
      * fromLocalDateTime converts a LocalDateTime to Time
+     *
      * @param localDateTime the LocalDateTime to convert
      */
     public void fromLocalDateTime(LocalDateTime localDateTime) {
@@ -118,14 +123,14 @@ public class Time {
      * @return a new java.time.LocalDateTime
      */
     public java.time.LocalDateTime toLocalDateTime() {
-       return UTCtime.toLocalDateTime();
+        return UTCtime.toLocalDateTime();
     }
 
     /**
      * @return returns the utc time as a string
      */
     public String UTCtoString() {
-       return UTCtime.toString();
+        return UTCtime.toString();
     }
 
     /**

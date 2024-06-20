@@ -7,7 +7,6 @@ import domain.database.models.Rows;
 import domain.time.Time;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -103,14 +102,12 @@ public class CustomerStore {
                 "ORDER BY customer_id";
 
         Rows rows = db.PreparedQuery(query);
-        try {
-            @SuppressWarnings("unchecked")
-            List<Customer> scan = (List<Customer>) rows.Scan(Customer.class);
-            return scan;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return Collections.emptyList();
-        }
+        List<Customer> customers = new ArrayList<>();
+        rows.forEach(row -> {
+            Customer customer = new Customer();
+            customers.add(row.Scan(customer));
+        });
+        return customers;
     }
 
 
