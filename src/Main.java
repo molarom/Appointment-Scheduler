@@ -40,10 +40,13 @@ class Main {
             System.out.println(div.toString());
         }
 
-        List<Customer> custs = cs.getAll();
-        for (Customer cust : custs) {
-            System.out.println(cust.toString());
+        List<Customer> csAll = cs.getAll();
+        for (Customer c : csAll) {
+            System.out.println(c.toString());
         }
+
+        Customer c2 = cs.getById(1);
+        System.out.println("getById: " + c2.toString());
 
         Time t2 = new Time();
         System.out.println("Time Taken: " + t2.getDelta(t));
