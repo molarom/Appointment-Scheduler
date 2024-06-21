@@ -9,6 +9,4 @@ services:
       MYSQL_PASSWORD: 'password'
       MYSQL_ROOT_PASSWORD: 'password'
     volumes:
-      - "mysql:/var/lib/mysql"
-volumes:
-  mysql:
+      - "../migrations/:/docker-entrypoint-initdb.d"

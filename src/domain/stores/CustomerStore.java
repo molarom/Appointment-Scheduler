@@ -24,6 +24,11 @@ public class CustomerStore {
         this.db = db;
     }
 
+    /**
+     * add adds a new customer to the database.
+     *
+     * @param customer the customer to add
+     */
     public void add(Customer customer) {
         String query = "INSERT INTO " +
                 "customers (" +
@@ -43,7 +48,7 @@ public class CustomerStore {
                 customer.getPostalCode(),
                 customer.getPhone(),
                 customer.getCreatedBy(),
-                customer.getLastUpdatedBy(),
+                customer.getLastUpdateBy(),
                 customer.getCreateDate().toSqlTimestamp(),
                 customer.getLastUpdate().toSqlTimestamp()
         );
@@ -92,6 +97,7 @@ public class CustomerStore {
     /**
      * getAll attempts to fetch all customers contained in the database.
      * Uses a lambda to scan each row and populate the list.
+     *
      * @return a list of all customers
      */
     public List<Customer> getAll() {

@@ -1,0 +1,24 @@
+.root {
+    -text: #e9f8fb;
+    -bg: #030f11;
+    -primary: #89dae9;
+    -secondary: #7d1c93;
+    -accent: #d9358f;
+
+    -fx-background-color: -bg;
+}
+
+.label {
+    -fx-text-fill: -text;
+}
+
+.login-label {
+    -fx-text-fill: -text;
+    -fx-font-weight: bold;
+    -fx-font-size: 30;
+}
+
+.login-button {
+    -fx-text-fill: -bg;
+    -fx-background-color: -primary;
+}

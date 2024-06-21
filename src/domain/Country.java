@@ -5,18 +5,17 @@ import domain.database.annotations.Id;
 import domain.time.Time;
 
 /**
- * FirstLevelDivision represent the first level of an address.
- * Example: Canada -> Quebec is the first level division.
+ * Country represents a country object for use in the application.
  *
  * @author Brandon Epperson
  */
-public class FirstLevelDivision {
+public class Country {
     @Id
-    @Column(name = "division_id")
-    private int division_id;
+    @Column(name = "country_id")
+    private int country_id;
 
-    @Column(name = "division")
-    private String division_name;
+    @Column(name = "country")
+    private String country_name;
 
     @Column(name = "created_by")
     private String created_by;
@@ -30,27 +29,24 @@ public class FirstLevelDivision {
     @Column(name = "last_update")
     private Time last_update;
 
-    @Column(name = "country_id")
-    private int country_id;
-
     /**
-     * Default constructor to initialize an empty FirstLevelDivision
+     * Default constructor to initialize an empty Country.
      */
-    public FirstLevelDivision() {
+    public Country() {
     }
 
     /**
-     * @return the division id
+     * @return the country id.
      */
-    public int getId() {
-        return division_id;
+    public int getCountryId() {
+        return country_id;
     }
 
     /**
-     * @return the create_date
+     * @return the country name
      */
-    public Time getCreateDate() {
-        return create_date;
+    public String getCountryName() {
+        return country_name;
     }
 
     /**
@@ -61,14 +57,14 @@ public class FirstLevelDivision {
     }
 
     /**
-     * @return the user that created the entry
+     * @return the user that created the customer
      */
     public String getCreatedBy() {
         return created_by;
     }
 
     /**
-     * @param created_by set the user that created this entry
+     * @param created_by set the user that created this customer
      */
     public void setCreatedBy(String created_by) {
         this.created_by = created_by;
@@ -96,14 +92,7 @@ public class FirstLevelDivision {
     }
 
     /**
-     * @return the country id
-     */
-    public int getCountryId() {
-        return country_id;
-    }
-
-    /**
-     * @param last_update_by the user that updated this entry
+     * @param last_update_by the user that updated this customer
      */
     public void setLastUpdateBy(String last_update_by) {
         this.last_updated_by = last_update_by;
@@ -111,14 +100,13 @@ public class FirstLevelDivision {
 
     @Override
     public String toString() {
-        return "FirstLevelDivision{" +
-                "division_id=" + division_id +
-                ", division_name='" + division_name + '\'' +
+        return "Country{" +
+                "country_id=" + country_id +
+                ", country_name='" + country_name + '\'' +
                 ", created_by='" + created_by + '\'' +
                 ", last_updated_by='" + last_updated_by + '\'' +
                 ", create_date=" + create_date +
                 ", last_update=" + last_update +
-                ", country_id=" + country_id +
                 '}';
     }
 }

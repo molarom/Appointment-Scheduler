@@ -29,8 +29,8 @@ public class Customer {
     @Column(name = "created_by")
     private String created_by;
 
-    @Column(name = "last_update_by")
-    private String last_update_by;
+    @Column(name = "last_updated_by")
+    private String last_updated_by;
 
     @Column(name = "create_date")
     private Time create_date;
@@ -38,7 +38,7 @@ public class Customer {
     @Column(name = "last_update")
     private Time last_update;
 
-    // TODO: Add functionality for setting the division_id
+    @Column(name = "division_id")
     private int division_id;
 
 
@@ -51,29 +51,27 @@ public class Customer {
     /**
      * Constructor to create a new Customer.
      *
-     * @param customer_name  the customer's name
-     * @param address        the customer's address
-     * @param postal_code    the customer's postal_code
-     * @param phone          the customer's phone number
-     * @param created_by     the user that created the customer
-     * @param last_update_by the user that updated the customer
+     * @param customer_name   the customer's name
+     * @param address         the customer's address
+     * @param postal_code     the customer's postal_code
+     * @param phone           the customer's phone number
+     * @param created_by      the user that created the customer
+     * @param last_updated_by the user that updated the customer
      */
-    public Customer(String customer_name, String address, String postal_code, String phone, String created_by, String last_update_by) {
+    public Customer(String customer_name, String address, String postal_code, String phone, String created_by, String last_updated_by) {
         this.customer_name = customer_name;
         this.address = address;
         this.postal_code = postal_code;
         this.phone = phone;
         this.created_by = created_by;
-        this.last_update_by = last_update_by;
+        this.last_updated_by = last_updated_by;
     }
 
     /**
-     * Constructor to create a new Customer from a database document.
-     *
-     * @param customer_id the customer's id
+     * @return the customer's id
      */
-    public Customer(int customer_id) {
-        this.customer_id = customer_id;
+    public int getCustomerId() {
+        return customer_id;
     }
 
     /**
@@ -177,15 +175,29 @@ public class Customer {
     /**
      * @return the last_updated_by
      */
-    public String getLastUpdatedBy() {
-        return last_update_by;
+    public String getLastUpdateBy() {
+        return last_updated_by;
     }
 
     /**
      * @param last_update_by the user that updated this customer
      */
-    public void setLastUpdatedBy(String last_update_by) {
-        this.last_update_by = last_update_by;
+    public void setLastUpdateBy(String last_update_by) {
+        this.last_updated_by = last_update_by;
+    }
+
+    /**
+     * @return the division id
+     */
+    public int getDivisionId() {
+        return division_id;
+    }
+
+    /**
+     * @param division_id the division id to set.
+     */
+    public void setDivisionId(int division_id) {
+        this.division_id = division_id;
     }
 
     /**
@@ -202,7 +214,7 @@ public class Customer {
                 ", create_date='" + create_date.UTCtoString() + '\'' +
                 ", created_by='" + created_by + '\'' +
                 ", last_update='" + last_update.LocaltoString() + '\'' +
-                ", last_update_by='" + last_update_by + '\'' +
+                ", last_updated_by='" + last_updated_by + '\'' +
                 ", division_id=" + division_id +
                 '}';
     }

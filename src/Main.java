@@ -1,11 +1,14 @@
-import domain.Customer;
-import domain.FirstLevelDivision;
 import domain.database.SQL;
-import domain.stores.CustomerStore;
-import domain.stores.FirstLevelDivisionStore;
-import domain.time.Time;
+import javafx.application.Application;
+import javafx.scene.Scene;
+import javafx.scene.layout.BorderPane;
+import javafx.stage.Stage;
+import ui.login.LoginController;
 
-import java.util.List;
+import java.util.logging.Handler;
+import java.util.logging.ConsoleHandler;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * An application for managing appointment schedules.
@@ -15,40 +18,50 @@ import java.util.List;
  *
  * @author Brandon Epperson
  */
-class Main {
+public class Main extends Application {
 
-    /**
-     * The entrypoint of the application.
-     *
-     * @param args Command line arguments to pass to the program at startup.
-     */
-    public static void main(String[] args) throws Exception {
+    static Logger logger = Logger.getLogger(Main.class.getName());
+    @Override
+    public void start(Stage primaryStage) throws Exception {
+        // ------------------------------------------------------
+        // Logger
+
+        logger.setLevel(Level.FINE);
+        Handler ch = new ConsoleHandler();
+        ch.setFormatter(new domain.log.Formatter());
+        logger.addHandler(ch);
+
+        // ------------------------------------------------------
+        // Database
+
         String jdbc_url = "jdbc:mysql://localhost:3306/c195";
         String user = "root";
         String password = "password";
 
         SQL db = new SQL(jdbc_url, user, password);
 
-        FirstLevelDivisionStore fs = new FirstLevelDivisionStore(db);
-        CustomerStore cs = new CustomerStore(db);
+        // ------------------------------------------------------
+        // Display the UI
 
-        Time t = new Time();
-        System.out.println("Time start: " + t.LocaltoString());
+        Scene scene = new Scene(new BorderPane());
+        scene.getStylesheets().add(getClass().getResource("ui/style.css").toExternalForm());
 
-        List<FirstLevelDivision> fsDivs = fs.getAllDivisions();
-        for (FirstLevelDivision div : fsDivs) {
-            System.out.println(div.toString());
-        }
+        LoginController login = new LoginController(scene, db);
+        login.ShowLoginPage();
 
-        List<Customer> csAll = cs.getAll();
-        for (Customer c : csAll) {
-            System.out.println(c.toString());
-        }
+        primaryStage.setScene(scene);
+        primaryStage.setWidth(350);
+        primaryStage.setHeight(300);
+        primaryStage.setTitle("Appointment Scheduler");
+        primaryStage.show();
+    }
 
-        Customer c2 = cs.getById(1);
-        System.out.println("getById: " + c2.toString());
-
-        Time t2 = new Time();
-        System.out.println("Time Taken: " + t2.getDelta(t));
+    /**
+     * The entrypoint of the application.
+     *
+     * @param args Command line arguments to pass to the program at startup.
+     */
+    public static void main(String[] args) {
+        launch(args);
     }
 }

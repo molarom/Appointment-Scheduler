@@ -13,5 +13,6 @@ in
       java
       pkgs.jetbrains.idea-ultimate
       pkgs.mysql_jdbc
+      pkgs.scenebuilder
     ];
   }

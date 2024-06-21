@@ -1,6 +1,7 @@
 package domain.stores;
 
 
+import domain.Country;
 import domain.FirstLevelDivision;
 import domain.database.SQL;
 import domain.database.models.Rows;
@@ -41,6 +42,32 @@ public class FirstLevelDivisionStore {
         List<FirstLevelDivision> divisions = new ArrayList<>();
         rows.forEach(row -> {
             FirstLevelDivision division = new FirstLevelDivision();
+            divisions.add(row.Scan(division));
+        });
+        return divisions;
+    }
+
+    /**
+     * getAllByCountryId returns all divisions associated with a given country.
+     * Uses a lambda function to populate the returned list.
+     *
+     * @param country the country to search for divisions
+     * @return the list of FirstLevelDivisions
+     */
+    public List<FirstLevelDivision> getAllByCountryId(Country country) {
+        String query = "SELECT " +
+                "division_id, " +
+                "division, " +
+                "country_id " +
+                "FROM " +
+                "first_level_divisions " +
+                "WHERE country_id = ?";
+
+        Rows rows = db.PreparedQuery(query, country.getCountryId());
+        List<FirstLevelDivision> divisions = new ArrayList<>();
+        rows.forEach(row -> {
+            FirstLevelDivision division = new FirstLevelDivision();
+
             divisions.add(row.Scan(division));
         });
         return divisions;

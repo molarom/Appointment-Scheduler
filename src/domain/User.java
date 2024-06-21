@@ -4,19 +4,16 @@ import domain.database.annotations.Column;
 import domain.database.annotations.Id;
 import domain.time.Time;
 
-/**
- * FirstLevelDivision represent the first level of an address.
- * Example: Canada -> Quebec is the first level division.
- *
- * @author Brandon Epperson
- */
-public class FirstLevelDivision {
+public class User {
     @Id
-    @Column(name = "division_id")
-    private int division_id;
+    @Column(name = "user_id")
+    private int user_id;
 
-    @Column(name = "division")
-    private String division_name;
+    @Column(name = "user_name")
+    private String user_name;
+
+    @Column(name = "password")
+    private String password;
 
     @Column(name = "created_by")
     private String created_by;
@@ -30,20 +27,10 @@ public class FirstLevelDivision {
     @Column(name = "last_update")
     private Time last_update;
 
-    @Column(name = "country_id")
-    private int country_id;
-
     /**
-     * Default constructor to initialize an empty FirstLevelDivision
+     * Default constructor to initialize an empty user.
      */
-    public FirstLevelDivision() {
-    }
-
-    /**
-     * @return the division id
-     */
-    public int getId() {
-        return division_id;
+    public User() {
     }
 
     /**
@@ -95,30 +82,16 @@ public class FirstLevelDivision {
         return last_updated_by;
     }
 
-    /**
-     * @return the country id
-     */
-    public int getCountryId() {
-        return country_id;
-    }
-
-    /**
-     * @param last_update_by the user that updated this entry
-     */
-    public void setLastUpdateBy(String last_update_by) {
-        this.last_updated_by = last_update_by;
-    }
-
     @Override
     public String toString() {
-        return "FirstLevelDivision{" +
-                "division_id=" + division_id +
-                ", division_name='" + division_name + '\'' +
+        return "User{" +
+                "user_id=" + user_id +
+                ", user_name='" + user_name + '\'' +
+                ", password='" + password + '\'' +
                 ", created_by='" + created_by + '\'' +
                 ", last_updated_by='" + last_updated_by + '\'' +
-                ", create_date=" + create_date +
-                ", last_update=" + last_update +
-                ", country_id=" + country_id +
+                ", create_date=" + create_date.LocaltoString() +
+                ", last_update=" + last_update.LocaltoString() +
                 '}';
     }
 }
