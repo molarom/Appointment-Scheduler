@@ -17,6 +17,7 @@
     -fx-font-weight: bold;
     -fx-font-size: 30;
 }
+
 .user-label {
     -fx-background-color: -text;
     -size: 12;

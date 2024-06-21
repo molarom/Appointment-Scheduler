@@ -13,19 +13,27 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.*;
+import ui.main.MainPage;
 
 import java.time.ZoneId;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
+/**
+ * LoginPage is the page displayed to a user upon first loading the application.
+ */
 public class LoginPage {
     private static final ResourceBundle rs = ResourceBundle.getBundle("resources.language", Locale.getDefault());
-    private final Scene scene;
+    private static Scene scene;
     private final AnchorPane root;
 
 
+    /**
+     * LoginPage constructs a new login page.
+     * @param scene the scene to populate UI components.
+     */
     public LoginPage(Scene scene) {
-        this.scene = scene;
+        LoginPage.scene = scene;
 
         // ------------------------------------------------------
         // Login Form
@@ -64,10 +72,15 @@ public class LoginPage {
         scene.setRoot(root);
     }
 
+
     /**
      * LoginForm is the login form displayed on the page.
      */
     public static class LoginForm extends VBox {
+        private static TextField username;
+        private static PasswordField password;
+        private static Label loginLabel ;
+
         /**
          * Constructs a new login form to be displayed on the page.
          */
@@ -75,13 +88,12 @@ public class LoginPage {
             Label welcomeLabel = new Label(rs.getString("login.welcome"));
             welcomeLabel.getStyleClass().add("welcome-label");
 
-            TextField username = new TextField();
-            PasswordField password = new PasswordField();
+            username = new TextField();
+            password = new PasswordField();
             LoginTextFields loginTextFields = new LoginTextFields(username, password);
 
-            Label loginLabel = new Label(rs.getString("login.incorrect"));
-            LoginButtons loginButtons = new LoginButtons(username, password, loginLabel);
-
+            loginLabel = new Label(rs.getString("login.incorrect"));
+            LoginButtons loginButtons = new LoginButtons(loginLabel);
 
             this.getChildren().addAll(
                     welcomeLabel,
@@ -91,6 +103,15 @@ public class LoginPage {
             );
             this.setAlignment(Pos.CENTER);
             this.setSpacing(10);
+        }
+
+        public static void loginUser() {
+            User user = LoginController.authenticate(username.getText(), password.getText());
+            if (user != null) {
+                MainPage mainPage = new MainPage(scene);
+                mainPage.ShowMainPage();
+            }
+            loginLabel.setVisible(true);
         }
     }
 
@@ -121,7 +142,7 @@ public class LoginPage {
             password.setFocusTraversable(false);
             password.setOnKeyPressed(event -> {
                 if (event.getCode().equals(KeyCode.ENTER)) {
-                    LoginController.authenticate(username.getText(), password.getText());
+                    LoginForm.loginUser();
                 }
             });
 
@@ -141,30 +162,19 @@ public class LoginPage {
         /**
          * LoginButtons constructs a new LoginButtons object
          *
-         * @param username   the Username TextField
-         * @param password   the PasswordField
          * @param loginLabel the label to display on failed login attempts.
          */
-        public LoginButtons(TextField username, PasswordField password, Label loginLabel) {
+        public LoginButtons(Label loginLabel) {
             loginLabel.setVisible(false);
             loginLabel.getStyleClass().add("login-label");
 
             Button loginButton = new Button(rs.getString("login.login"));
             loginButton.getStyleClass().add("login-button");
-            loginButton.setOnAction(event -> {
-                User user = LoginController.authenticate(username.getText(), password.getText());
-                if (user != null) {
-                    System.out.println("winner");
-                    return;
-                }
-                loginLabel.setVisible(true);
-            });
+            loginButton.setOnAction(event -> LoginForm.loginUser());
 
             Button cancelButton = new Button(rs.getString("login.cancel"));
             cancelButton.getStyleClass().add("login-button");
-            cancelButton.setOnAction(event -> {
-                Alerts.Exit();
-            });
+            cancelButton.setOnAction(event -> Alerts.Exit());
 
             this.setSpacing(7);
             this.setAlignment(Pos.CENTER);
@@ -204,5 +214,4 @@ public class LoginPage {
             this.add(zoneIdLabel, 1, 0);
         }
     }
-
 }

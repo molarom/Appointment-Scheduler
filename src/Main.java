@@ -82,8 +82,8 @@ public class Main extends Application {
         login.ShowLoginPage();
 
         primaryStage.setScene(scene);
-        primaryStage.setWidth(485);
-        primaryStage.setHeight(400);
+        primaryStage.setMinWidth(485);
+        primaryStage.setMinHeight(400);
         primaryStage.setTitle(rs.getString("app.title"));
         primaryStage.show();
     }
