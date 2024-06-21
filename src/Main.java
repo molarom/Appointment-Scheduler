@@ -8,9 +8,13 @@ import ui.login.LoginPage;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.IOException;
+import java.util.Locale;
 import java.util.Properties;
-import java.util.logging.*;
+import java.util.ResourceBundle;
+import java.util.logging.ConsoleHandler;
+import java.util.logging.Handler;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * An application for managing appointment schedules.
@@ -21,7 +25,7 @@ import java.util.logging.*;
  * @author Brandon Epperson
  */
 public class Main extends Application {
-
+    private static final ResourceBundle rs = ResourceBundle.getBundle("resources.language", Locale.getDefault());
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -78,9 +82,9 @@ public class Main extends Application {
         login.ShowLoginPage();
 
         primaryStage.setScene(scene);
-        primaryStage.setWidth(350);
-        primaryStage.setHeight(300);
-        primaryStage.setTitle("Appointment Scheduler");
+        primaryStage.setWidth(485);
+        primaryStage.setHeight(400);
+        primaryStage.setTitle(rs.getString("app.title"));
         primaryStage.show();
     }
 

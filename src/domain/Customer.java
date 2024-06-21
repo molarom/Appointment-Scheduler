@@ -211,9 +211,9 @@ public class Customer {
                 ", address='" + address + '\'' +
                 ", postal_code='" + postal_code + '\'' +
                 ", phone='" + phone + '\'' +
-                ", create_date='" + create_date.UTCtoString() + '\'' +
+                ", create_date='" + create_date.toUTCString() + '\'' +
                 ", created_by='" + created_by + '\'' +
-                ", last_update='" + last_update.LocaltoString() + '\'' +
+                ", last_update='" + last_update.toLocalString() + '\'' +
                 ", last_updated_by='" + last_updated_by + '\'' +
                 ", division_id=" + division_id +
                 '}';

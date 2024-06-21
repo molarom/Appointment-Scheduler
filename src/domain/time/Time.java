@@ -1,5 +1,6 @@
 package domain.time;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
@@ -126,25 +127,39 @@ public class Time {
         return UTCtime.toLocalDateTime();
     }
 
+    public void fromMillis(long millis) {
+        this.UTCtime = ZonedDateTime.ofInstant(Instant.ofEpochMilli(millis), UTC);
+    }
+
     /**
-     * @return returns the utc time as a string
+     * @return the UTC time as a string
      */
-    public String UTCtoString() {
+    public String toUTCString() {
         return UTCtime.toString();
     }
 
     /**
-     * @return returns the EST time as a string
+     * @return the EST time as a string
      */
-    public String ESTtoString() {
+    public String toESTString() {
         return UTCtime.toLocalDateTime().atZone(EST).toString();
     }
 
-    public String LocaltoString() {
+    /**
+     * @return the system local time as a string
+     */
+    public String toLocalString() {
         return UTCtime.toLocalDateTime().atZone(System).toString();
     }
 
 
+    /**
+     * getDelta returns the difference between two times as a string.
+     *
+     * @param since the Time to compare
+     * @return string representation of difference.
+     */
+    // TODO: Update this or make new method to get minutes.
     public String getDelta(Time since) {
         LocalDateTime sinceDt = since.toLocalDateTime();
         long minutes = sinceDt.until(UTCtime.toLocalDateTime(), ChronoUnit.MINUTES);

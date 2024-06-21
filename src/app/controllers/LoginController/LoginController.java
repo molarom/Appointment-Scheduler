@@ -20,7 +20,7 @@ public class LoginController {
      * Configure setups the required parameters for the Controller.
      * This should only be called once.
      *
-     * @param db     the SQL instance to interact with.
+     * @param db the SQL instance to interact with.
      */
     public static void Configure(SQL db) {
         userStore = new UserStore(db);
@@ -46,13 +46,14 @@ public class LoginController {
      * @param username the username
      * @param password the password
      */
-    public static void authenticate(String username, String password) {
+    public static User authenticate(String username, String password) {
         User user = userStore.login(username, password);
         if (user != null) {
             log.info("successful login for user=" + username);
-            return;
+            return user;
         }
         log.info("failed login attempt for user=" + username);
+        return null;
     }
 
 }

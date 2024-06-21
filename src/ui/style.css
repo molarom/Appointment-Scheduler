@@ -12,13 +12,55 @@
     -fx-text-fill: -text;
 }
 
-.login-label {
+.welcome-label {
     -fx-text-fill: -text;
     -fx-font-weight: bold;
     -fx-font-size: 30;
+}
+.user-label {
+    -fx-background-color: -text;
+    -size: 12;
+    -fx-min-height: -size;
+    -fx-min-width: -size;
+    -fx-max-height: -size;
+    -fx-max-width: -size;
+
+    -fx-shape: "M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512H418.3c16.4 0 29.7-13.3 29.7-29.7C448 383.8 368.2 304 269.7 304H178.3z";
+}
+
+.pw-label {
+    -fx-background-color: -text;
+    -size: 12;
+    -fx-min-height: -size;
+    -fx-min-width: -size;
+    -fx-max-height: -size;
+    -fx-max-width: -size;
+
+    -fx-shape: "M144 144v48H304V144c0-44.2-35.8-80-80-80s-80 35.8-80 80zM80 192V144C80 64.5 144.5 0 224 0s144 64.5 144 144v48h16c35.3 0 64 28.7 64 64V448c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V256c0-35.3 28.7-64 64-64H80z"
+}
+
+.login-label {
+    -fx-text-fill: -accent;
+    -fx-font-weight: bold;
+}
+
+.zone-label {
+    -fx-text-fill: -bg;
+    -fx-font-size: 10;
+    -fx-border-radius: 10 0 0 10;
+    -fx-background-radius: 10 0 0 10;
+    -fx-background-color: -accent;
 }
 
 .login-button {
     -fx-text-fill: -bg;
     -fx-background-color: -primary;
+}
+
+.bottom-zone-banner {
+    -fx-fill: -accent;
+}
+
+.colored-banner {
+    -fx-background-color: -primary
 }
