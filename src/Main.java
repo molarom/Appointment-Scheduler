@@ -1,14 +1,16 @@
+import app.controllers.Controllers;
 import domain.database.SQL;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
-import ui.login.LoginController;
+import ui.login.LoginPage;
 
-import java.util.logging.Handler;
-import java.util.logging.ConsoleHandler;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.Properties;
+import java.util.logging.*;
 
 /**
  * An application for managing appointment schedules.
@@ -20,25 +22,51 @@ import java.util.logging.Logger;
  */
 public class Main extends Application {
 
-    static Logger logger = Logger.getLogger(Main.class.getName());
+
     @Override
     public void start(Stage primaryStage) throws Exception {
         // ------------------------------------------------------
         // Logger
+        Logger logger = Logger.getLogger("App");
+        logger.setLevel(Level.INFO);
+        logger.setUseParentHandlers(false);
 
-        logger.setLevel(Level.FINE);
         Handler ch = new ConsoleHandler();
         ch.setFormatter(new domain.log.Formatter());
         logger.addHandler(ch);
 
+
         // ------------------------------------------------------
-        // Database
+        // Setup the Database
 
-        String jdbc_url = "jdbc:mysql://localhost:3306/c195";
-        String user = "root";
-        String password = "password";
+        SQL db = null;
+        try (FileInputStream fis = new FileInputStream("database.properties")) {
+            Properties dbConfig = new Properties();
+            dbConfig.load(fis);
+            System.out.println(dbConfig.getProperty("database"));
+            db = new SQL(
+                    dbConfig.getProperty("host"),
+                    dbConfig.getProperty("port"),
+                    dbConfig.getProperty("database"),
+                    dbConfig.getProperty("username"),
+                    dbConfig.getProperty("password")
+            );
+        } catch (FileNotFoundException ex) {
+            db = new SQL(
+                    "localhost",
+                    "3306",
+                    "c195",
+                    "root",
+                    "password"
+            );
+        }
 
-        SQL db = new SQL(jdbc_url, user, password);
+        logger.info("Connected to the database");
+
+        // ------------------------------------------------------
+        // Initialize Controllers
+
+        Controllers.Setup(db, logger);
 
         // ------------------------------------------------------
         // Display the UI
@@ -46,7 +74,7 @@ public class Main extends Application {
         Scene scene = new Scene(new BorderPane());
         scene.getStylesheets().add(getClass().getResource("ui/style.css").toExternalForm());
 
-        LoginController login = new LoginController(scene, db);
+        LoginPage login = new LoginPage(scene);
         login.ShowLoginPage();
 
         primaryStage.setScene(scene);

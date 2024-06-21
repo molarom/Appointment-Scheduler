@@ -1,29 +1,19 @@
 package ui.login;
 
-import domain.User;
-import domain.database.SQL;
-import domain.stores.UserStore;
+import app.controllers.LoginController.LoginController;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.AnchorPane;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
-public class LoginController {
-    private static final Logger logger = Logger.getLogger(LoginController.class.getName());
-
+public class LoginPage {
     private final Scene scene;
     private final AnchorPane root;
     private final TextField username;
     private final PasswordField password;
-    private final UserStore userStore;
 
-
-    public LoginController(Scene scene, SQL db) {
+    public LoginPage(Scene scene) {
         this.scene = scene;
-        this.userStore = new UserStore(db);
 
         // ------------------------------------------------------
         // Labels
@@ -41,7 +31,7 @@ public class LoginController {
         password = new PasswordField();
         password.setOnKeyPressed(event -> {
             if (event.getCode().equals(KeyCode.ENTER)) {
-                authenticate();
+                LoginController.authenticate(username.getText(), password.getText());
             }
         });
 
@@ -52,7 +42,7 @@ public class LoginController {
         Button cancelButton = new Button("Cancel");
 
         loginButton.setOnAction(event -> {
-            authenticate();
+            LoginController.authenticate(username.getText(), password.getText());
         });
         cancelButton.setOnAction(event -> {
             Alert a = new Alert(Alert.AlertType.CONFIRMATION);
@@ -107,14 +97,4 @@ public class LoginController {
     public void ShowLoginPage() {
         scene.setRoot(root);
     }
-
-    private void authenticate() {
-        User user = userStore.login(username.getText(), password.getText());
-        if (user.toString() != null) {
-            logger.log(Level.INFO, "successful login for {0}", username.getText());
-            return;
-        }
-        logger.log(Level.WARNING, "failed login attempt for {0}", username.getText());
-    }
-
 }

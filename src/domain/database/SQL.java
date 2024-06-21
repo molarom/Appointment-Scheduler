@@ -14,9 +14,18 @@ import java.sql.*;
 public class SQL {
     private final MysqlDataSource ds;
 
-    public SQL(String connection_url, String user_name, String password) {
+    /**
+     * Constructs a new SQL instance to interact with a SQL database.
+     *
+     * @param host      the host to connect to
+     * @param port      the port to connect to
+     * @param database  the database to connect to
+     * @param user_name the user_name to authenticate as
+     * @param password  the password for the user
+     */
+    public SQL(String host, String port, String database, String user_name, String password) {
         MysqlDataSource ds = new MysqlDataSource();
-        ds.setURL(connection_url);
+        ds.setURL("jdbc:mysql://" + host + ":" + port + "/" + database);
         ds.setUser(user_name);
         ds.setPassword(password);
         this.ds = ds;
