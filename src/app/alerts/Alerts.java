@@ -14,6 +14,12 @@ import java.util.ResourceBundle;
 public class Alerts {
     private static final ResourceBundle rs = ResourceBundle.getBundle("resources.language", Locale.getDefault());
 
+    public static void Warning(String content) {
+        Alert a = new Alert(Alert.AlertType.WARNING);
+        a.setContentText(content);
+        a.showAndWait();
+    }
+
     /**
      * Exit displays an alert confirming that the user
      * wants to exit.

@@ -48,7 +48,7 @@ public class CustomerStore {
                 customer.getPostalCode(),
                 customer.getPhone(),
                 customer.getCreatedBy(),
-                customer.getLastUpdateBy(),
+                customer.getLastUpdatedBy(),
                 customer.getCreateDate().toSqlTimestamp(),
                 customer.getLastUpdate().toSqlTimestamp()
         );

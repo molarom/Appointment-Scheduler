@@ -34,6 +34,13 @@ public class User {
     }
 
     /**
+     * @return the user_name
+     */
+    public String getUserName() {
+        return user_name;
+    }
+
+    /**
      * @return the create_date
      */
     public Time getCreateDate() {

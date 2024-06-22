@@ -1,14 +1,16 @@
 package ui.main;
 
+import domain.Customer;
+import domain.User;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
+import ui.customers.CustomerTableView;
 
+import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
@@ -19,6 +21,9 @@ public class MainPage {
     private static final ResourceBundle rs = ResourceBundle.getBundle("resources.language", Locale.getDefault());
     private final Scene scene;
     private final AnchorPane root;
+    private static User currentUser;
+    // TODO: Clean this up.
+    private static List<Customer> customerList;
 
     /**
      * MainPage constructs a new Main Page
@@ -28,15 +33,16 @@ public class MainPage {
     public MainPage(Scene scene) {
         this.scene = scene;
 
-        HBox asdf = new HBox();
+        BorderPane layout = new BorderPane();
 
         // ------------------------------------------------------
         // SideBar
         VBox mainSideBar = new VBox();
         mainSideBar.getStyleClass().add("main-sidebar");
 
-        Button homeButton = new Button(rs.getString("main.home"));
-        homeButton.getStyleClass().add("main-sidebar-button");
+        Label sideBarIconLabel = new Label();
+        sideBarIconLabel.getStyleClass().add("scheduler-icon");
+        sideBarIconLabel.setPadding(new Insets(20, 20, 20, 20));
 
         Button customersButton = new Button(rs.getString("main.customers"));
         customersButton.getStyleClass().add("main-sidebar-button");
@@ -54,7 +60,7 @@ public class MainPage {
         mainSideBar.setAlignment(Pos.TOP_LEFT);
 
         mainSideBar.getChildren().addAll(
-                homeButton,
+                sideBarIconLabel,
                 customersButton,
                 appointmentsButton,
                 reportsButton,
@@ -62,40 +68,68 @@ public class MainPage {
         );
 
         // ------------------------------------------------------
-        // HomePage Info
+        // Customer Records
 
-        GridPane homePage = new GridPane();
-        homePage.setGridLinesVisible(true);
+        VBox customerRecords = new VBox();
 
-        Label iconLabel = new Label("Icon PlaceHolder");
-        homePage.add(iconLabel, 0, 0);
-        Label titleLabel = new Label("Scheduler");
-        homePage.add(titleLabel, 0, 1);
-        Label tagLineLabel = new Label("Where scheduling customer appointments is a breeze.");
-        homePage.add(tagLineLabel, 1, 0);
-        Label userNameLabel = new Label("User Name");
-        homePage.add(userNameLabel, 0, 2);
+        // ------------------------------------------------------
+        // Title Bar
 
-        homePage.getStyleClass().add("home-page");
+        HBox titleBar = new HBox();
 
 
-        asdf.getChildren().addAll(
-                mainSideBar,
-                homePage
+        // ------------------------------------------------------
+        // User Info
+
+        HBox userInfo = new HBox();
+        userInfo.getStyleClass().add("home-page");
+
+        Label iconLabel = new Label();
+        iconLabel.getStyleClass().add("home-page-icon");
+
+        Label userNameLabel = new Label(currentUser.getUserName());
+
+        userInfo.setAlignment(Pos.CENTER_RIGHT);
+        userInfo.setSpacing(10);
+        userInfo.setPadding(new Insets(20, 20, 10, 20));
+        userInfo.getChildren().addAll(
+                iconLabel,
+                userNameLabel
         );
+
+
+        // ------------------------------------------------------
+        // TableView
+
+        CustomerTableView customerTableView = new CustomerTableView();
+
+        HBox.setHgrow(customerTableView, Priority.ALWAYS);
+
+        // ------------------------------------------------------
+
+        customerRecords.getChildren().addAll(
+                userInfo,
+                customerTableView
+        );
+
+        // ------------------------------------------------------
+        // Layout Setup
+
+        layout.setLeft(mainSideBar);
+        layout.setCenter(customerRecords);
 
         // ------------------------------------------------------
         root = new AnchorPane();
 
-        AnchorPane.setTopAnchor(asdf, 0.0);
-        AnchorPane.setLeftAnchor(asdf, 0.0);
-        AnchorPane.setRightAnchor(asdf, 0.0);
-        AnchorPane.setBottomAnchor(asdf, 0.0);
+        AnchorPane.setTopAnchor(layout, 0.0);
+        AnchorPane.setLeftAnchor(layout, 0.0);
+        AnchorPane.setRightAnchor(layout, 0.0);
+        AnchorPane.setBottomAnchor(layout, 0.0);
 
 
         root.setMinSize(1280, 720);
         root.getChildren().addAll(
-                asdf
+                layout
         );
     }
 
@@ -107,4 +141,12 @@ public class MainPage {
         scene.getWindow().sizeToScene();
         scene.getWindow().centerOnScreen();
     }
+
+    /**
+     * Sets the current user
+     */
+    public static void setCurrentUser(User user) {
+        currentUser = user;
+    }
+
 }

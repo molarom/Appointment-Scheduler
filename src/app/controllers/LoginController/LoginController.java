@@ -17,7 +17,7 @@ public class LoginController {
     private static UserStore userStore = null;
 
     /**
-     * Configure setups the required parameters for the Controller.
+     * Configure sets up the required parameters for the Controller.
      * This should only be called once.
      *
      * @param db the SQL instance to interact with.

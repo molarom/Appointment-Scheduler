@@ -32,6 +32,17 @@ public class SQL {
     }
 
     /**
+     * Ping sends a ping query to the database to ensure it
+     * is ready to accept connections.
+     */
+    public void Ping() throws SQLException {
+        Connection conn = getConnection();
+        String query = "SELECT 1";
+        Statement stmt = conn.createStatement();
+        stmt.executeQuery(query);
+    }
+
+    /**
      * PreparedQuery Executes a prepared statement against the database
      *
      * @param query  the query to run

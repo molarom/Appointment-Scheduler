@@ -4,6 +4,7 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 
 /**
@@ -18,6 +19,7 @@ public class Time {
     private final ZoneId UTC = ZoneId.of("UTC");
     private final ZoneId EST = ZoneId.of("America/New_York");
     private final ZoneId System = ZoneId.systemDefault();
+    private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd - HH:mm");
 
 
     /**
@@ -135,21 +137,21 @@ public class Time {
      * @return the UTC time as a string
      */
     public String toUTCString() {
-        return UTCtime.toString();
+        return formatter.format(UTCtime);
     }
 
     /**
      * @return the EST time as a string
      */
     public String toESTString() {
-        return UTCtime.toLocalDateTime().atZone(EST).toString();
+        return formatter.format(UTCtime.toLocalDateTime().atZone(EST));
     }
 
     /**
      * @return the system local time as a string
      */
     public String toLocalString() {
-        return UTCtime.toLocalDateTime().atZone(System).toString();
+        return formatter.format(UTCtime.toLocalDateTime().atZone(System));
     }
 
 

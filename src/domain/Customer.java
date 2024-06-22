@@ -175,7 +175,7 @@ public class Customer {
     /**
      * @return the last_updated_by
      */
-    public String getLastUpdateBy() {
+    public String getLastUpdatedBy() {
         return last_updated_by;
     }
 

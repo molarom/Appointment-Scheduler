@@ -1,5 +1,6 @@
 import app.controllers.Controllers;
 import domain.database.SQL;
+import domain.stores.UserStore;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
@@ -28,67 +29,79 @@ public class Main extends Application {
     private static final ResourceBundle rs = ResourceBundle.getBundle("resources.language", Locale.getDefault());
 
     @Override
-    public void start(Stage primaryStage) throws Exception {
-        // ------------------------------------------------------
-        // Logger
-        Logger logger = Logger.getLogger("App");
-        logger.setLevel(Level.INFO);
-        logger.setUseParentHandlers(false);
+    public void start(Stage primaryStage) {
+        Logger logger = null;
+        try {
+            // ------------------------------------------------------
+            // Logger
+            logger = Logger.getLogger("App");
+            logger.setLevel(Level.INFO);
+            logger.setUseParentHandlers(false);
 
-        Handler ch = new ConsoleHandler();
-        ch.setFormatter(new domain.log.Formatter());
-        logger.addHandler(ch);
+            Handler ch = new ConsoleHandler();
+            ch.setFormatter(new domain.log.Formatter());
+            logger.addHandler(ch);
 
 
-        // ------------------------------------------------------
-        // Setup the Database
+            // ------------------------------------------------------
+            // Setup the Database
 
-        SQL db = null;
-        try (FileInputStream fis = new FileInputStream("database.properties")) {
-            Properties dbConfig = new Properties();
-            dbConfig.load(fis);
-            System.out.println(dbConfig.getProperty("database"));
-            db = new SQL(
-                    dbConfig.getProperty("host"),
-                    dbConfig.getProperty("port"),
-                    dbConfig.getProperty("database"),
-                    dbConfig.getProperty("username"),
-                    dbConfig.getProperty("password")
-            );
-        } catch (FileNotFoundException ex) {
-            db = new SQL(
-                    "localhost",
-                    "3306",
-                    "c195",
-                    "root",
-                    "password"
-            );
+            SQL db;
+            try (FileInputStream fis = new FileInputStream("database.properties")) {
+                Properties dbConfig = new Properties();
+                dbConfig.load(fis);
+                System.out.println(dbConfig.getProperty("database"));
+                db = new SQL(
+                        dbConfig.getProperty("host"),
+                        dbConfig.getProperty("port"),
+                        dbConfig.getProperty("database"),
+                        dbConfig.getProperty("username"),
+                        dbConfig.getProperty("password")
+                );
+            } catch (FileNotFoundException ex) {
+                db = new SQL(
+                        "localhost",
+                        "3306",
+                        "c195",
+                        "root",
+                        "password"
+                );
+            }
+
+            // Make sure connection is valid.
+            db.Ping();
+
+            logger.info("Connected to the database");
+
+            // ------------------------------------------------------
+            // Initialize Controllers
+
+            Controllers.Setup(db, logger);
+
+            // ------------------------------------------------------
+            // Display the UI
+
+            Scene scene = new Scene(new BorderPane());
+            scene.getStylesheets().add(getClass().getResource("ui/style.css").toExternalForm());
+
+            primaryStage.setScene(scene);
+            primaryStage.setMinWidth(485);
+            primaryStage.setMinHeight(400);
+            primaryStage.setTitle(rs.getString("app.title"));
+            primaryStage.show();
+
+            UserStore us = new UserStore(db);
+            MainPage.setCurrentUser(us.getById(1));
+            MainPage mainPage = new MainPage(scene);
+            mainPage.ShowMainPage();
+            // TODO: Don't forget to change this back
+            //LoginPage login = new LoginPage(scene);
+            //login.ShowLoginPage();
+        } catch (Exception ex) {
+            logger.severe(ex.getMessage());
+            ex.printStackTrace();
+            System.exit(1);
         }
-
-        logger.info("Connected to the database");
-
-        // ------------------------------------------------------
-        // Initialize Controllers
-
-        Controllers.Setup(db, logger);
-
-        // ------------------------------------------------------
-        // Display the UI
-
-        Scene scene = new Scene(new BorderPane());
-        scene.getStylesheets().add(getClass().getResource("ui/style.css").toExternalForm());
-
-        primaryStage.setScene(scene);
-        primaryStage.setMinWidth(485);
-        primaryStage.setMinHeight(400);
-        primaryStage.setTitle(rs.getString("app.title"));
-        primaryStage.show();
-
-        MainPage mainPage = new MainPage(scene);
-        mainPage.ShowMainPage();
-        // TODO: Don't forget to change this back
-        //LoginPage login = new LoginPage(scene);
-        //login.ShowLoginPage();
     }
 
     /**
