@@ -23,11 +23,8 @@ public class Alerts {
         a.setTitle(rs.getString("alert.exit.title"));
         a.setHeaderText(rs.getString("alert.exit.header"));
 
-        //((Button) a.getDialogPane().lookupButton(ButtonType.OK)).setText();
         a.showAndWait()
                 .filter(response -> response == ButtonType.OK)
-                .ifPresent(response -> {
-                    javafx.application.Platform.exit();
-                });
+                .ifPresent(response -> javafx.application.Platform.exit());
     }
 }

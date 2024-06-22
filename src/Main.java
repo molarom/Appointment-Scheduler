@@ -4,7 +4,7 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
-import ui.login.LoginPage;
+import ui.main.MainPage;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -78,14 +78,17 @@ public class Main extends Application {
         Scene scene = new Scene(new BorderPane());
         scene.getStylesheets().add(getClass().getResource("ui/style.css").toExternalForm());
 
-        LoginPage login = new LoginPage(scene);
-        login.ShowLoginPage();
-
         primaryStage.setScene(scene);
         primaryStage.setMinWidth(485);
         primaryStage.setMinHeight(400);
         primaryStage.setTitle(rs.getString("app.title"));
         primaryStage.show();
+
+        MainPage mainPage = new MainPage(scene);
+        mainPage.ShowMainPage();
+        // TODO: Don't forget to change this back
+        //LoginPage login = new LoginPage(scene);
+        //login.ShowLoginPage();
     }
 
     /**

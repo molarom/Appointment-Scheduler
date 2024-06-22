@@ -65,3 +65,24 @@
 .colored-banner {
     -fx-background-color: -primary
 }
+
+.main-sidebar {
+    -fx-background-color: -primary;
+    -fx-text-fill: -background;
+}
+
+.main-sidebar-button {
+    -fx-background-color: transparent;
+}
+
+.main-sidebar-button:hover {
+    -fx-text-fill: -accent;
+}
+
+.home-page {
+    -fx-text-fill: -text;
+}
+
+.home-page Line {
+    -fx-stroke: -secondary;
+}

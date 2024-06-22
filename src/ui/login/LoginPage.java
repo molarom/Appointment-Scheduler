@@ -30,6 +30,7 @@ public class LoginPage {
 
     /**
      * LoginPage constructs a new login page.
+     *
      * @param scene the scene to populate UI components.
      */
     public LoginPage(Scene scene) {
@@ -79,7 +80,7 @@ public class LoginPage {
     public static class LoginForm extends VBox {
         private static TextField username;
         private static PasswordField password;
-        private static Label loginLabel ;
+        private static Label loginLabel;
 
         /**
          * Constructs a new login form to be displayed on the page.
@@ -105,6 +106,9 @@ public class LoginPage {
             this.setSpacing(10);
         }
 
+        /**
+         * loginUser attempts to log in a user
+         */
         public static void loginUser() {
             User user = LoginController.authenticate(username.getText(), password.getText());
             if (user != null) {
