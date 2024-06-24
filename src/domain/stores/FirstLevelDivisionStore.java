@@ -34,8 +34,7 @@ public class FirstLevelDivisionStore {
      */
     public List<FirstLevelDivision> getAllDivisions() {
         String query = "SELECT " +
-                "division_id, " +
-                "division " +
+                "*" +
                 "FROM " +
                 "first_level_divisions";
         Rows rows = db.PreparedQuery(query);
@@ -48,6 +47,23 @@ public class FirstLevelDivisionStore {
     }
 
     /**
+     * getById queries the database for the FirstLevelDivision by its Id.
+     *
+     * @param id the id to query.
+     */
+    public FirstLevelDivision getDivisionById(int id) {
+        String query = "SELECT " +
+                "* " +
+                "FROM " +
+                "first_level_divisions " +
+                "WHERE " +
+                "division_id = ?";
+        Rows rows = db.PreparedQuery(query, id);
+        FirstLevelDivision firstDivision = new FirstLevelDivision();
+        return rows.get(0).Scan(firstDivision);
+    }
+
+    /**
      * getAllByCountryId returns all divisions associated with a given country.
      * Uses a lambda function to populate the returned list.
      *
@@ -56,9 +72,7 @@ public class FirstLevelDivisionStore {
      */
     public List<FirstLevelDivision> getAllByCountryId(Country country) {
         String query = "SELECT " +
-                "division_id, " +
-                "division, " +
-                "country_id " +
+                "*" +
                 "FROM " +
                 "first_level_divisions " +
                 "WHERE country_id = ?";

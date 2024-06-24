@@ -11,6 +11,8 @@ import java.time.ZoneId;
 
 /**
  * LoginBottomBanner is the banner at the bottom of the login page.
+ *
+ * @author Brandon Epperson
  */
 public class LoginBottomBanner extends GridPane {
     /**

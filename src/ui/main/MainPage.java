@@ -5,10 +5,10 @@ import domain.User;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.*;
-import ui.customers.CustomerTableView;
+import ui.customers.CustomerTablePane;
+import ui.users.CurrentUserInfo;
 
 import java.util.List;
 import java.util.Locale;
@@ -18,7 +18,7 @@ import java.util.ResourceBundle;
  * MainPage is the page displayed after a user is authenticated.
  */
 public class MainPage {
-    private static final ResourceBundle rs = ResourceBundle.getBundle("resources.language", Locale.getDefault());
+    static final ResourceBundle rs = ResourceBundle.getBundle("resources.language", Locale.getDefault());
     private final Scene scene;
     private final AnchorPane root;
     private static User currentUser;
@@ -35,88 +35,49 @@ public class MainPage {
 
         BorderPane layout = new BorderPane();
 
-        // ------------------------------------------------------
-        // SideBar
-        VBox mainSideBar = new VBox();
-        mainSideBar.getStyleClass().add("main-sidebar");
-
-        Label sideBarIconLabel = new Label();
-        sideBarIconLabel.getStyleClass().add("scheduler-icon");
-        sideBarIconLabel.setPadding(new Insets(20, 20, 20, 20));
-
-        Button customersButton = new Button(rs.getString("main.customers"));
-        customersButton.getStyleClass().add("main-sidebar-button");
-
-        Button appointmentsButton = new Button(rs.getString("main.appointments"));
-        appointmentsButton.getStyleClass().add("main-sidebar-button");
-
-        Button reportsButton = new Button(rs.getString("main.reports"));
-        reportsButton.getStyleClass().add("main-sidebar-button");
-
-        Button exitButton = new Button(rs.getString("main.exit"));
-        exitButton.getStyleClass().add("main-sidebar-button");
-
-        mainSideBar.setSpacing(10);
-        mainSideBar.setAlignment(Pos.TOP_LEFT);
-
-        mainSideBar.getChildren().addAll(
-                sideBarIconLabel,
-                customersButton,
-                appointmentsButton,
-                reportsButton,
-                exitButton
-        );
+        MainSideBar mainSideBar = new MainSideBar();
 
         // ------------------------------------------------------
-        // Customer Records
+        // Customer View
 
-        VBox customerRecords = new VBox();
+        VBox customerView = new VBox();
 
         // ------------------------------------------------------
         // Title Bar
 
-        HBox titleBar = new HBox();
+        GridPane titleBar = new GridPane();
 
+        Label title = new Label("Customers");
+        title.getStyleClass().add("title");
+        title.setPadding(new Insets(10, 0, 5, 25));
+        title.setMaxWidth(Double.MAX_VALUE);
+        title.setMaxHeight(Double.MAX_VALUE);
+        title.setAlignment(Pos.CENTER_LEFT);
+        titleBar.add(title, 0, 0);
 
-        // ------------------------------------------------------
-        // User Info
-
-        HBox userInfo = new HBox();
-        userInfo.getStyleClass().add("home-page");
-
-        Label iconLabel = new Label();
-        iconLabel.getStyleClass().add("home-page-icon");
-
-        Label userNameLabel = new Label(currentUser.getUserName());
-
-        userInfo.setAlignment(Pos.CENTER_RIGHT);
-        userInfo.setSpacing(10);
-        userInfo.setPadding(new Insets(20, 20, 10, 20));
-        userInfo.getChildren().addAll(
-                iconLabel,
-                userNameLabel
-        );
-
-
-        // ------------------------------------------------------
-        // TableView
-
-        CustomerTableView customerTableView = new CustomerTableView();
-
-        HBox.setHgrow(customerTableView, Priority.ALWAYS);
+        CurrentUserInfo currentUserInfo = new CurrentUserInfo(currentUser);
+        currentUserInfo.setPadding(new Insets(10, 0, 0, 0));
+        currentUserInfo.setMaxHeight(Double.MAX_VALUE);
+        currentUserInfo.setMaxWidth(Double.MAX_VALUE);
+        currentUserInfo.setAlignment(Pos.CENTER_RIGHT);
+        titleBar.add(currentUserInfo, 1, 0);
+        titleBar.setHgap(800);
 
         // ------------------------------------------------------
 
-        customerRecords.getChildren().addAll(
-                userInfo,
-                customerTableView
+        CustomerTablePane customerTablePane = new CustomerTablePane(currentUser);
+        HBox.setHgrow(customerTablePane, Priority.ALWAYS);
+
+        customerView.getChildren().addAll(
+                titleBar,
+                customerTablePane
         );
 
         // ------------------------------------------------------
         // Layout Setup
 
         layout.setLeft(mainSideBar);
-        layout.setCenter(customerRecords);
+        layout.setCenter(customerView);
 
         // ------------------------------------------------------
         root = new AnchorPane();

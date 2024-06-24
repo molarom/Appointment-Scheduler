@@ -9,6 +9,10 @@ import javafx.collections.ObservableList;
 import java.util.List;
 import java.util.logging.Logger;
 
+/**
+ * CustomerController contains the methods for the UI Layer to interact with
+ * the database.
+ */
 public class CustomerController {
     private static Logger log = null;
     private static CustomerStore customerStore = null;
@@ -26,6 +30,9 @@ public class CustomerController {
         log = logger;
     }
 
+    /**
+     * @return an ObservableList of Customer
+     */
     public static ObservableList<Customer> getCustomers() {
         List<Customer> customers = customerStore.getAll();
         if (!customers.isEmpty()) {
@@ -34,5 +41,13 @@ public class CustomerController {
         }
         log.warning("No customers returned from getAll()");
         return FXCollections.emptyObservableList();
+    }
+
+    public static void addCustomer(Customer customer) {
+        System.out.println(customer);
+    }
+
+    public static int countCustomers() {
+        return customerStore.count();
     }
 }

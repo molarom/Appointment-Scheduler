@@ -10,6 +10,8 @@ import static ui.login.LoginPage.rs;
 
 /**
  * LoginButtons are the buttons displayed on the login page.
+ *
+ * @author Brandon Epperson
  */
 public class LoginButtons extends HBox {
     /**

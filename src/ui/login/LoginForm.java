@@ -14,6 +14,8 @@ import static ui.login.LoginPage.rs;
 
 /**
  * LoginForm is the login form displayed on the page.
+ *
+ * @author Brandon Epperson
  */
 class LoginForm extends VBox {
     private static TextField username;

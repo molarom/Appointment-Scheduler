@@ -34,6 +34,13 @@ public class Row extends HashMap<String, Object> {
             @SuppressWarnings("unchecked")
             Class<T> type = (Class<T>) dest.getClass();
 
+            // Only a couple edge cases need this. So we just cast, convert, cast.
+            if (this.size() == 1) {
+                if (this.values().toArray()[0] instanceof Long value) {
+                    return type.cast(value.intValue());
+                }
+            }
+
             Field[] fields = type.getDeclaredFields();
             for (Field f : fields) {
                 if (!f.isAnnotationPresent(Column.class)) {

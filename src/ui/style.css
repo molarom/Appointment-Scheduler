@@ -90,9 +90,14 @@
     -fx-text-fill: -text;
 }
 
+.title {
+    -fx-text-fill: -text;
+    -fx-font-size: 36;
+}
+
 .scheduler-icon {
     -fx-background-color: -text;
-    -size: 36;
+    -size: 42;
     -fx-min-height: -size;
     -fx-min-width: -size;
     -fx-max-height: -size;
@@ -111,20 +116,29 @@
     -fx-shape: "M399 384.2C376.9 345.8 335.4 320 288 320H224c-47.4 0-88.9 25.8-111 64.2c35.2 39.2 86.2 63.8 143 63.8s107.8-24.7 143-63.8zM0 256a256 256 0 1 1 512 0A256 256 0 1 1 0 256zm256 16a72 72 0 1 0 0-144 72 72 0 1 0 0 144z";
 }
 
+/* Table Controls */
+
+.table-button {
+    -fx-background-color: -primary;
+    -fx-text-fill: -bg;
+}
+
 /* Table Views */
 .table-view {
     -fx-background-color: -bg;
 }
+
 .table-view .corner {
     -fx-background-color: transparent;
 }
 
 .table-view .column-header {
-   -fx-background-color: -primary;
+    -fx-background-color: -primary;
 }
 
 .table-view .column-header .label {
     -fx-text-fill: -bg;
+    -fx-font-size: 12;
 }
 
 .table-view .column-header-background {
@@ -136,12 +150,17 @@
 .table-view .column-header-background .filler {
     -fx-background-color: transparent;
 }
+
 .table-view:hover {
     -fx-text-fill: -accent;
 }
 
 .table-row-cell:hover {
     -fx-text-background-color: -accent;
+}
+
+.table-row-cell {
+    -fx-font-size: 10;
 }
 
 .table-view .virtual-flow .scroll-bar:vertical,

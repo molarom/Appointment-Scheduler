@@ -11,6 +11,8 @@ import static ui.login.LoginPage.rs;
 
 /**
  * LoginTextFields are the text fields displayed on the Login Page
+ *
+ * @author Brandon Epperson
  */
 public class LoginTextFields extends GridPane {
     /**

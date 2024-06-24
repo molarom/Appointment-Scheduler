@@ -37,6 +37,20 @@ public class FirstLevelDivision {
      * Default constructor to initialize an empty FirstLevelDivision
      */
     public FirstLevelDivision() {
+        Time t = new Time();
+        create_date = t;
+        last_update = t;
+    }
+
+    /**
+     * Constructor to create a new FirstLevelDivision from provided parameters.
+     *
+     * @param division_id   the division id
+     * @param division_name the division name
+     */
+    public FirstLevelDivision(int division_id, String division_name) {
+        this.division_id = division_id;
+        this.division_name = division_name;
     }
 
     /**
@@ -44,6 +58,13 @@ public class FirstLevelDivision {
      */
     public int getId() {
         return division_id;
+    }
+
+    /**
+     * @return the division name
+     */
+    public String getDivisionName() {
+        return division_name;
     }
 
     /**

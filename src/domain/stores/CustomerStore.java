@@ -114,4 +114,17 @@ public class CustomerStore {
         });
         return customers;
     }
+
+    /**
+     * count returns the number of rows contained in the customers table in the database.
+     */
+    public int count() {
+        String query = "SELECT " +
+                "count(customer_id) " +
+                "FROM customers";
+
+        Rows rows = db.PreparedQuery(query);
+        int count = 0;
+        return rows.get(0).Scan(count);
+    }
 }

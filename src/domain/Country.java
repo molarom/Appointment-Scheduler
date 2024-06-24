@@ -33,6 +33,20 @@ public class Country {
      * Default constructor to initialize an empty Country.
      */
     public Country() {
+        Time t = new Time();
+        create_date = t;
+        last_update = t;
+    }
+
+    /**
+     * Constructs a new Country object from provided parameters.
+     *
+     * @param country_id   the country id
+     * @param country_name the country name
+     */
+    public Country(int country_id, String country_name) {
+        this.country_id = country_id;
+        this.country_name = country_name;
     }
 
     /**

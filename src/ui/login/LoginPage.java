@@ -8,9 +8,11 @@ import java.util.ResourceBundle;
 
 /**
  * LoginPage is the page displayed to a user upon first loading the application.
+ *
+ * @author Brandon Epperson
  */
 public class LoginPage {
-    public static final ResourceBundle rs = ResourceBundle.getBundle("resources.language", Locale.getDefault());
+    static final ResourceBundle rs = ResourceBundle.getBundle("resources.language", Locale.getDefault());
     private static Scene scene;
     private final AnchorPane root;
 

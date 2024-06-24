@@ -43,28 +43,51 @@ public class Customer {
 
 
     /**
-     * Default constructor to initialize an empty Customer.
+     * Default constructor to initialize a new Customer.
      */
     public Customer() {
+        customer_name = "";
+        phone = "";
+        address = "";
+        postal_code = "";
+    }
+
+    /**
+     * Constructor to create a new Customer with the given Id.
+     *
+     * @param customer_id the customer's id
+     */
+    public Customer(int customer_id) {
+        this.customer_id = customer_id;
+        customer_name = "";
+        phone = "";
+        address = "";
+        postal_code = "";
     }
 
     /**
      * Constructor to create a new Customer.
      *
+     * @param customer_id     the customer's id
      * @param customer_name   the customer's name
+     * @param phone           the customer's phone number
      * @param address         the customer's address
      * @param postal_code     the customer's postal_code
-     * @param phone           the customer's phone number
-     * @param created_by      the user that created the customer
-     * @param last_updated_by the user that updated the customer
+     * @param created_by      the customer's created_by
+     * @param last_updated_by the customer's last_updated_by
+     * @param create_date     the customer's create_date
+     * @param last_update     the customer's last_update
      */
-    public Customer(String customer_name, String address, String postal_code, String phone, String created_by, String last_updated_by) {
+    public Customer(int customer_id, String customer_name, String phone, String address, String postal_code, String created_by, String last_updated_by, Time create_date, Time last_update) {
+        this.customer_id = customer_id;
         this.customer_name = customer_name;
+        this.phone = phone;
         this.address = address;
         this.postal_code = postal_code;
-        this.phone = phone;
         this.created_by = created_by;
         this.last_updated_by = last_updated_by;
+        this.create_date = create_date;
+        this.last_update = last_update;
     }
 
     /**
