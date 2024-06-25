@@ -1,13 +1,10 @@
 package ui.main;
 
 import domain.User;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.layout.*;
-import ui.customers.CustomerTablePane;
-import ui.users.CurrentUserInfo;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.VBox;
 
 import java.util.Locale;
 import java.util.ResourceBundle;
@@ -17,13 +14,12 @@ import java.util.ResourceBundle;
  */
 public class MainPage {
     static final ResourceBundle rs = ResourceBundle.getBundle("resources.language", Locale.getDefault());
+    private static final BorderPane layout = new BorderPane();
+    private static User currentUser;
+    private static VBox customerView = new VBox();
+    private static VBox appointmentView = new VBox();
     private final Scene scene;
     private final AnchorPane root;
-    private static User currentUser;
-
-    private static final BorderPane layout = new BorderPane();
-    private static final VBox customerView = new VBox();
-    private static VBox appointmentView = new VBox();
 
     /**
      * MainPage constructs a new Main Page
@@ -39,6 +35,8 @@ public class MainPage {
         // Layout Setup
 
         layout.setLeft(mainSideBar);
+
+        // Appointment view as a default.
         setAppointmentView();
 
         // ------------------------------------------------------
@@ -57,56 +55,15 @@ public class MainPage {
     }
 
     /**
-     * Displays the main page
-     */
-    public void ShowMainPage() {
-        scene.setRoot(root);
-        scene.getWindow().sizeToScene();
-        scene.getWindow().centerOnScreen();
-    }
-
-    /**
      * Sets the current user
      */
     public static void setCurrentUser(User user) {
         currentUser = user;
     }
 
-    public static void setCustomerView() {
-        // TODO: Split this out.
-        // ------------------------------------------------------
-        // Title Bar
-
-        GridPane titleBar = new GridPane();
-
-        Label title = new Label("Customers");
-        title.getStyleClass().add("title");
-        title.setPadding(new Insets(10, 0, 5, 25));
-        title.setMaxWidth(Double.MAX_VALUE);
-        title.setMaxHeight(Double.MAX_VALUE);
-        title.setAlignment(Pos.CENTER_LEFT);
-        titleBar.add(title, 0, 0);
-
-        CurrentUserInfo currentUserInfo = new CurrentUserInfo(currentUser);
-        currentUserInfo.setPadding(new Insets(10, 0, 0, 0));
-        currentUserInfo.setMaxHeight(Double.MAX_VALUE);
-        currentUserInfo.setMaxWidth(Double.MAX_VALUE);
-        currentUserInfo.setAlignment(Pos.CENTER_RIGHT);
-        titleBar.add(currentUserInfo, 1, 0);
-        titleBar.setHgap(800);
-
-        // ------------------------------------------------------
-
-        CustomerTablePane customerTablePane = new CustomerTablePane(currentUser);
-        HBox.setHgrow(customerTablePane, Priority.ALWAYS);
-
-        customerView.getChildren().addAll(
-                titleBar,
-                customerTablePane
-        );
-        layout.setCenter(customerView);
-    }
-
+    /**
+     * Sets the appointment view on the MainPage.
+     */
     public static void setAppointmentView() {
         MainAppointmentView.setCurrentUser(currentUser);
         MainPage.appointmentView = new MainAppointmentView();
@@ -119,5 +76,30 @@ public class MainPage {
             layout.setCenter(MainPage.appointmentView);
         }
     }
+
+    /**
+     * Sets the customer view on the MainPage.
+     */
+    public static void setCustomerView() {
+        MainCustomerView.setCurrentUser(currentUser);
+        MainPage.customerView = new MainCustomerView();
+
+        if (layout.getCenter() == null) {
+            layout.setCenter(MainPage.appointmentView);
+        }
+        if (layout.getCenter() != customerView) {
+            layout.setCenter(MainPage.customerView);
+        }
+    }
+
+    /**
+     * Displays the main page
+     */
+    public void ShowMainPage() {
+        scene.setRoot(root);
+        scene.getWindow().sizeToScene();
+        scene.getWindow().centerOnScreen();
+    }
+
 
 }
