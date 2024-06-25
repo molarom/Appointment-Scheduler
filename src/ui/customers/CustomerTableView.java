@@ -1,7 +1,7 @@
 package ui.customers;
 
 import app.alerts.Alerts;
-import app.controllers.CustomerViewController.CustomerViewController;
+import app.controllers.CustomerViewController;
 import domain.CustomerView;
 import javafx.application.Platform;
 import javafx.beans.property.ReadOnlyStringWrapper;
@@ -106,5 +106,6 @@ public class CustomerTableView extends TableView<CustomerView> {
             Platform.runLater(() -> Alerts.Warning("No customers found."));
         }
         this.setItems(customers);
+        this.refresh();
     }
 }

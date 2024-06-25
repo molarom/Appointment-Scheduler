@@ -34,11 +34,12 @@ public class Row extends HashMap<String, Object> {
             @SuppressWarnings("unchecked")
             Class<T> type = (Class<T>) dest.getClass();
 
-            // Only a couple edge cases need this. So we just cast, convert, cast.
+            // If we aren't getting a custom class just convert and cast.
             if (this.size() == 1) {
                 if (this.values().toArray()[0] instanceof Long value) {
                     return type.cast(value.intValue());
                 }
+                return type.cast(this.values().toArray()[0]);
             }
 
             Field[] fields = type.getDeclaredFields();

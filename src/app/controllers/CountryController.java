@@ -1,4 +1,4 @@
-package app.controllers.CountryController;
+package app.controllers;
 
 import domain.Country;
 import domain.database.SQL;
@@ -21,7 +21,7 @@ public class CountryController {
      * @param db     the SQL instance to interact with.
      * @param logger the logger to use
      */
-    public static void Configure(SQL db, Logger logger) {
+    static void Configure(SQL db, Logger logger) {
         countryStore = new CountryStore(db);
         log = logger;
     }

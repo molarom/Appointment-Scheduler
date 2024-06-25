@@ -1,5 +1,6 @@
 package ui.main;
 
+import app.alerts.Alerts;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -16,15 +17,18 @@ public class MainSideBar extends VBox {
 
         Button customersButton = new Button(rs.getString("main.customers"));
         customersButton.getStyleClass().add("main-sidebar-button");
+        customersButton.setOnAction(e -> MainPage.setCustomerView());
 
         Button appointmentsButton = new Button(rs.getString("main.appointments"));
         appointmentsButton.getStyleClass().add("main-sidebar-button");
+        appointmentsButton.setOnAction(e -> MainPage.setAppointmentView());
 
         Button reportsButton = new Button(rs.getString("main.reports"));
         reportsButton.getStyleClass().add("main-sidebar-button");
 
         Button exitButton = new Button(rs.getString("main.exit"));
         exitButton.getStyleClass().add("main-sidebar-button");
+        exitButton.setOnAction(e -> Alerts.Exit());
 
 
         this.setSpacing(10);

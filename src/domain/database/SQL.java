@@ -86,7 +86,7 @@ public class SQL {
      * @param query  the query to run
      * @param params any query parameters to provide
      */
-    public void PreparedQueryExec(String query, Object... params) {
+    public void PreparedQueryExec(String query, Object... params) throws Exception {
         Connection conn = null;
         PreparedStatement ps = null;
         Savepoint save = null;
@@ -104,7 +104,7 @@ public class SQL {
                     ex.printStackTrace();
                 }
             }
-            e.printStackTrace();
+            throw new RuntimeException("Failed to execute query: " + query, e);
         } finally {
             closeConnection(conn);
             closePreparedStatement(ps);

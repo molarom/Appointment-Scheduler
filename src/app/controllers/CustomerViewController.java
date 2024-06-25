@@ -1,4 +1,4 @@
-package app.controllers.CustomerViewController;
+package app.controllers;
 
 import domain.CustomerView;
 import domain.database.SQL;
@@ -25,7 +25,7 @@ public class CustomerViewController {
      * @param db     the SQL instance to interact with.
      * @param logger the logger to use
      */
-    public static void Configure(SQL db, Logger logger) {
+    static void Configure(SQL db, Logger logger) {
         customerViewStore = new CustomerViewStore(db);
         log = logger;
     }

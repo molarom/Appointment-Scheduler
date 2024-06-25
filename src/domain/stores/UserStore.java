@@ -7,8 +7,6 @@ import domain.database.models.Rows;
 import java.util.ArrayList;
 import java.util.List;
 
-// TODO: add login method
-
 /**
  * UserStore represents a data store for User objects.
  *
@@ -33,7 +31,7 @@ public class UserStore {
         String query = "SELECT " +
                 "* " +
                 "FROM users " +
-                "WHERE user_name = ? AND password = ?";
+                "WHERE user_name = BINARY ? AND password = BINARY ?";
 
         Rows rows = db.PreparedQuery(query, username, password);
         User user = new User();
@@ -51,7 +49,6 @@ public class UserStore {
      * @param user the user to add
      */
     public void add(User user) {
-        // TODO: update this query
         String query = "INSERT INTO " +
                 "users (" +
                 "user_name, " +

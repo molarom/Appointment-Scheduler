@@ -1,6 +1,6 @@
 package ui.countries;
 
-import app.controllers.CountryController.CountryController;
+import app.controllers.CountryController;
 import domain.Country;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListCell;
@@ -21,6 +21,23 @@ public class CountryComboBox extends ComboBox<Country> {
 
         this.setCellFactory(view -> new CountryListCell());
         this.setButtonCell(new CountryListCell());
+    }
+
+    /**
+     * Set the country in the selection model.
+     *
+     * @param country the country object to search for.
+     */
+    public void setCountry(Country country) {
+        if (country != null) {
+            this.getItems().forEach(val -> {
+                if (val.getCountryId() == country.getCountryId()) {
+                    this.getSelectionModel().select(val);
+                }
+            });
+            return;
+        }
+        this.getSelectionModel().clearSelection();
     }
 
     /**

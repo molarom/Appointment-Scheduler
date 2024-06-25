@@ -28,20 +28,108 @@ public class AppointmentStore {
      * add adds a new appointment to the database.
      *
      * @param appointment the appointment to add
+     * @return true if the query is successful
      */
-    public void add(Appointment appointment) {
-        // TODO: Update this query
+    public boolean add(Appointment appointment) {
         String query = "INSERT INTO " +
                 "appointments (" +
-                "appointment_name, " +
-                "address, " +
-                "postal_code, " +
-                "phone, " +
-                "created_by, " +
-                "last_updated_by, " +
+                "title, " +
+                "description, " +
+                "location, " +
+                "type, " +
+                "start, " +
+                "end, " +
                 "create_date, " +
-                "last_update " +
-                ") VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+                "created_by, " +
+                "last_update, " +
+                "last_updated_by, " +
+                "customer_id, " +
+                "user_id, " +
+                "contact_id " +
+                ") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+        try {
+            db.PreparedQueryExec(query,
+                    appointment.getTitle(),
+                    appointment.getDescription(),
+                    appointment.getLocation(),
+                    appointment.getType(),
+                    appointment.getStart().toSqlTimestamp(),
+                    appointment.getEnd().toSqlTimestamp(),
+                    appointment.getCreateDate().toSqlTimestamp(),
+                    appointment.getCreatedBy(),
+                    appointment.getLastUpdate().toSqlTimestamp(),
+                    appointment.getLastUpdatedBy(),
+                    appointment.getCustomerId(),
+                    appointment.getUserId(),
+                    appointment.getContactId()
+            );
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    /**
+     * update attempts to update an appointment in the database
+     *
+     * @param appointment the appointment to update
+     * @return true if the query was successful
+     */
+    public boolean update(Appointment appointment) {
+        String query = "UPDATE " +
+                "appointments " +
+                "SET " +
+                "title = ?, " +
+                "description = ?, " +
+                "location = ?, " +
+                "type = ?, " +
+                "start = ?, " +
+                "end = ?, " +
+                "last_update = ?, " +
+                "last_updated_by = ?, " +
+                "customer_id = ?, " +
+                "user_id = ?, " +
+                "contact_id = ? " +
+                "WHERE appointment_id = ?";
+
+        try {
+            db.PreparedQueryExec(query,
+                    appointment.getTitle(),
+                    appointment.getDescription(),
+                    appointment.getLocation(),
+                    appointment.getType(),
+                    appointment.getStart().toSqlTimestamp(),
+                    appointment.getEnd().toSqlTimestamp(),
+                    appointment.getLastUpdate().toSqlTimestamp(),
+                    appointment.getLastUpdatedBy(),
+                    appointment.getCustomerId(),
+                    appointment.getUserId(),
+                    appointment.getContactId(),
+                    appointment.getAppointmentId()
+            );
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    /**
+     * delete attempts to delete an appointment from the database
+     *
+     * @param appointmentId the appointment's id to delete
+     * @return true if the query was successful
+     */
+    public boolean delete(int appointmentId) {
+        String query = "DELETE FROM appointments WHERE appointment_id = ?";
+        try {
+            db.PreparedQueryExec(query, appointmentId);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     /**
@@ -103,5 +191,24 @@ public class AppointmentStore {
             appointments.add(row.Scan(appointment));
         });
         return appointments;
+    }
+
+    /**
+     * @return the number of appointments in the database.
+     */
+    public int count() {
+        String query = "SELECT COUNT(*) FROM appointments";
+
+        Rows rows = db.PreparedQuery(query);
+        int count = 0;
+        return rows.get(0).Scan(count);
+    }
+
+    public int maxId() {
+        String query = "SELECT max(appointment_id) FROM appointments";
+
+        Rows row = db.PreparedQuery(query);
+        int max = 0;
+        return row.get(0).Scan(max);
     }
 }

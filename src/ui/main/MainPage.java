@@ -1,6 +1,5 @@
 package ui.main;
 
-import domain.Customer;
 import domain.User;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -10,7 +9,6 @@ import javafx.scene.layout.*;
 import ui.customers.CustomerTablePane;
 import ui.users.CurrentUserInfo;
 
-import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
@@ -22,8 +20,10 @@ public class MainPage {
     private final Scene scene;
     private final AnchorPane root;
     private static User currentUser;
-    // TODO: Clean this up.
-    private static List<Customer> customerList;
+
+    private static final BorderPane layout = new BorderPane();
+    private static final VBox customerView = new VBox();
+    private static VBox appointmentView = new VBox();
 
     /**
      * MainPage constructs a new Main Page
@@ -33,51 +33,13 @@ public class MainPage {
     public MainPage(Scene scene) {
         this.scene = scene;
 
-        BorderPane layout = new BorderPane();
-
         MainSideBar mainSideBar = new MainSideBar();
-
-        // ------------------------------------------------------
-        // Customer View
-
-        VBox customerView = new VBox();
-
-        // ------------------------------------------------------
-        // Title Bar
-
-        GridPane titleBar = new GridPane();
-
-        Label title = new Label("Customers");
-        title.getStyleClass().add("title");
-        title.setPadding(new Insets(10, 0, 5, 25));
-        title.setMaxWidth(Double.MAX_VALUE);
-        title.setMaxHeight(Double.MAX_VALUE);
-        title.setAlignment(Pos.CENTER_LEFT);
-        titleBar.add(title, 0, 0);
-
-        CurrentUserInfo currentUserInfo = new CurrentUserInfo(currentUser);
-        currentUserInfo.setPadding(new Insets(10, 0, 0, 0));
-        currentUserInfo.setMaxHeight(Double.MAX_VALUE);
-        currentUserInfo.setMaxWidth(Double.MAX_VALUE);
-        currentUserInfo.setAlignment(Pos.CENTER_RIGHT);
-        titleBar.add(currentUserInfo, 1, 0);
-        titleBar.setHgap(800);
-
-        // ------------------------------------------------------
-
-        CustomerTablePane customerTablePane = new CustomerTablePane(currentUser);
-        HBox.setHgrow(customerTablePane, Priority.ALWAYS);
-
-        customerView.getChildren().addAll(
-                titleBar,
-                customerTablePane
-        );
 
         // ------------------------------------------------------
         // Layout Setup
 
         layout.setLeft(mainSideBar);
-        layout.setCenter(customerView);
+        setAppointmentView();
 
         // ------------------------------------------------------
         root = new AnchorPane();
@@ -108,6 +70,54 @@ public class MainPage {
      */
     public static void setCurrentUser(User user) {
         currentUser = user;
+    }
+
+    public static void setCustomerView() {
+        // TODO: Split this out.
+        // ------------------------------------------------------
+        // Title Bar
+
+        GridPane titleBar = new GridPane();
+
+        Label title = new Label("Customers");
+        title.getStyleClass().add("title");
+        title.setPadding(new Insets(10, 0, 5, 25));
+        title.setMaxWidth(Double.MAX_VALUE);
+        title.setMaxHeight(Double.MAX_VALUE);
+        title.setAlignment(Pos.CENTER_LEFT);
+        titleBar.add(title, 0, 0);
+
+        CurrentUserInfo currentUserInfo = new CurrentUserInfo(currentUser);
+        currentUserInfo.setPadding(new Insets(10, 0, 0, 0));
+        currentUserInfo.setMaxHeight(Double.MAX_VALUE);
+        currentUserInfo.setMaxWidth(Double.MAX_VALUE);
+        currentUserInfo.setAlignment(Pos.CENTER_RIGHT);
+        titleBar.add(currentUserInfo, 1, 0);
+        titleBar.setHgap(800);
+
+        // ------------------------------------------------------
+
+        CustomerTablePane customerTablePane = new CustomerTablePane(currentUser);
+        HBox.setHgrow(customerTablePane, Priority.ALWAYS);
+
+        customerView.getChildren().addAll(
+                titleBar,
+                customerTablePane
+        );
+        layout.setCenter(customerView);
+    }
+
+    public static void setAppointmentView() {
+        MainAppointmentView.setCurrentUser(currentUser);
+        MainPage.appointmentView = new MainAppointmentView();
+
+        if (layout.getCenter() == null) {
+            layout.setCenter(MainPage.appointmentView);
+        }
+
+        if (layout.getCenter() != appointmentView) {
+            layout.setCenter(MainPage.appointmentView);
+        }
     }
 
 }

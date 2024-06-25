@@ -1,4 +1,4 @@
-package app.controllers.DivsionsController;
+package app.controllers;
 
 import domain.Country;
 import domain.FirstLevelDivision;
@@ -15,7 +15,7 @@ public class DivisionsController {
     private static Logger log = null;
     private static FirstLevelDivisionStore divisionStore;
 
-    public static void Configure(SQL db, Logger logger) {
+    static void Configure(SQL db, Logger logger) {
         divisionStore = new FirstLevelDivisionStore(db);
         log = logger;
     }

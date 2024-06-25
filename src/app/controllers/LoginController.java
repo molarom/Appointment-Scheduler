@@ -1,4 +1,4 @@
-package app.controllers.LoginController;
+package app.controllers;
 
 import domain.User;
 import domain.database.SQL;
@@ -32,7 +32,7 @@ public class LoginController {
         ch.setFormatter(new domain.log.Formatter());
         log.addHandler(ch);
         try {
-            Handler fileHandler = new FileHandler("./login_activity.txt", 200, 1);
+            Handler fileHandler = new FileHandler("./login_activity.txt", 0, 1, true);
             fileHandler.setFormatter(new domain.log.Formatter());
             log.addHandler(fileHandler);
         } catch (IOException e) {

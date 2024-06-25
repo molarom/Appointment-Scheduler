@@ -1,10 +1,5 @@
 package app.controllers;
 
-import app.controllers.CountryController.CountryController;
-import app.controllers.CustomerController.CustomerController;
-import app.controllers.CustomerViewController.CustomerViewController;
-import app.controllers.DivsionsController.DivisionsController;
-import app.controllers.LoginController.LoginController;
 import domain.database.SQL;
 
 import java.util.logging.Logger;
@@ -28,5 +23,6 @@ public class Controllers {
         CustomerViewController.Configure(db, logger);
         CountryController.Configure(db, logger);
         DivisionsController.Configure(db, logger);
+        AppointmentController.Configure(db, logger);
     }
 }

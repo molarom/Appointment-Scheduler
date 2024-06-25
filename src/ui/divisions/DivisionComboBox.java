@@ -1,6 +1,6 @@
 package ui.divisions;
 
-import app.controllers.DivsionsController.DivisionsController;
+import app.controllers.DivisionsController;
 import domain.Country;
 import domain.FirstLevelDivision;
 import javafx.beans.binding.ObjectBinding;
@@ -25,6 +25,23 @@ public class DivisionComboBox extends ComboBox<FirstLevelDivision> {
 
         this.setCellFactory(view -> new DivisionListCell());
         this.setButtonCell(new DivisionListCell());
+    }
+
+    /**
+     * Sets the FirstLevelDivision in the selection model.
+     *
+     * @param division the FirstLevelDivision object to search for.
+     */
+    public void setDivision(FirstLevelDivision division) {
+        if (division != null) {
+            this.getItems().forEach(val -> {
+                if (val.getId() == division.getId()) {
+                    this.getSelectionModel().select(val);
+                }
+            });
+            return;
+        }
+        this.getSelectionModel().clearSelection();
     }
 
     /**

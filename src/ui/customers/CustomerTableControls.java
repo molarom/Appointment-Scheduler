@@ -1,18 +1,30 @@
 package ui.customers;
 
 import app.alerts.Alerts;
+import app.controllers.CustomerController;
 import domain.CustomerView;
 import domain.User;
-import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;
 
+/**
+ * CustomerTableControls contains the buttons for interacting with the data
+ * stored in the table.
+ *
+ * @author Brandon Epperson
+ */
 public class CustomerTableControls extends HBox {
     private static User currentUser;
     private static CustomerTableView customerTableView;
 
+    /**
+     * Customer Table controls creates a new CustomerTableControls
+     *
+     * @param currentUser       the currentUser
+     * @param customerTableView the TableView to control
+     */
     public CustomerTableControls(User currentUser, CustomerTableView customerTableView) {
         CustomerTableControls.currentUser = currentUser;
         CustomerTableControls.customerTableView = customerTableView;
@@ -41,26 +53,42 @@ public class CustomerTableControls extends HBox {
         );
     }
 
+    /**
+     * Add customer opens the CustomerAddPage
+     */
     private void addCustomer() {
-        CustomerAddPage customerAddPage = new CustomerAddPage(currentUser);
+        CustomerAddPage customerAddPage = new CustomerAddPage(currentUser, customerTableView);
         customerAddPage.show();
     }
 
+    /**
+     * updateCustomer opens the UpdateCustomerPage
+     */
     private void updateCustomer() {
         CustomerView customer = customerTableView.getCustomerViewFromRow();
         if (customer != null) {
-            System.out.println("Update customer" + customer.toString());
-            return;
+            CustomerEditPage customerEditPage = new CustomerEditPage(currentUser, customer, customerTableView);
+            customerEditPage.show();
+        } else {
+            Alerts.Warning("No customer selected.");
         }
-        Platform.runLater(() -> Alerts.Warning("No customer selected."));
     }
 
+    /**
+     * removeCustomer deletes a customer from the database
+     */
     private void removeCustomer() {
         CustomerView customer = customerTableView.getCustomerViewFromRow();
         if (customer != null) {
-            System.out.println("Remove customer" + customer.toString());
-            return;
+            // TODO: Add check for any existing Appointments.
+            if (!CustomerController.deleteCustomer(customer.getCustomerId())) {
+                Alerts.Error("Failed to delete customer.");
+            } else {
+                Alerts.Info("Customer " + customer.getCustomerId() + " deleted.");
+                customerTableView.refreshCustomers();
+            }
+        } else {
+            Alerts.Warning("No customer selected.");
         }
-        Platform.runLater(() -> Alerts.Warning("No customer selected."));
     }
 }

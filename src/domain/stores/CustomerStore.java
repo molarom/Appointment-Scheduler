@@ -29,7 +29,7 @@ public class CustomerStore {
      *
      * @param customer the customer to add
      */
-    public void add(Customer customer) {
+    public boolean add(Customer customer) {
         String query = "INSERT INTO " +
                 "customers (" +
                 "customer_name, " +
@@ -39,19 +39,80 @@ public class CustomerStore {
                 "created_by, " +
                 "last_updated_by, " +
                 "create_date, " +
-                "last_update " +
-                ") VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+                "last_update, " +
+                "division_id " +
+                ") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-        db.PreparedQueryExec(query,
-                customer.getName(),
-                customer.getAddress(),
-                customer.getPostalCode(),
-                customer.getPhone(),
-                customer.getCreatedBy(),
-                customer.getLastUpdatedBy(),
-                customer.getCreateDate().toSqlTimestamp(),
-                customer.getLastUpdate().toSqlTimestamp()
-        );
+        try {
+            db.PreparedQueryExec(query,
+                    customer.getName(),
+                    customer.getAddress(),
+                    customer.getPostalCode(),
+                    customer.getPhone(),
+                    customer.getCreatedBy(),
+                    customer.getLastUpdatedBy(),
+                    customer.getCreateDate().toSqlTimestamp(),
+                    customer.getLastUpdate().toSqlTimestamp(),
+                    customer.getDivisionId()
+            );
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+
+    }
+
+    /**
+     * update updates a customer in the database.
+     *
+     * @param customer the customer to update
+     */
+    public boolean update(Customer customer) {
+        String query = "UPDATE " +
+                "customers SET " +
+                "customer_name = ?, " +
+                "address = ?, " +
+                "postal_code = ?, " +
+                "phone = ?, " +
+                "last_updated_by = ?, " +
+                "last_update = ?, " +
+                "division_id = ? " +
+                "WHERE customer_id = ?";
+
+        try {
+            db.PreparedQueryExec(query,
+                    customer.getName(),
+                    customer.getAddress(),
+                    customer.getPostalCode(),
+                    customer.getPhone(),
+                    customer.getLastUpdatedBy(),
+                    customer.getLastUpdate().toSqlTimestamp(),
+                    customer.getDivisionId(),
+                    customer.getCustomerId()
+            );
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+
+    }
+
+    /**
+     * delete attempts to delete a customer from the database
+     *
+     * @param id the id of the customer to delete
+     * @return true if the query was successful
+     */
+    public boolean delete(int id) {
+        String query = "DELETE FROM customers WHERE customer_id = ?";
+        try {
+            db.PreparedQueryExec(query, id);
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     /**
@@ -126,5 +187,19 @@ public class CustomerStore {
         Rows rows = db.PreparedQuery(query);
         int count = 0;
         return rows.get(0).Scan(count);
+    }
+
+    /**
+     * maxId returns the largest number in the customer Id column
+     */
+    public int maxId() {
+        String query = "SELECT " +
+                "max(customer_id) " +
+                "FROM customers";
+
+        Rows rows = db.PreparedQuery(query);
+
+        int max = 0;
+        return rows.get(0).Scan(max);
     }
 }

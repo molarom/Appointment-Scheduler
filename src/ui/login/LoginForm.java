@@ -1,6 +1,6 @@
 package ui.login;
 
-import app.controllers.LoginController.LoginController;
+import app.controllers.LoginController;
 import domain.User;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -54,6 +54,7 @@ class LoginForm extends VBox {
     public static void loginUser() {
         User user = LoginController.authenticate(username.getText(), password.getText());
         if (user != null) {
+            MainPage.setCurrentUser(user);
             MainPage mainPage = new MainPage(scene);
             mainPage.ShowMainPage();
         }
