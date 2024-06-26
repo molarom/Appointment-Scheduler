@@ -117,17 +117,17 @@ public class FirstLevelDivision {
     }
 
     /**
-     * @return the country id
-     */
-    public int getCountryId() {
-        return country_id;
-    }
-
-    /**
      * @param last_update_by the user that updated this entry
      */
     public void setLastUpdateBy(String last_update_by) {
         this.last_updated_by = last_update_by;
+    }
+
+    /**
+     * @return the country id
+     */
+    public int getCountryId() {
+        return country_id;
     }
 
     @Override

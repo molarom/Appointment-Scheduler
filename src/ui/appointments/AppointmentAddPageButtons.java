@@ -1,7 +1,5 @@
 package ui.appointments;
 
-import app.alerts.Alerts;
-import app.controllers.AppointmentController;
 import domain.Appointment;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;

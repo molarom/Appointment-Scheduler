@@ -3,7 +3,6 @@ package app.controllers;
 import domain.Contact;
 import domain.database.SQL;
 import domain.stores.ContactStore;
-import domain.stores.CountryStore;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 

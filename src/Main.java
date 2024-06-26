@@ -27,6 +27,15 @@ import java.util.logging.Logger;
 public class Main extends Application {
     private static final ResourceBundle rs = ResourceBundle.getBundle("resources.language", Locale.getDefault());
 
+    /**
+     * The entrypoint of the application.
+     *
+     * @param args Command line arguments to pass to the program at startup.
+     */
+    public static void main(String[] args) {
+        launch(args);
+    }
+
     @Override
     public void start(Stage primaryStage) {
         Logger logger = null;
@@ -101,14 +110,5 @@ public class Main extends Application {
             ex.printStackTrace();
             System.exit(1);
         }
-    }
-
-    /**
-     * The entrypoint of the application.
-     *
-     * @param args Command line arguments to pass to the program at startup.
-     */
-    public static void main(String[] args) {
-        launch(args);
     }
 }

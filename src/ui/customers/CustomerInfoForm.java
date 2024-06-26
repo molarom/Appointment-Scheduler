@@ -15,14 +15,6 @@ import ui.divisions.DivisionComboBox;
  * CustomerInfoForm contains the fields for adding or updating a Customer.
  */
 public class CustomerInfoForm extends GridPane {
-    private static User currentUser = null;
-
-    private static Customer customer = null;
-    private Country country = null;
-    private FirstLevelDivision division = null;
-
-    private static CustomerView view = null;
-
     private static final TextField customerIdField = new TextField();
     private static final TextField customerNameField = new TextField();
     private static final TextField customerPhoneField = new TextField();
@@ -30,6 +22,11 @@ public class CustomerInfoForm extends GridPane {
     private static final TextField customerPostalCodeField = new TextField();
     private static final CountryComboBox countryComboBox = new CountryComboBox();
     private static final DivisionComboBox firstLevelDivisionComboBox = new DivisionComboBox(countryComboBox);
+    private static User currentUser = null;
+    private static Customer customer = null;
+    private static CustomerView view = null;
+    private Country country = null;
+    private FirstLevelDivision division = null;
 
 
     /**
@@ -102,33 +99,6 @@ public class CustomerInfoForm extends GridPane {
     }
 
     /**
-     * Populates the form with data from the CustomerView.
-     */
-    private void setInfoFromCustomerView() {
-        customer = new Customer(
-                CustomerInfoForm.view.getCustomerId(),
-                CustomerInfoForm.view.getCustomerName(),
-                CustomerInfoForm.view.getPhone(),
-                CustomerInfoForm.view.getAddress(),
-                CustomerInfoForm.view.getPostalCode(),
-                CustomerInfoForm.view.getCreatedBy(),
-                CustomerInfoForm.view.getLastUpdatedBy(),
-                CustomerInfoForm.view.getCreateDate(),
-                CustomerInfoForm.view.getLastUpdate()
-        );
-
-        this.country = new Country(
-                CustomerInfoForm.view.getCountryId(),
-                CustomerInfoForm.view.getCountry()
-        );
-
-        this.division = new FirstLevelDivision(
-                CustomerInfoForm.view.getDivisionId(),
-                CustomerInfoForm.view.getDivisionName()
-        );
-    }
-
-    /**
      * @return the Customer populated with the information stored in the form.
      */
     public static Customer getCustomerFromForm() {
@@ -164,5 +134,32 @@ public class CustomerInfoForm extends GridPane {
         c.setPostalCode(customerPostalCodeField.getText());
         c.setLastUpdateBy(currentUser.getUserName());
         return c;
+    }
+
+    /**
+     * Populates the form with data from the CustomerView.
+     */
+    private void setInfoFromCustomerView() {
+        customer = new Customer(
+                CustomerInfoForm.view.getCustomerId(),
+                CustomerInfoForm.view.getCustomerName(),
+                CustomerInfoForm.view.getPhone(),
+                CustomerInfoForm.view.getAddress(),
+                CustomerInfoForm.view.getPostalCode(),
+                CustomerInfoForm.view.getCreatedBy(),
+                CustomerInfoForm.view.getLastUpdatedBy(),
+                CustomerInfoForm.view.getCreateDate(),
+                CustomerInfoForm.view.getLastUpdate()
+        );
+
+        this.country = new Country(
+                CustomerInfoForm.view.getCountryId(),
+                CustomerInfoForm.view.getCountry()
+        );
+
+        this.division = new FirstLevelDivision(
+                CustomerInfoForm.view.getDivisionId(),
+                CustomerInfoForm.view.getDivisionName()
+        );
     }
 }

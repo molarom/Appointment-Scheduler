@@ -17,9 +17,10 @@ public class TitleBar extends GridPane {
 
     /**
      * Constructs a new titleBar
+     *
      * @param currentUser the currentUser to set
-     * @param pageName the Title displayed in a Label
-     * @param Hgap the gap between the title and the CurrentUserInfo
+     * @param pageName    the Title displayed in a Label
+     * @param Hgap        the gap between the title and the CurrentUserInfo
      */
     public TitleBar(User currentUser, String pageName, int Hgap) {
         Label title = new Label(pageName);

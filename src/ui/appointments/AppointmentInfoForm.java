@@ -6,30 +6,17 @@ import domain.Appointment;
 import domain.Contact;
 import domain.User;
 import domain.time.Time;
-import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Priority;
-import javafx.scene.layout.RowConstraints;
 import ui.contacts.ContactComboBox;
-
-import java.util.ArrayList;
-import java.util.List;
+import ui.customers.CustomerComboBox;
 
 /**
  * AppointmentInfoForm contains the fields for adding or updating an Appointment.
  */
 public class AppointmentInfoForm extends GridPane {
-    private static User currentUser = null;
-
-    private static Appointment appointment = null;
-    private Contact contact = null;
-
     private static final TextField appointmentIdField = new TextField();
     private static final TextField appointmentTitleField = new TextField();
     private static final TextField appointmentDescriptionField = new TextField();
@@ -40,7 +27,10 @@ public class AppointmentInfoForm extends GridPane {
     private static final AppointmentTimePicker startTimePicker = new AppointmentTimePicker(startDatePicker);
     private static final AppointmentDatePicker endDatePicker = new AppointmentDatePicker();
     private static final AppointmentTimePicker endTimePicker = new AppointmentTimePicker(endDatePicker);
-    //private static final ComboBox<Customer> customerComboBox = new ComboBox<>();
+    private static User currentUser = null;
+    private static Appointment appointment = null;
+    private Contact contact = null;
+    private static final CustomerComboBox customerComboBox = new CustomerComboBox();
     // TODO: Add the user controller.
     //private static final UserComboBox userComboBox = new UserComboBox();
 
@@ -98,6 +88,10 @@ public class AppointmentInfoForm extends GridPane {
         this.add(endDatePicker, 1, 8);
         this.add(endTimePicker, 1, 9);
 
+        Label customerLabel = new Label("Customer");
+        this.add(customerLabel, 0, 10);
+        this.add(customerComboBox, 1, 10);
+
 
         this.setPadding(new Insets(10, 10, 10, 10));
         this.setHgap(20);
@@ -121,13 +115,6 @@ public class AppointmentInfoForm extends GridPane {
     }
 
     /**
-     * Populates the form with data from the appointment field for the class.
-     */
-    private void setInfoFromAppointment() {
-        this.contact = new Contact(AppointmentInfoForm.appointment.getContactId());
-    }
-
-    /**
      * @return the Appointment populated with the information stored in the form.
      */
     public static Appointment getAppointmentFromForm() {
@@ -144,7 +131,7 @@ public class AppointmentInfoForm extends GridPane {
             Alerts.Warning("No Start Date Selected");
             return null;
         }
-        if(startTimePicker.getValue() == null) {
+        if (startTimePicker.getValue() == null) {
             Alerts.Warning("No Start Time Selected");
             return null;
         }
@@ -152,8 +139,18 @@ public class AppointmentInfoForm extends GridPane {
             Alerts.Warning("No End Date Selected");
             return null;
         }
-        if(endTimePicker.getValue() == null) {
+        if (endTimePicker.getValue() == null) {
             Alerts.Warning("No End Time Selected");
+            return null;
+        }
+
+        if (startTimePicker.getValue().getTime().isAfter(endTimePicker.getValue().getTime())) {
+            Alerts.Warning("Start Time is after End Time");
+            return null;
+        }
+
+        if (endTimePicker.getValue().getTime().isBefore(startTimePicker.getValue().getTime())) {
+            Alerts.Warning("End Time is after Start Time");
             return null;
         }
 
@@ -163,7 +160,7 @@ public class AppointmentInfoForm extends GridPane {
         if (a.getCreateDate() != null) {
             a.setCreateDate(a.getCreateDate());
         } else {
-            a.setCreateDate(new Time());
+            a.setCreateDate(new Time().withZone(Time.UTC));
         }
         if (a.getCreatedBy() != null) {
             a.setCreatedBy(a.getCreatedBy());
@@ -173,13 +170,25 @@ public class AppointmentInfoForm extends GridPane {
         if (a.getLastUpdate() != null) {
             a.setLastUpdate(a.getLastUpdate());
         } else {
-            a.setLastUpdate(new Time());
+            a.setLastUpdate(new Time().withZone(Time.UTC));
         }
         a.setTitle(appointmentTitleField.getText());
         a.setDescription(appointmentDescriptionField.getText());
         a.setLocation(appointmentLocationField.getText());
         a.setType(appointmentTypeField.getText());
+        a.setStart(startTimePicker.getValue());
+        a.setEnd(endTimePicker.getValue());
+        a.setCustomerId(customerComboBox.getValue().getCustomerId());
+        // TODO: add this after the user combobox
+        // a.setUserId();
         a.setLastUpdatedBy(currentUser.getUserName());
         return a;
+    }
+
+    /**
+     * Populates the form with data from the appointment field for the class.
+     */
+    private void setInfoFromAppointment() {
+        this.contact = new Contact(AppointmentInfoForm.appointment.getContactId());
     }
 }

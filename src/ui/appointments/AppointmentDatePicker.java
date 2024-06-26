@@ -33,7 +33,7 @@ public class AppointmentDatePicker extends DatePicker {
             Time t = Time.fromObject(item, Time.SystemT).withZone(Time.EST);
 
             if (
-                !t.isWeekday() || item.isBefore(now)
+                    !t.isWeekday() || item.isBefore(now)
             ) {
                 setDisable(true);
             }
