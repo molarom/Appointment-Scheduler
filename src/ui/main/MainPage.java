@@ -92,6 +92,8 @@ public class MainPage {
         }
     }
 
+    // TODO: Add reports view.
+
     /**
      * Displays the main page
      */

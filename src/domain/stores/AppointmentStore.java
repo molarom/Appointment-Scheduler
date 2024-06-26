@@ -3,6 +3,7 @@ package domain.stores;
 import domain.Appointment;
 import domain.database.SQL;
 import domain.database.models.Rows;
+import domain.time.Time;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,11 +55,11 @@ public class AppointmentStore {
                     appointment.getDescription(),
                     appointment.getLocation(),
                     appointment.getType(),
-                    appointment.getStart().toSqlTimestamp(),
-                    appointment.getEnd().toSqlTimestamp(),
-                    appointment.getCreateDate().toSqlTimestamp(),
+                    appointment.getStart().withZone(Time.UTC).toSqlTimestamp(),
+                    appointment.getEnd().withZone(Time.UTC).toSqlTimestamp(),
+                    appointment.getCreateDate().withZone(Time.UTC).toSqlTimestamp(),
                     appointment.getCreatedBy(),
-                    appointment.getLastUpdate().toSqlTimestamp(),
+                    appointment.getLastUpdate().withZone(Time.UTC).toSqlTimestamp(),
                     appointment.getLastUpdatedBy(),
                     appointment.getCustomerId(),
                     appointment.getUserId(),
@@ -100,9 +101,9 @@ public class AppointmentStore {
                     appointment.getDescription(),
                     appointment.getLocation(),
                     appointment.getType(),
-                    appointment.getStart().toSqlTimestamp(),
-                    appointment.getEnd().toSqlTimestamp(),
-                    appointment.getLastUpdate().toSqlTimestamp(),
+                    appointment.getStart().withZone(Time.UTC).toSqlTimestamp(),
+                    appointment.getEnd().withZone(Time.UTC).toSqlTimestamp(),
+                    appointment.getLastUpdate().withZone(Time.UTC).toSqlTimestamp(),
                     appointment.getLastUpdatedBy(),
                     appointment.getCustomerId(),
                     appointment.getUserId(),

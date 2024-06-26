@@ -97,8 +97,8 @@ public class User {
                 ", password='" + password + '\'' +
                 ", created_by='" + created_by + '\'' +
                 ", last_updated_by='" + last_updated_by + '\'' +
-                ", create_date=" + create_date.toLocalString() +
-                ", last_update=" + last_update.toLocalString() +
+                ", create_date=" + create_date.toString() +
+                ", last_update=" + last_update.toString() +
                 '}';
     }
 }

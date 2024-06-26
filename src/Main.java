@@ -21,7 +21,6 @@ import java.util.logging.Logger;
  * An application for managing appointment schedules.
  * <p>
  * Documentation is located in the root of the project directory underneath the "./docs" folder.
- * </p>
  *
  * @author Brandon Epperson
  */

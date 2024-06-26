@@ -13,12 +13,11 @@ import java.util.logging.LogRecord;
 public class Formatter extends java.util.logging.Formatter {
     @Override
     public String format(LogRecord record) {
-        Time t = new Time();
-        t.fromMillis(record.getMillis());
+        Time t = Time.fromMillis(record.getMillis(), Time.UTC);
         return record.getLevel() + "|"
                 + record.getSourceClassName() + "."
                 + record.getSourceMethodName() + "|"
-                + t.toUTCString() + "|"
+                + t + "|"
                 + record.getMessage() + "\n";
     }
 }

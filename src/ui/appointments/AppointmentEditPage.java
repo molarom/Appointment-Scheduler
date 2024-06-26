@@ -13,11 +13,10 @@ public class AppointmentEditPage extends Stage {
     public AppointmentEditPage(User currentUser, Appointment appointment, AppointmentTableView appointmentTableView) {
         AppointmentEditPage.currentUser = currentUser;
 
-        AppointmentInfoForm.setAppointment(appointment);
-        AppointmentInfoForm appointmentInfoForm = new AppointmentInfoForm(AppointmentEditPage.currentUser);
-
         AnchorPane root = new AnchorPane();
 
+        AppointmentInfoForm.setAppointment(appointment);
+        AppointmentInfoForm appointmentInfoForm = new AppointmentInfoForm(AppointmentEditPage.currentUser);
         AnchorPane.setTopAnchor(appointmentInfoForm, 5.0);
         AnchorPane.setBottomAnchor(appointmentInfoForm, 40.0);
         AnchorPane.setLeftAnchor(appointmentInfoForm, 5.0);

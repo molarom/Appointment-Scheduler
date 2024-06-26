@@ -234,9 +234,9 @@ public class Customer {
                 ", address='" + address + '\'' +
                 ", postal_code='" + postal_code + '\'' +
                 ", phone='" + phone + '\'' +
-                ", create_date='" + create_date.toUTCString() + '\'' +
+                ", create_date='" + create_date.toString() + '\'' +
                 ", created_by='" + created_by + '\'' +
-                ", last_update='" + last_update.toLocalString() + '\'' +
+                ", last_update='" + last_update.toString() + '\'' +
                 ", last_updated_by='" + last_updated_by + '\'' +
                 ", division_id=" + division_id +
                 '}';

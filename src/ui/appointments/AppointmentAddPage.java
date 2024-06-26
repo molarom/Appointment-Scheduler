@@ -2,6 +2,7 @@ package ui.appointments;
 
 import domain.User;
 import javafx.application.Platform;
+import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
@@ -21,10 +22,11 @@ public class AppointmentAddPage extends Stage {
         AnchorPane.setRightAnchor(appointmentInfoForm, 5.0);
 
         AppointmentAddPageButtons appointmentAddPageButtons = new AppointmentAddPageButtons(this);
-        AnchorPane.setBottomAnchor(appointmentAddPageButtons, 10.0);
+        AnchorPane.setBottomAnchor(appointmentAddPageButtons, 0.0);
         AnchorPane.setLeftAnchor(appointmentAddPageButtons, 5.0);
         AnchorPane.setRightAnchor(appointmentAddPageButtons, 5.0);
 
+        root.setPadding(new Insets(10));
         root.getChildren().addAll(appointmentInfoForm, appointmentAddPageButtons);
 
         this.setTitle("Add Appointment");
@@ -32,7 +34,7 @@ public class AppointmentAddPage extends Stage {
         this.setScene(scene);
 
         this.setMinWidth(500);
-        this.setMinHeight(500);
+        this.setMinHeight(700);
         this.setResizable(false);
         this.setOnHiding(e -> {
             Platform.runLater(appointmentTableView::refreshAppointments);

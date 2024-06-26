@@ -162,8 +162,8 @@ public class CustomerView {
                 ", country='" + country + '\'' +
                 ", created_by='" + created_by + '\'' +
                 ", last_updated_by='" + last_updated_by + '\'' +
-                ", create_date=" + create_date.toUTCString() +
-                ", last_update=" + last_update.toUTCString() +
+                ", create_date=" + create_date.toString() +
+                ", last_update=" + last_update.toString() +
                 '}';
     }
 }

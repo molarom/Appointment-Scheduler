@@ -53,7 +53,8 @@ public class Row extends HashMap<String, Object> {
                     continue;
                 }
 
-                Time t = Time.fromObject(this.get(f.getAnnotation(Column.class).name()));
+                // If it's coming from the DB it should be stored in UTC.
+                Time t = Time.fromObject(this.get(f.getAnnotation(Column.class).name()), Time.UTC);
                 f.set(dest, t);
                 f.setAccessible(false);
             }

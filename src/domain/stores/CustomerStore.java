@@ -3,6 +3,7 @@ package domain.stores;
 import domain.Customer;
 import domain.database.SQL;
 import domain.database.models.Rows;
+import domain.time.Time;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,8 +52,8 @@ public class CustomerStore {
                     customer.getPhone(),
                     customer.getCreatedBy(),
                     customer.getLastUpdatedBy(),
-                    customer.getCreateDate().toSqlTimestamp(),
-                    customer.getLastUpdate().toSqlTimestamp(),
+                    customer.getCreateDate().withZone(Time.UTC).toSqlTimestamp(),
+                    customer.getLastUpdate().withZone(Time.UTC).toSqlTimestamp(),
                     customer.getDivisionId()
             );
             return true;
@@ -86,7 +87,7 @@ public class CustomerStore {
                     customer.getPostalCode(),
                     customer.getPhone(),
                     customer.getLastUpdatedBy(),
-                    customer.getLastUpdate().toSqlTimestamp(),
+                    customer.getLastUpdate().withZone(Time.UTC).toSqlTimestamp(),
                     customer.getDivisionId(),
                     customer.getCustomerId()
             );

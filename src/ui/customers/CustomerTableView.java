@@ -3,6 +3,7 @@ package ui.customers;
 import app.alerts.Alerts;
 import app.controllers.CustomerViewController;
 import domain.CustomerView;
+import domain.time.Time;
 import javafx.application.Platform;
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.collections.ObservableList;
@@ -57,11 +58,15 @@ public class CustomerTableView extends TableView<CustomerView> {
 
         TableColumn<CustomerView, String> createdDateCol = new TableColumn<>("Created At");
         createdDateCol.setCellValueFactory(param ->
-                new ReadOnlyStringWrapper(param.getValue().getCreateDate().toLocalString()));
+                new ReadOnlyStringWrapper(
+                        param.getValue().getCreateDate().withZone(Time.SystemT).toString()
+                ));
 
         TableColumn<CustomerView, String> lastUpdateCol = new TableColumn<>("Updated At");
         lastUpdateCol.setCellValueFactory(param ->
-                new ReadOnlyStringWrapper(param.getValue().getLastUpdate().toLocalString()));
+                new ReadOnlyStringWrapper(
+                        param.getValue().getLastUpdate().withZone(Time.SystemT).toString()
+                ));
 
         TableColumn<CustomerView, String> updatedByCol = new TableColumn<>("Updated By");
         updatedByCol.setCellValueFactory(new PropertyValueFactory<>("lastUpdatedBy"));

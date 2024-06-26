@@ -20,14 +20,15 @@ public class AppointmentAddPageButtons extends HBox {
     public AppointmentAddPageButtons(Stage window) {
         Button submitButton = new Button("Submit");
         submitButton.setOnAction(e -> {
-            Appointment c = AppointmentInfoForm.getAppointmentFromForm();
-            if (c != null) {
-                if (!AppointmentController.addAppointment(c)) {
-                    Alerts.Error("Appointment " + c.getAppointmentId() + " could not be added!");
-                } else {
-                    Alerts.Info("Appointment " + c.getAppointmentId() + " added successfully!");
-                    window.close();
-                }
+            Appointment a = AppointmentInfoForm.getAppointmentFromForm();
+            if (a != null) {
+                System.out.println("appointment: " + a);
+                //if (!AppointmentController.addAppointment(a)) {
+                //    Alerts.Error("Appointment " + a.getAppointmentId() + " could not be added!");
+                //} else {
+                //    Alerts.Info("Appointment " + a.getAppointmentId() + " added successfully!");
+                //    window.close();
+                //}
             }
         });
         Button cancelButton = new Button("Cancel");

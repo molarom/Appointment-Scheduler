@@ -51,11 +51,11 @@ public class AppointmentTableView extends TableView<Appointment> {
 
         TableColumn<Appointment, String> startCol = new TableColumn<>("Start Date");
         startCol.setCellValueFactory(param ->
-                new ReadOnlyStringWrapper(param.getValue().getLastUpdate().toLocalString()));
+                new ReadOnlyStringWrapper(param.getValue().getLastUpdate().toString()));
 
         TableColumn<Appointment, String> endCol = new TableColumn<>("End Date");
         endCol.setCellValueFactory(param ->
-                new ReadOnlyStringWrapper(param.getValue().getLastUpdate().toLocalString()));
+                new ReadOnlyStringWrapper(param.getValue().getLastUpdate().toString()));
 
         TableColumn<Appointment, String> customerIdCol = new TableColumn<>("Customer ID");
         customerIdCol.setCellValueFactory(new PropertyValueFactory<>("customerId"));

@@ -1,33 +1,45 @@
 package ui.appointments;
 
+import app.alerts.Alerts;
 import app.controllers.AppointmentController;
 import domain.Appointment;
+import domain.Contact;
 import domain.User;
 import domain.time.Time;
+import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.RowConstraints;
+import ui.contacts.ContactComboBox;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
- * AppointmentInfoForm contains the fields for adding or updating a Appointment.
+ * AppointmentInfoForm contains the fields for adding or updating an Appointment.
  */
 public class AppointmentInfoForm extends GridPane {
     private static User currentUser = null;
 
     private static Appointment appointment = null;
+    private Contact contact = null;
 
     private static final TextField appointmentIdField = new TextField();
     private static final TextField appointmentTitleField = new TextField();
     private static final TextField appointmentDescriptionField = new TextField();
     private static final TextField appointmentLocationField = new TextField();
-    // TODO: Add the contact controller.
-    //private static final ContactComboBox contactComboBox = new ContactComboBox();
+    private static final ContactComboBox contactComboBox = new ContactComboBox();
     private static final TextField appointmentTypeField = new TextField();
-    // TODO: Add time comboBoxes
-    private static final DatePicker startDatePicker = new DatePicker();
-    private static final DatePicker endTimeComboBox = new DatePicker();
+    private static final AppointmentDatePicker startDatePicker = new AppointmentDatePicker();
+    private static final AppointmentTimePicker startTimePicker = new AppointmentTimePicker(startDatePicker);
+    private static final AppointmentDatePicker endDatePicker = new AppointmentDatePicker();
+    private static final AppointmentTimePicker endTimePicker = new AppointmentTimePicker(endDatePicker);
     //private static final ComboBox<Customer> customerComboBox = new ComboBox<>();
     // TODO: Add the user controller.
     //private static final UserComboBox userComboBox = new UserComboBox();
@@ -40,6 +52,8 @@ public class AppointmentInfoForm extends GridPane {
         AppointmentInfoForm.currentUser = currentUser;
 
         if (AppointmentInfoForm.appointment != null) {
+            this.setInfoFromAppointment();
+        } else {
             AppointmentInfoForm.appointment = new Appointment(AppointmentController.maxId() + 1);
         }
 
@@ -54,20 +68,20 @@ public class AppointmentInfoForm extends GridPane {
         appointmentTitleField.setText(appointment.getTitle());
         this.add(appointmentTitleField, 1, 1);
 
-        Label appointmentPhone = new Label("Description");
-        this.add(appointmentPhone, 0, 2);
+        Label appointmentDescLabel = new Label("Description");
+        this.add(appointmentDescLabel, 0, 2);
         appointmentDescriptionField.setText(appointment.getDescription());
         this.add(appointmentDescriptionField, 1, 2);
 
-        Label appointmentAddress = new Label("Location");
-        this.add(appointmentAddress, 0, 3);
+        Label appointmentLocationLabel = new Label("Location");
+        this.add(appointmentLocationLabel, 0, 3);
         appointmentLocationField.setText(appointment.getLocation());
         this.add(appointmentLocationField, 1, 3);
 
         Label appointmentContactLabel = new Label("Contact");
         this.add(appointmentContactLabel, 0, 4);
-        //appointmentTypeField.setText(appointment.getContactId());
-        //this.add(appointmentTypeField, 1, 4);
+        contactComboBox.setContact(this.contact);
+        this.add(contactComboBox, 1, 4);
 
         Label appointmentTypeLabel = new Label("Type");
         this.add(appointmentTypeLabel, 0, 5);
@@ -77,13 +91,16 @@ public class AppointmentInfoForm extends GridPane {
         Label startDateLabel = new Label("Start Date");
         this.add(startDateLabel, 0, 6);
         this.add(startDatePicker, 1, 6);
+        this.add(startTimePicker, 1, 7);
 
         Label endDateLabel = new Label("End Date");
         this.add(endDateLabel, 0, 8);
-        this.add(startDatePicker, 1, 8);
+        this.add(endDatePicker, 1, 8);
+        this.add(endTimePicker, 1, 9);
+
 
         this.setPadding(new Insets(10, 10, 10, 10));
-        this.setHgap(10);
+        this.setHgap(20);
         this.setVgap(10);
     }
 
@@ -104,20 +121,45 @@ public class AppointmentInfoForm extends GridPane {
     }
 
     /**
+     * Populates the form with data from the appointment field for the class.
+     */
+    private void setInfoFromAppointment() {
+        this.contact = new Contact(AppointmentInfoForm.appointment.getContactId());
+    }
+
+    /**
      * @return the Appointment populated with the information stored in the form.
      */
     public static Appointment getAppointmentFromForm() {
         Appointment a = new Appointment(Integer.parseInt(appointmentIdField.getText()));
-        //if (countryComboBox.getSelectionModel().getSelectedItem() == null) {
-        //    Alerts.Warning("No Country Selected");
-        //    return null;
-        //}
-        //if (firstLevelDivisionComboBox.getSelectionModel().getSelectedItem() != null) {
-        //    a.setDivisionId(firstLevelDivisionComboBox.getValue().getId());
-        //} else {
-        //    Alerts.Warning("No First Level Division Selected");
-        //    return null;
-        //}
+
+        // ------------------------------------------------------
+        // Input validation
+
+        if (contactComboBox.getSelectionModel().getSelectedItem() == null) {
+            Alerts.Warning("No Contact Selected");
+            return null;
+        }
+        if (startDatePicker.getValue() == null) {
+            Alerts.Warning("No Start Date Selected");
+            return null;
+        }
+        if(startTimePicker.getValue() == null) {
+            Alerts.Warning("No Start Time Selected");
+            return null;
+        }
+        if (endDatePicker.getValue() == null) {
+            Alerts.Warning("No End Date Selected");
+            return null;
+        }
+        if(endTimePicker.getValue() == null) {
+            Alerts.Warning("No End Time Selected");
+            return null;
+        }
+
+        // ------------------------------------------------------
+        // Set defaults
+
         if (a.getCreateDate() != null) {
             a.setCreateDate(a.getCreateDate());
         } else {

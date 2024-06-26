@@ -151,12 +151,12 @@ public class CustomerInfoForm extends GridPane {
         if (c.getCreateDate() != null) {
             c.setCreateDate(c.getCreateDate());
         } else {
-            c.setCreateDate(new Time());
+            c.setCreateDate(new Time().withZone(Time.UTC));
         }
         if (c.getLastUpdate() != null) {
             c.setLastUpdate(c.getLastUpdate());
         } else {
-            c.setLastUpdate(new Time());
+            c.setLastUpdate(new Time().withZone(Time.UTC));
         }
         c.setName(customerNameField.getText());
         c.setPhone(customerPhoneField.getText());
