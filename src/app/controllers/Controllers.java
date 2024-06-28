@@ -25,5 +25,6 @@ public class Controllers {
         DivisionsController.Configure(db, logger);
         AppointmentController.Configure(db, logger);
         ContactController.Configure(db, logger);
+        UserController.Configure(db, logger);
     }
 }

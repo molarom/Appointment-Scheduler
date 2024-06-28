@@ -1,10 +1,16 @@
 package ui.appointments;
 
 import domain.time.Time;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.control.DateCell;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.Skin;
+import javafx.util.Callback;
+import javafx.util.StringConverter;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 
 /**
  * AppointmentDatePicker is the date picker displayed on
@@ -13,30 +19,31 @@ import java.time.LocalDate;
  * @author Brandon Epperson
  */
 public class AppointmentDatePicker extends DatePicker {
+    private ObjectProperty<LocalTime> timeValue = new SimpleObjectProperty<>();
+    private ObjectProperty<Time> dateTimeValue;
+
     /**
      * Constructs a new AppointmentDatePicker
      */
     public AppointmentDatePicker() {
-        this.setDayCellFactory(date -> new AppointmentDateCell());
-        this.setValue(LocalDate.now());
-    }
-
-    /**
-     * AppointmentDateCell ensures that invalid dates cannot be selected.
-     */
-    private static class AppointmentDateCell extends DateCell {
-        @Override
-        public void updateItem(LocalDate item, boolean empty) {
-            super.updateItem(item, empty);
-
-            LocalDate now = LocalDate.from(new Time().withZone(Time.SystemT).getTime());
-            Time t = Time.fromObject(item, Time.SystemT).withZone(Time.EST);
-
-            if (
-                    !t.isWeekday() || item.isBefore(now)
-            ) {
-                setDisable(true);
+        setValue(LocalDate.now());
+        //setDateTimeValue();
+        setConverter(new StringConverter<LocalDate>() {
+            @Override
+            public String toString(LocalDate object) {
+                return dateTimeValue.get().withZone(Time.SystemT).toString();
             }
-        }
+
+            @Override
+            public LocalDate fromString(String string) {
+                return dateTimeValue.get().fromString(string, Time.SystemT).toLocalDate();
+            }
+        });
     }
+
+    @Override
+    protected Skin<?> createDefaultSkin() {
+        return null;
+    }
+
 }

@@ -38,6 +38,7 @@ public class AppointmentAddPage extends Stage {
         this.setResizable(false);
         this.setOnHiding(e -> {
             Platform.runLater(appointmentTableView::refreshAppointments);
+            AppointmentInfoForm.clearAppointmentView();
         });
     }
 }

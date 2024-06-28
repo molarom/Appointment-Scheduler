@@ -16,7 +16,7 @@ public class CountryComboBox extends ComboBox<Country> {
      */
     public CountryComboBox() {
         this.getItems().addAll(
-                CountryController.GetAllCountries()
+                CountryController.getAllCountries()
         );
 
         this.setCellFactory(view -> new CountryListCell());

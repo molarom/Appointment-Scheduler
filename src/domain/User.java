@@ -34,6 +34,13 @@ public class User {
     }
 
     /**
+     * @return the user id
+     */
+    public int getUserId() {
+        return user_id;
+    }
+
+    /**
      * @return the user_name
      */
     public String getUserName() {

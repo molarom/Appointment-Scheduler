@@ -5,6 +5,7 @@ import java.sql.Timestamp;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
+import java.util.function.Supplier;
 
 /**
  * Time serves to provide a standard object to interact with different
@@ -16,7 +17,7 @@ public class Time {
     public static final ZoneId UTC = ZoneId.of("UTC");
     public static final ZoneId EST = ZoneId.of("America/New_York");
     public static final ZoneId SystemT = ZoneId.systemDefault();
-    private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd - HH:mm");
+    private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM-dd-yyyy - HH:mm");
     private ZonedDateTime zDT;
 
 
@@ -95,7 +96,7 @@ public class Time {
      * @return the Time
      */
     public static Time fromSqlDate(Date sqlDate, ZoneId zone) {
-        return new Time(sqlDate.toInstant().atZone(UTC));
+        return new Time(sqlDate.toInstant().atZone(zone));
     }
 
     /**
@@ -158,6 +159,20 @@ public class Time {
     }
 
     /**
+     * get wraps a method chain to check if the Time is null, and returns a fallback if so.
+     * @param supplier the method returning a Time
+     * @param fallback the default time
+     * @return the time if not null
+     */
+    public static Time get(Supplier<Time> supplier, Time fallback)  {
+        try {
+            return supplier.get();
+        } catch (NullPointerException e) {
+            return fallback;
+        }
+    }
+
+    /**
      * WithZone adds zone context to the time object.
      *
      * @param zone the zone to set.
@@ -190,13 +205,26 @@ public class Time {
     }
 
     /**
+     * @return a new java.time.LocalDate
+     */
+    public LocalDate toLocalDate() {
+        return zDT.toLocalDate();
+    }
+
+    /**
+     * @return a new java.time.LocalTime
+     */
+    public LocalTime toLocalTime() {
+        return zDT.toLocalTime();
+    }
+
+    /**
      * from string reads a date and time string to populate a Time object.
      *
-     * @param date string in the format 'yyyy-MM-dd'
-     * @param time string in the format 'HH:mm'
+     * @param string the string to parse
      */
-    public Time fromString(String date, String time, ZoneId zone) {
-        return new Time(LocalDateTime.parse(date + " - " + time, formatter).atZone(zone));
+    public Time fromString(String string, ZoneId zone) {
+        return new Time(LocalDateTime.parse(string, formatter).atZone(zone));
     }
 
     /**
@@ -271,15 +299,8 @@ public class Time {
         Instant startI = startT.withZone(UTC).getTime().toInstant();
         Instant endI = endT.withZone(UTC).getTime().toInstant();
 
-        boolean b = !thisI.isBefore(startI)
+        return !thisI.isBefore(startI)
                 && thisI.isBefore(endI);
-        System.out.println("thisI (UTC): " + thisI +
-                " startI (UTC): " + startI +
-                " endI (UTC): " + endI +
-                " result: " + b
-        );
-
-        return b;
     }
 
     /**

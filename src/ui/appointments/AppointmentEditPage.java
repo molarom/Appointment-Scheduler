@@ -37,8 +37,8 @@ public class AppointmentEditPage extends Stage {
         this.setMinHeight(500);
         this.setResizable(false);
         this.setOnHiding(e -> {
-            AppointmentInfoForm.clearAppointmentView();
             Platform.runLater(appointmentTableView::refreshAppointments);
+            AppointmentInfoForm.clearAppointmentView();
         });
     }
 }

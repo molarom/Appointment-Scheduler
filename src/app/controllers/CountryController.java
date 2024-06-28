@@ -26,7 +26,7 @@ public class CountryController {
         log = logger;
     }
 
-    public static ObservableList<Country> GetAllCountries() {
+    public static ObservableList<Country> getAllCountries() {
         List<Country> countries = countryStore.getAll();
         if (!countries.isEmpty()) {
             log.info("Total countries returned from getAll(): " + countries.size());
