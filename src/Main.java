@@ -5,6 +5,7 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+import ui.login.LoginPage;
 import ui.main.MainPage;
 
 import java.io.FileInputStream;
@@ -98,13 +99,8 @@ public class Main extends Application {
             primaryStage.setTitle(rs.getString("app.title"));
             primaryStage.show();
 
-            Store us = new Store(db);
-            MainPage.setCurrentUser(us.getById(1));
-            MainPage mainPage = new MainPage(scene);
-            mainPage.ShowMainPage();
-            // TODO: Don't forget to change this back
-            //LoginPage login = new LoginPage(scene);
-            //login.ShowLoginPage();
+            LoginPage login = new LoginPage(scene);
+            login.ShowLoginPage();
         } catch (Exception ex) {
             logger.severe(ex.getMessage());
             ex.printStackTrace();
