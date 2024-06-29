@@ -10,6 +10,7 @@ import javafx.scene.layout.VBox;
 public class CustomerTablePane extends VBox {
     /**
      * Constructs a new CustomerTablePane
+     *
      * @param currentUser the user to reference in the current context.
      */
     public CustomerTablePane(User currentUser) {

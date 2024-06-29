@@ -31,6 +31,7 @@ public class UserController {
 
     /**
      * getAll attempts to fetch all users in the store
+     *
      * @return ObservableList of user
      */
     public static ObservableList<User> getAll() {

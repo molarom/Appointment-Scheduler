@@ -15,8 +15,9 @@ public class CustomerEditPage extends Stage {
 
     /**
      * Construct a new CustomerEditPage
-     * @param currentUser the current user
-     * @param customerView the CustomerView to edit
+     *
+     * @param currentUser       the current user
+     * @param customerView      the CustomerView to edit
      * @param customerTableView the customerTableView to reference for refresh
      */
     public CustomerEditPage(User currentUser, CustomerView customerView, CustomerTableView customerTableView) {

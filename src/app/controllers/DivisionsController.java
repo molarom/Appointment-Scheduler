@@ -34,6 +34,7 @@ public class DivisionsController {
 
     /**
      * getAllDivisions fetches all divisions from the store
+     *
      * @return Observable list of FirstLevelDivision
      */
     public static ObservableList<FirstLevelDivision> GetAllDivisions() {
@@ -48,6 +49,7 @@ public class DivisionsController {
 
     /**
      * fetches divisions by country from the store.
+     *
      * @param country the country to search for
      * @return observable list of country
      */
@@ -63,6 +65,7 @@ public class DivisionsController {
 
     /**
      * attempts to fetch a division by id from the store
+     *
      * @param id the id to search for
      * @return the division if found
      */

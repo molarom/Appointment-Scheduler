@@ -1,12 +1,10 @@
 import app.controllers.Controllers;
 import domain.database.SQL;
-import domain.stores.User.Store;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import ui.login.LoginPage;
-import ui.main.MainPage;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;

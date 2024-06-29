@@ -17,8 +17,9 @@ public class AppointmentEditPage extends Stage {
 
     /**
      * Constructs a new AppointmentEditPage
-     * @param currentUser the currentUser
-     * @param appointment the appointment to edit
+     *
+     * @param currentUser          the currentUser
+     * @param appointment          the appointment to edit
      * @param appointmentTableView the appointmentTableView to refresh
      */
     public AppointmentEditPage(User currentUser, Appointment appointment, AppointmentTableView appointmentTableView) {

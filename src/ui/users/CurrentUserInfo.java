@@ -13,6 +13,7 @@ public class CurrentUserInfo extends HBox {
 
     /**
      * Constructs a new CurrentUserInfo
+     *
      * @param currentUser the user whose username will be displayed.
      */
     public CurrentUserInfo(User currentUser) {

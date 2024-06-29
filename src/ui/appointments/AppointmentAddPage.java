@@ -17,7 +17,8 @@ public class AppointmentAddPage extends Stage {
 
     /**
      * Constructs a new AppointmentAddPage
-     * @param currentUser the current user
+     *
+     * @param currentUser          the current user
      * @param appointmentTableView the appointmentTableView to refresh
      */
     public AppointmentAddPage(User currentUser, AppointmentTableView appointmentTableView) {

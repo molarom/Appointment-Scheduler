@@ -13,6 +13,7 @@ import javafx.scene.layout.VBox;
 public class AppointmentTablePane extends VBox {
     /**
      * Constructs a new AppointmentTablePane
+     *
      * @param currentUser the current user
      */
     public AppointmentTablePane(User currentUser) {

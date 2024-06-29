@@ -4,7 +4,6 @@ import app.controllers.AppointmentController;
 import app.controllers.CustomerController;
 import domain.stores.Appointment.Appointment;
 import domain.stores.Customer.CustomerReport;
-import domain.stores.User.User;
 import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;

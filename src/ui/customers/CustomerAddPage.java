@@ -14,7 +14,8 @@ public class CustomerAddPage extends Stage {
 
     /**
      * Constructs a new CustomerAddPage
-     * @param currentUser the current user
+     *
+     * @param currentUser       the current user
      * @param customerTableView the customerTableView to refresh
      */
     public CustomerAddPage(User currentUser, CustomerTableView customerTableView) {
