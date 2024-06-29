@@ -1,6 +1,5 @@
-package domain.stores;
+package domain.stores.User;
 
-import domain.User;
 import domain.database.SQL;
 import domain.database.models.Rows;
 
@@ -8,19 +7,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * UserStore represents a data store for User objects.
+ * Store represents a data store for User objects.
  *
  * @author Brandon Epperson
  */
-public class UserStore {
+public class Store {
     private final SQL db;
 
     /**
-     * Creates a new UserStore to retrieve User documents from the database.
+     * Creates a new Store to retrieve User documents from the database.
      *
      * @param db the SQL instance to use.
      */
-    public UserStore(SQL db) {
+    public Store(SQL db) {
         this.db = db;
     }
 

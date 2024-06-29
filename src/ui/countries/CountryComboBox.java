@@ -1,7 +1,7 @@
 package ui.countries;
 
 import app.controllers.CountryController;
-import domain.Country;
+import domain.stores.Country.Country;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListCell;
 

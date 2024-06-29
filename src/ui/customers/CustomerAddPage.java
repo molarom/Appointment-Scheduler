@@ -1,14 +1,22 @@
 package ui.customers;
 
-import domain.User;
+import domain.stores.User.User;
 import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
+/**
+ * CustomerAddPage is the pop-up displayed in the application to add new Customer
+ */
 public class CustomerAddPage extends Stage {
     private static User currentUser;
 
+    /**
+     * Constructs a new CustomerAddPage
+     * @param currentUser the current user
+     * @param customerTableView the customerTableView to refresh
+     */
     public CustomerAddPage(User currentUser, CustomerTableView customerTableView) {
         CustomerAddPage.currentUser = currentUser;
 

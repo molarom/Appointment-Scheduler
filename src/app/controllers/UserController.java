@@ -1,18 +1,22 @@
 package app.controllers;
 
-import domain.User;
 import domain.database.SQL;
-import domain.stores.UserStore;
+import domain.stores.User.Store;
+import domain.stores.User.User;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-import java.io.IOException;
 import java.util.List;
-import java.util.logging.*;
+import java.util.logging.Logger;
 
+/**
+ * UserController contains methods for the UI to interact with the database.
+ *
+ * @author Brandon Epperson
+ */
 public class UserController {
     private static Logger log = null;
-    private static UserStore userStore = null;
+    private static Store store = null;
 
     /**
      * Configure sets up the required parameters for the Controller.
@@ -21,12 +25,16 @@ public class UserController {
      * @param db the SQL instance to interact with.
      */
     public static void Configure(SQL db, Logger logger) {
-        userStore = new UserStore(db);
+        store = new Store(db);
         log = logger;
     }
 
+    /**
+     * getAll attempts to fetch all users in the store
+     * @return ObservableList of user
+     */
     public static ObservableList<User> getAll() {
-        List<User> users = userStore.getAll();
+        List<User> users = store.getAll();
         if (!users.isEmpty()) {
             log.info("Total countries returned from getAll(): " + users.size());
             return FXCollections.observableList(users);

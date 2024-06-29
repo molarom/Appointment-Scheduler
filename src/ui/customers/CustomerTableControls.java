@@ -2,8 +2,8 @@ package ui.customers;
 
 import app.alerts.Alerts;
 import app.controllers.CustomerController;
-import domain.CustomerView;
-import domain.User;
+import domain.stores.Customer.CustomerView;
+import domain.stores.User.User;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;

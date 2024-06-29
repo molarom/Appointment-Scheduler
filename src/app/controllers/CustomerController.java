@@ -1,8 +1,9 @@
 package app.controllers;
 
-import domain.Customer;
 import domain.database.SQL;
-import domain.stores.CustomerStore;
+import domain.stores.Customer.Customer;
+import domain.stores.Customer.CustomerReport;
+import domain.stores.Customer.Store;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -15,7 +16,7 @@ import java.util.logging.Logger;
  */
 public class CustomerController {
     private static Logger log = null;
-    private static CustomerStore customerStore = null;
+    private static Store store = null;
 
 
     /**
@@ -26,7 +27,7 @@ public class CustomerController {
      * @param logger the logger to use
      */
     static void Configure(SQL db, Logger logger) {
-        customerStore = new CustomerStore(db);
+        store = new Store(db);
         log = logger;
     }
 
@@ -34,7 +35,7 @@ public class CustomerController {
      * @return an ObservableList of Customer
      */
     public static ObservableList<Customer> getCustomers() {
-        List<Customer> customers = customerStore.getAll();
+        List<Customer> customers = store.getAll();
         if (!customers.isEmpty()) {
             log.info("Total customers returned from getAll(): " + customers.size());
             return FXCollections.observableList(customers);
@@ -50,7 +51,7 @@ public class CustomerController {
      * @return true if the query was successful.
      */
     public static boolean addCustomer(Customer customer) {
-        boolean success = customerStore.add(customer);
+        boolean success = store.add(customer);
         if (!success) {
             log.warning("Failed to add customer: " + customer);
             return false;
@@ -66,7 +67,7 @@ public class CustomerController {
      * @return true if the query was successful
      */
     public static boolean updateCustomer(Customer customer) {
-        boolean success = customerStore.update(customer);
+        boolean success = store.update(customer);
         if (!success) {
             log.warning("Failed to update customer: " + customer);
             return false;
@@ -82,7 +83,7 @@ public class CustomerController {
      * @return true if the query was successful
      */
     public static boolean deleteCustomer(int id) {
-        boolean success = customerStore.delete(id);
+        boolean success = store.delete(id);
         if (!success) {
             log.warning("Failed to delete customer: " + id);
             return false;
@@ -96,13 +97,26 @@ public class CustomerController {
      * @return the number of customers stored in the database
      */
     public static int countCustomers() {
-        return customerStore.count();
+        return store.count();
     }
 
     /**
      * @return the max value in the customer_id column
      */
     public static int maxId() {
-        return customerStore.maxId();
+        return store.maxId();
+    }
+
+    /**
+     * @return the list of CustomerReport
+     */
+    public static ObservableList<CustomerReport> getCustomerReport() {
+        List<CustomerReport> cr = store.getCustomerReport();
+        if (!cr.isEmpty()) {
+            log.info("Fetched " + cr.size() + " rows from getCustomerReport");
+            return FXCollections.observableList(cr);
+        }
+        log.warning("No customers returned from getCustomerReport");
+        return FXCollections.emptyObservableList();
     }
 }

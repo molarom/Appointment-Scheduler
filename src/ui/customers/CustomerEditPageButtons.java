@@ -2,7 +2,7 @@ package ui.customers;
 
 import app.alerts.Alerts;
 import app.controllers.CustomerController;
-import domain.Customer;
+import domain.stores.Customer.Customer;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;

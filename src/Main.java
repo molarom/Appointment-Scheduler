@@ -1,6 +1,6 @@
 import app.controllers.Controllers;
 import domain.database.SQL;
-import domain.stores.UserStore;
+import domain.stores.User.Store;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
@@ -98,7 +98,7 @@ public class Main extends Application {
             primaryStage.setTitle(rs.getString("app.title"));
             primaryStage.show();
 
-            UserStore us = new UserStore(db);
+            Store us = new Store(db);
             MainPage.setCurrentUser(us.getById(1));
             MainPage mainPage = new MainPage(scene);
             mainPage.ShowMainPage();

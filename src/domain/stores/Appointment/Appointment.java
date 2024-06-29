@@ -1,11 +1,11 @@
-package domain;
+package domain.stores.Appointment;
 
 import domain.database.annotations.Column;
 import domain.database.annotations.Id;
 import domain.time.Time;
 
 /**
- * Appointment represents an appointment object for use in the application.
+ * Appointment represents an appointment document stored within the database.
  *
  * @author Brandon Epperson
  */

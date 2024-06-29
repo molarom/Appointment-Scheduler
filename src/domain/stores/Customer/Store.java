@@ -1,6 +1,5 @@
-package domain.stores;
+package domain.stores.Customer;
 
-import domain.Customer;
 import domain.database.SQL;
 import domain.database.models.Rows;
 import domain.time.Time;
@@ -9,19 +8,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * CustomerStore represents a data store for Customer objects.
+ * Store represents a data store for Customer objects.
  *
  * @author Brandon Epperson
  */
-public class CustomerStore {
+public class Store {
     private final SQL db;
 
     /**
-     * Creates a new CustomerStore to retrieve Customer documents from the database.
+     * Creates a new Store to retrieve Customer documents from the database.
      *
      * @param db the SQL instance to use.
      */
-    public CustomerStore(SQL db) {
+    public Store(SQL db) {
         this.db = db;
     }
 
@@ -202,5 +201,72 @@ public class CustomerStore {
 
         int max = 0;
         return rows.get(0).Scan(max);
+    }
+
+    /**
+     * getAllCustomerViews attempts to retrieve all
+     * CustomerView information from the database.
+     *
+     * @return the list of returned CustomerView
+     */
+    public List<CustomerView> getAllCustomerViews() {
+        String query = "SELECT " +
+                "c.customer_id, " +
+                "c.customer_name, " +
+                "c.phone, " +
+                "c.address, " +
+                "c.postal_code, " +
+                "c.created_by, " +
+                "c.create_date, " +
+                "c.last_updated_by, " +
+                "c.last_update, " +
+                "d.division_id, " +
+                "d.division, " +
+                "ct.country_id, " +
+                "ct.country " +
+                "FROM customers c " +
+                "JOIN first_level_divisions d USING (division_id) " +
+                "JOIN countries ct USING (country_id) ";
+
+        Rows rows = db.PreparedQuery(query);
+        List<CustomerView> customerViewList = new ArrayList<>();
+
+        rows.forEach(row -> {
+            CustomerView customerView = new CustomerView();
+            row.Scan(customerView);
+            customerViewList.add(customerView);
+        });
+
+        return customerViewList;
+    }
+
+    /**
+     * getCustomerReports fetches the number of customers per country
+     *
+     * @return the list of CustomerReport
+     */
+    public List<CustomerReport> getCustomerReport() {
+        String query = """
+                SELECT
+                    ct.country,
+                    count(c.customer_id) AS count
+                FROM
+                    customers c
+                JOIN
+                    first_level_divisions f ON f.division_id
+                JOIN
+                    countries ct on ct.country_id
+                GROUP BY ct.country
+                """;
+
+        Rows rows = db.PreparedQuery(query);
+        List<CustomerReport> customerReports = new ArrayList<>();
+
+        rows.forEach(row -> {
+            CustomerReport customerReport = new CustomerReport();
+            row.Scan(customerReport);
+            customerReports.add(customerReport);
+        });
+        return customerReports;
     }
 }

@@ -2,7 +2,11 @@ package ui.customers;
 
 import app.alerts.Alerts;
 import app.controllers.CustomerController;
-import domain.*;
+import domain.stores.Country.Country;
+import domain.stores.Customer.Customer;
+import domain.stores.Customer.CustomerView;
+import domain.stores.FirstLevelDivision.FirstLevelDivision;
+import domain.stores.User.User;
 import domain.time.Time;
 import javafx.geometry.Insets;
 import javafx.scene.control.Label;

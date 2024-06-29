@@ -2,7 +2,7 @@ package ui.customers;
 
 import app.alerts.Alerts;
 import app.controllers.CustomerViewController;
-import domain.CustomerView;
+import domain.stores.Customer.CustomerView;
 import domain.time.Time;
 import javafx.application.Platform;
 import javafx.beans.property.ReadOnlyStringWrapper;

@@ -1,6 +1,6 @@
 package ui.main;
 
-import domain.User;
+import domain.stores.User.User;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;

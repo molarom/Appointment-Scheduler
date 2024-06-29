@@ -1,21 +1,25 @@
 package app.controllers;
 
-import domain.Appointment;
 import domain.database.SQL;
-import domain.stores.AppointmentStore;
+import domain.stores.Appointment.Appointment;
+import domain.stores.Appointment.MonthlyReport;
+import domain.stores.Appointment.Store;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
 /**
  * AppointmentController contains the methods for the UI Layer to interact with
  * the database.
+ *
+ * @author Brandon Epperson
  */
 public class AppointmentController {
     private static Logger log = null;
-    private static AppointmentStore appointmentStore = null;
+    private static Store store = null;
 
 
     /**
@@ -26,7 +30,7 @@ public class AppointmentController {
      * @param logger the logger to use
      */
     static void Configure(SQL db, Logger logger) {
-        appointmentStore = new AppointmentStore(db);
+        store = new Store(db);
         log = logger;
     }
 
@@ -34,7 +38,7 @@ public class AppointmentController {
      * @return an ObservableList of Appointment
      */
     public static ObservableList<Appointment> getAppointments() {
-        List<Appointment> appointments = appointmentStore.getAll();
+        List<Appointment> appointments = store.getAll();
         if (!appointments.isEmpty()) {
             log.info("Total appointments returned from getAll(): " + appointments.size());
             return FXCollections.observableList(appointments);
@@ -50,7 +54,7 @@ public class AppointmentController {
      * @return true if the query was successful.
      */
     public static boolean addAppointment(Appointment appointment) {
-        boolean success = appointmentStore.add(appointment);
+        boolean success = store.add(appointment);
         if (!success) {
             log.warning("Failed to add appointment: " + appointment);
             return false;
@@ -66,7 +70,7 @@ public class AppointmentController {
      * @return true if the query was successful
      */
     public static boolean updateAppointment(Appointment appointment) {
-        boolean success = appointmentStore.update(appointment);
+        boolean success = store.update(appointment);
         if (!success) {
             log.warning("Failed to update appointment: " + appointment);
             return false;
@@ -82,7 +86,7 @@ public class AppointmentController {
      * @return true if the query was successful
      */
     public static boolean deleteAppointment(int id) {
-        boolean success = appointmentStore.delete(id);
+        boolean success = store.delete(id);
         if (!success) {
             log.warning("Failed to delete appointment: " + id);
             return false;
@@ -96,13 +100,67 @@ public class AppointmentController {
      * @return the number of appointments stored in the database
      */
     public static int countAppointments() {
-        return appointmentStore.count();
+        return store.count();
     }
 
     /**
      * @return the max value in the appointment_id column
      */
     public static int maxId() {
-        return appointmentStore.maxId();
+        return store.maxId();
+    }
+
+    /**
+     * searches for appointments by user id
+     *
+     * @param id the user id
+     * @return the list of appointments
+     */
+    public static List<Appointment> getByUserId(int id) {
+        List<Appointment> appointments = store.getByUserId(id);
+        if (!appointments.isEmpty()) {
+            log.info("Total appointments returned for getByUserId(): " + appointments.size());
+            return appointments;
+        }
+        return new ArrayList<>();
+    }
+
+    /**
+     * @return an ObservableList of Appointment
+     */
+    public static ObservableList<Appointment> getWeeklyAppointments() {
+        List<Appointment> appointments = store.getAllWeekly();
+        if (!appointments.isEmpty()) {
+            log.info("Total appointments returned from getAllWeekly(): " + appointments.size());
+            return FXCollections.observableList(appointments);
+        }
+        log.warning("No appointments returned from getAllWeekly()");
+        return FXCollections.emptyObservableList();
+    }
+
+    /**
+     * @return an ObservableList of Appointment
+     */
+    public static ObservableList<Appointment> getMonthlyAppointments() {
+        List<Appointment> appointments = store.getAllMonthly();
+        if (!appointments.isEmpty()) {
+            log.info("Total appointments returned from getAllMonthly(): " + appointments.size());
+            return FXCollections.observableList(appointments);
+        }
+        log.warning("No appointments returned from getAllMonthly()");
+        return FXCollections.emptyObservableList();
+    }
+
+    /**
+     * @return an ObservableList of MonthlyReport
+     */
+    public static ObservableList<MonthlyReport> getMonthlyReport() {
+        List<MonthlyReport> reports = store.getMonthlyReport();
+        if (!reports.isEmpty()) {
+            log.info("Total rows fetched from getMonthlyReport: " + reports.size());
+            return FXCollections.observableList(reports);
+        }
+        log.warning("No rows fetched from getMonthlyReport");
+        return FXCollections.emptyObservableList();
     }
 }

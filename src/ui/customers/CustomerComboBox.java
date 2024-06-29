@@ -1,7 +1,7 @@
 package ui.customers;
 
 import app.controllers.CustomerController;
-import domain.Customer;
+import domain.stores.Customer.Customer;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListCell;
 

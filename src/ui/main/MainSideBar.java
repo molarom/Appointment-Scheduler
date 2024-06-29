@@ -8,7 +8,15 @@ import javafx.scene.layout.VBox;
 
 import static ui.main.MainPage.rs;
 
+/**
+ * MainSideBar is the sidebar displayed on the MainPage.
+ *
+ * @author Brandon Epperson
+ */
 public class MainSideBar extends VBox {
+    /**
+     * Constructs a new MainSideBar
+     */
     public MainSideBar() {
 
 
@@ -25,6 +33,7 @@ public class MainSideBar extends VBox {
 
         Button reportsButton = new Button(rs.getString("main.reports"));
         reportsButton.getStyleClass().add("main-sidebar-button");
+        reportsButton.setOnAction(e -> MainPage.setReportView());
 
         Button exitButton = new Button(rs.getString("main.exit"));
         exitButton.getStyleClass().add("main-sidebar-button");
@@ -36,8 +45,8 @@ public class MainSideBar extends VBox {
         this.getStyleClass().add("main-sidebar");
         this.getChildren().addAll(
                 sideBarIconLabel,
-                customersButton,
                 appointmentsButton,
+                customersButton,
                 reportsButton,
                 exitButton
         );

@@ -1,15 +1,25 @@
 package ui.appointments;
 
-import domain.User;
+import domain.stores.User.User;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
+/**
+ * AppointmentAddPage is the pop-up displayed in the application for adding a new appointment.
+ *
+ * @author Brandon Epperson
+ */
 public class AppointmentAddPage extends Stage {
     private static User currentUser;
 
+    /**
+     * Constructs a new AppointmentAddPage
+     * @param currentUser the current user
+     * @param appointmentTableView the appointmentTableView to refresh
+     */
     public AppointmentAddPage(User currentUser, AppointmentTableView appointmentTableView) {
         AppointmentAddPage.currentUser = currentUser;
 

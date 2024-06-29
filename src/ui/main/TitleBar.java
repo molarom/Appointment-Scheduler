@@ -1,6 +1,6 @@
 package ui.main;
 
-import domain.User;
+import domain.stores.User.User;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;

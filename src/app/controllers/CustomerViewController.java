@@ -1,8 +1,8 @@
 package app.controllers;
 
-import domain.CustomerView;
 import domain.database.SQL;
-import domain.stores.CustomerViewStore;
+import domain.stores.Customer.CustomerView;
+import domain.stores.Customer.Store;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -15,7 +15,7 @@ import java.util.logging.Logger;
  */
 public class CustomerViewController {
     private static Logger log = null;
-    private static CustomerViewStore customerViewStore = null;
+    private static Store store = null;
 
 
     /**
@@ -26,7 +26,7 @@ public class CustomerViewController {
      * @param logger the logger to use
      */
     static void Configure(SQL db, Logger logger) {
-        customerViewStore = new CustomerViewStore(db);
+        store = new Store(db);
         log = logger;
     }
 
@@ -34,12 +34,12 @@ public class CustomerViewController {
      * @return an ObservableList of CustomerView
      */
     public static ObservableList<CustomerView> getCustomerViews() {
-        List<CustomerView> customerViews = customerViewStore.getAllCustomers();
+        List<CustomerView> customerViews = store.getAllCustomerViews();
         if (!customerViews.isEmpty()) {
-            log.info("Total customers returned from getAllCustomers(): " + customerViews.size());
+            log.info("Total customers returned from getAllCustomerViews(): " + customerViews.size());
             return FXCollections.observableList(customerViews);
         }
-        log.warning("No customers returned from getAllCustomers()");
+        log.warning("No customers returned from getAllCustomerViews()");
         return FXCollections.emptyObservableList();
     }
 }

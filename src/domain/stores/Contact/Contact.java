@@ -1,8 +1,13 @@
-package domain;
+package domain.stores.Contact;
 
 import domain.database.annotations.Column;
 import domain.database.annotations.Id;
 
+/**
+ * Contact represents a contact document stored within the database.
+ *
+ * @author Brandon Epperson
+ */
 public class Contact {
     @Id
     @Column(name = "contact_id")

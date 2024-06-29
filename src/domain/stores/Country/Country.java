@@ -1,4 +1,4 @@
-package domain;
+package domain.stores.Country;
 
 import domain.database.annotations.Column;
 import domain.database.annotations.Id;

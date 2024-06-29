@@ -1,6 +1,5 @@
-package domain.stores;
+package domain.stores.Appointment;
 
-import domain.Appointment;
 import domain.database.SQL;
 import domain.database.models.Rows;
 import domain.time.Time;
@@ -9,19 +8,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * AppointmentStore represents a data store for Appointment objects.
+ * Store represents a data store for Appointment objects.
  *
  * @author Brandon Epperson
  */
-public class AppointmentStore {
+public class Store {
     private final SQL db;
 
     /**
-     * Creates a new AppointmentStore to retrieve Appointment documents from the database.
+     * Creates a new Store to retrieve Appointment documents from the database.
      *
      * @param db the SQL instance to use.
      */
-    public AppointmentStore(SQL db) {
+    public Store(SQL db) {
         this.db = db;
     }
 
@@ -195,6 +194,72 @@ public class AppointmentStore {
     }
 
     /**
+     * getAllWeekly attempts to fetch all appointments contained in the database
+     * that start within the next week.
+     *
+     * @return a list of all appointments
+     */
+    public List<Appointment> getAllWeekly() {
+        String query = "SELECT " +
+                "* " +
+                "FROM appointments " +
+                "WHERE week(start) = week(now())" +
+                "ORDER BY appointment_id";
+
+        Rows rows = db.PreparedQuery(query);
+        List<Appointment> weekly = new ArrayList<>();
+        rows.forEach(row -> {
+            Appointment appointment = new Appointment();
+            weekly.add(row.Scan(appointment));
+        });
+        return weekly;
+    }
+
+    /**
+     * getAllMonthly attempts to fetch all appointments contained in the database
+     * that start within the next week.
+     *
+     * @return a list of all appointments
+     */
+    public List<Appointment> getAllMonthly() {
+        String query = "SELECT " +
+                "* " +
+                "FROM appointments " +
+                "WHERE month(start) = month(now())" +
+                "ORDER BY appointment_id";
+
+        Rows rows = db.PreparedQuery(query);
+        List<Appointment> monthly = new ArrayList<>();
+        rows.forEach(row -> {
+            Appointment appointment = new Appointment();
+            monthly.add(row.Scan(appointment));
+        });
+        return monthly;
+    }
+
+    /**
+     * getByUserId attempts to fetch all appointments for a provided user id.
+     *
+     * @param id the user id
+     * @return a list of appointments
+     */
+    public List<Appointment> getByUserId(int id) {
+        String query = "SELECT " +
+                "* " +
+                "FROM appointments " +
+                "WHERE user_id = ?";
+
+        Rows rows = db.PreparedQuery(query, id);
+        List<Appointment> appointments = new ArrayList<>();
+        rows.forEach(row -> {
+            Appointment appointment = new Appointment();
+            appointments.add(row.Scan(appointment));
+        });
+        return appointments;
+    }
+
+
+    /**
      * @return the number of appointments in the database.
      */
     public int count() {
@@ -205,11 +270,33 @@ public class AppointmentStore {
         return rows.get(0).Scan(count);
     }
 
+    /**
+     * @return the highest number in the id column
+     */
     public int maxId() {
         String query = "SELECT max(appointment_id) FROM appointments";
 
         Rows row = db.PreparedQuery(query);
         int max = 0;
         return row.get(0).Scan(max);
+    }
+
+    public List<MonthlyReport> getMonthlyReport() {
+        String query = """
+                    SELECT
+                        MONTHNAME(start) AS month,
+                        type,
+                        Count(*) AS total
+                    FROM appointments
+                    GROUP BY MONTHNAME(start), type
+                """;
+
+        Rows rows = db.PreparedQuery(query);
+        List<MonthlyReport> mr = new ArrayList<>();
+        rows.forEach(row -> {
+            MonthlyReport r = new MonthlyReport();
+            mr.add(row.Scan(r));
+        });
+        return mr;
     }
 }

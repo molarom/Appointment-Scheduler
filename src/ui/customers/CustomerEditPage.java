@@ -1,15 +1,24 @@
 package ui.customers;
 
-import domain.CustomerView;
-import domain.User;
+import domain.stores.Customer.CustomerView;
+import domain.stores.User.User;
 import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
+/**
+ * CustomerEditPage is the pop-up page displayed to edit an existing customer.
+ */
 public class CustomerEditPage extends Stage {
     private static User currentUser;
 
+    /**
+     * Construct a new CustomerEditPage
+     * @param currentUser the current user
+     * @param customerView the CustomerView to edit
+     * @param customerTableView the customerTableView to reference for refresh
+     */
     public CustomerEditPage(User currentUser, CustomerView customerView, CustomerTableView customerTableView) {
         CustomerEditPage.currentUser = currentUser;
 

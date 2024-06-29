@@ -1,7 +1,7 @@
 package ui.login;
 
 import app.controllers.LoginController;
-import domain.User;
+import domain.stores.User.User;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;

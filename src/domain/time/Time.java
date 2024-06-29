@@ -160,11 +160,12 @@ public class Time {
 
     /**
      * get wraps a method chain to check if the Time is null, and returns a fallback if so.
+     *
      * @param supplier the method returning a Time
      * @param fallback the default time
      * @return the time if not null
      */
-    public static Time get(Supplier<Time> supplier, Time fallback)  {
+    public static Time get(Supplier<Time> supplier, Time fallback) {
         try {
             return supplier.get();
         } catch (NullPointerException e) {
@@ -231,6 +232,7 @@ public class Time {
      * Adds the provided number of months to an existing Time.
      *
      * @param months the months to add
+     * @return the updated Time
      */
     public Time addMonths(int months) {
         this.zDT = zDT.plusMonths(months);
@@ -252,6 +254,7 @@ public class Time {
      * Adds the provided number of weeks to an existing Time.
      *
      * @param weeks the number of weeks to add
+     * @return the updated Time
      */
     public Time addWeeks(int weeks) {
         this.zDT = zDT.plusWeeks(weeks);
@@ -267,6 +270,17 @@ public class Time {
     public int getDeltaWeeks(Time since) {
         long deltaWeeks = ChronoUnit.WEEKS.between(since.getTime(), zDT);
         return Long.valueOf(deltaWeeks).intValue();
+    }
+
+    /**
+     * Adds the provided number of minutes to an existing Time.
+     *
+     * @param minutes the number of minutes to add
+     * @return the updated Time
+     */
+    public Time addMinutes(int minutes) {
+        this.zDT = zDT.plusMinutes(minutes);
+        return this;
     }
 
     /**

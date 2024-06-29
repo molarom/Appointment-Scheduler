@@ -1,4 +1,4 @@
-package domain;
+package domain.stores.Customer;
 
 import domain.database.annotations.Column;
 import domain.time.Time;

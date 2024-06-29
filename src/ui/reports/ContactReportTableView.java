@@ -1,4 +1,4 @@
-package ui.appointments;
+package ui.reports;
 
 import app.alerts.Alerts;
 import app.controllers.AppointmentController;
@@ -14,20 +14,18 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 /**
- * AppointmentTableView displays a table containing all appointment
- * documents stored in the database.
- * Uses a lambda to fire a non-blocking alert if no appointments are found on startup.
+ * ContactReportTableView displays a table containing appointments associated with a contact.
  *
  * @author Brandon Epperson
  */
-public class AppointmentTableView extends TableView<Appointment> {
+public class ContactReportTableView extends TableView<Appointment> {
     ObservableList<Contact> contacts;
 
     /**
-     * AppointmentTableView constructs a new AppointmentTableView for use in the application.
+     * ContactReportTableView constructs a new ContactReportTableView for use in the application.
      */
     @SuppressWarnings("unchecked")
-    public AppointmentTableView() {
+    public ContactReportTableView() {
         this.getStyleClass().add("table-view");
         this.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         this.contacts = ContactController.getAllContacts();
@@ -35,18 +33,18 @@ public class AppointmentTableView extends TableView<Appointment> {
         // ------------------------------------------------------
         // Columns
 
-        TableColumn<Appointment, Integer> idCol = new TableColumn<>("ID");
+        TableColumn<Appointment, Integer> idCol = new TableColumn<>("Appointment ID");
         idCol.setCellValueFactory(new PropertyValueFactory<>("appointmentId"));
         idCol.setMaxWidth(1200);
 
         TableColumn<Appointment, String> titleCol = new TableColumn<>("Title");
         titleCol.setCellValueFactory(new PropertyValueFactory<>("title"));
 
+        TableColumn<Appointment, String> typeCol = new TableColumn<>("Type");
+        typeCol.setCellValueFactory(new PropertyValueFactory<>("type"));
+
         TableColumn<Appointment, String> descriptionCol = new TableColumn<>("Description");
         descriptionCol.setCellValueFactory(new PropertyValueFactory<>("description"));
-
-        TableColumn<Appointment, String> locationCol = new TableColumn<>("Location");
-        locationCol.setCellValueFactory(new PropertyValueFactory<>("location"));
 
         TableColumn<Appointment, String> contactCol = new TableColumn<>("Contact");
         contactCol.setCellValueFactory(param -> {
@@ -57,9 +55,6 @@ public class AppointmentTableView extends TableView<Appointment> {
             }
             return new ReadOnlyStringWrapper("invalid contact name");
         });
-
-        TableColumn<Appointment, String> typeCol = new TableColumn<>("Type");
-        typeCol.setCellValueFactory(new PropertyValueFactory<>("type"));
 
         TableColumn<Appointment, String> startCol = new TableColumn<>("Start Date");
         startCol.setCellValueFactory(param ->
@@ -72,37 +67,19 @@ public class AppointmentTableView extends TableView<Appointment> {
         TableColumn<Appointment, String> customerIdCol = new TableColumn<>("Customer ID");
         customerIdCol.setCellValueFactory(new PropertyValueFactory<>("customerId"));
 
-        TableColumn<Appointment, String> userIdCol = new TableColumn<>("User ID");
-        userIdCol.setCellValueFactory(new PropertyValueFactory<>("userId"));
-
-
         // ------------------------------------------------------
 
         this.refreshAppointments();
         this.getColumns().addAll(
+                contactCol,
                 idCol,
                 titleCol,
-                descriptionCol,
-                locationCol,
-                contactCol,
                 typeCol,
+                descriptionCol,
                 startCol,
                 endCol,
-                customerIdCol,
-                userIdCol
+                customerIdCol
         );
-    }
-
-    /**
-     * getAppointmentFromRow fetches the Appointment from the selected row.
-     *
-     * @return the Appointment from the row.
-     */
-    public Appointment getAppointmentFromRow() {
-        if (!this.getItems().isEmpty()) {
-            return this.getSelectionModel().getSelectedItem();
-        }
-        return null;
     }
 
     /**
@@ -110,32 +87,6 @@ public class AppointmentTableView extends TableView<Appointment> {
      */
     public void refreshAppointments() {
         ObservableList<Appointment> appointments = AppointmentController.getAppointments();
-        if (appointments.isEmpty()) {
-            Platform.runLater(() -> Alerts.Warning("No appointments found."));
-        }
-        this.setItems(appointments);
-        this.refresh();
-    }
-
-    /**
-     * setWeeklyAppointments sets the list displayed in the table to appointments only within the
-     * current week.
-     */
-    public void setWeeklyAppointments() {
-        ObservableList<Appointment> appointments = AppointmentController.getWeeklyAppointments();
-        if (appointments.isEmpty()) {
-            Platform.runLater(() -> Alerts.Warning("No appointments found."));
-        }
-        this.setItems(appointments);
-        this.refresh();
-    }
-
-    /**
-     * setMonthlyAppointments sets the list displayed in the table to appointments only within the
-     * current month.
-     */
-    public void setMonthlyAppointments() {
-        ObservableList<Appointment> appointments = AppointmentController.getMonthlyAppointments();
         if (appointments.isEmpty()) {
             Platform.runLater(() -> Alerts.Warning("No appointments found."));
         }

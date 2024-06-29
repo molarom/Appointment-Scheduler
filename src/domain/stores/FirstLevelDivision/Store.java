@@ -1,28 +1,27 @@
-package domain.stores;
+package domain.stores.FirstLevelDivision;
 
 
-import domain.Country;
-import domain.FirstLevelDivision;
 import domain.database.SQL;
 import domain.database.models.Rows;
+import domain.stores.Country.Country;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * FirstLevelDivisionStore represents a data store for FirstLevelDivision objects.
+ * Store represents a data store for FirstLevelDivision objects.
  *
  * @author Brandon Epperson
  */
-public class FirstLevelDivisionStore {
+public class Store {
     private final SQL db;
 
     /**
-     * Creates a new FirstLevelDivisionStore to retrieve FirstLevelDivision documents from the database.
+     * Creates a new Store to retrieve FirstLevelDivision documents from the database.
      *
      * @param db the SQL instance to use.
      */
-    public FirstLevelDivisionStore(SQL db) {
+    public Store(SQL db) {
         this.db = db;
     }
 

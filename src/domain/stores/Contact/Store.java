@@ -1,6 +1,5 @@
-package domain.stores;
+package domain.stores.Contact;
 
-import domain.Contact;
 import domain.database.SQL;
 import domain.database.models.Rows;
 
@@ -8,19 +7,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * ContactStore represents a data store for Contact objects.
+ * Store represents a data store for Contact objects.
  *
  * @author Brandon Epperson
  */
-public class ContactStore {
+public class Store {
     private final SQL db;
 
     /**
-     * Creates a new ContactStore to retrieve Contact documents from the database.
+     * Creates a new Store to retrieve Contact documents from the database.
      *
      * @param db the SQL instance to use.
      */
-    public ContactStore(SQL db) {
+    public Store(SQL db) {
         this.db = db;
     }
 

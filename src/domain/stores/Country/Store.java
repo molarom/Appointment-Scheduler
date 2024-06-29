@@ -1,21 +1,25 @@
-package domain.stores;
+package domain.stores.Country;
 
-import domain.Country;
 import domain.database.SQL;
 import domain.database.models.Rows;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class CountryStore {
+/**
+ * Store represents a datastore for Country objects.
+ *
+ * @author Brandon Epperson
+ */
+public class Store {
     private final SQL db;
 
     /**
-     * Creates a new CountryStore to retrieve Country documents from the database.
+     * Creates a new Store to retrieve Country documents from the database.
      *
      * @param db the SQL instance to use.
      */
-    public CountryStore(SQL db) {
+    public Store(SQL db) {
         this.db = db;
     }
 

@@ -1,7 +1,7 @@
 package ui.contacts;
 
 import app.controllers.ContactController;
-import domain.Contact;
+import domain.stores.Contact.Contact;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListCell;
 

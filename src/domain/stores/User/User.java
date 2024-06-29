@@ -1,9 +1,14 @@
-package domain;
+package domain.stores.User;
 
 import domain.database.annotations.Column;
 import domain.database.annotations.Id;
 import domain.time.Time;
 
+/**
+ * User represents a user document stored within the database.
+ *
+ * @author Brandon Epperson
+ */
 public class User {
     @Id
     @Column(name = "user_id")

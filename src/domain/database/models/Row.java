@@ -48,6 +48,10 @@ public class Row extends HashMap<String, Object> {
                     continue;
                 }
                 f.setAccessible(true);
+                if (this.get(f.getAnnotation(Column.class).name()) instanceof Long value) {
+                    f.set(dest, value.intValue());
+                    continue;
+                }
                 if (f.getType() != Time.class) {
                     f.set(dest, this.get(f.getAnnotation(Column.class).name()));
                     continue;

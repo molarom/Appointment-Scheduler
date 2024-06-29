@@ -1,7 +1,7 @@
 package ui.users;
 
 import app.controllers.UserController;
-import domain.User;
+import domain.stores.User.User;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListCell;
 

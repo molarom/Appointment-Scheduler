@@ -1,8 +1,8 @@
 package app.controllers;
 
-import domain.Country;
 import domain.database.SQL;
-import domain.stores.CountryStore;
+import domain.stores.Country.Country;
+import domain.stores.Country.Store;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -10,9 +10,14 @@ import java.util.List;
 import java.util.Objects;
 import java.util.logging.Logger;
 
+/**
+ * CountryController contains methods for the UI layer to interact with the database.
+ *
+ * @author Brandon Epperson
+ */
 public class CountryController {
     private static Logger log = null;
-    private static CountryStore countryStore = null;
+    private static Store store = null;
 
     /**
      * Configure sets up the required parameters for the Controller.
@@ -22,12 +27,15 @@ public class CountryController {
      * @param logger the logger to use
      */
     static void Configure(SQL db, Logger logger) {
-        countryStore = new CountryStore(db);
+        store = new Store(db);
         log = logger;
     }
 
+    /**
+     * @return an ObservableList of Country
+     */
     public static ObservableList<Country> getAllCountries() {
-        List<Country> countries = countryStore.getAll();
+        List<Country> countries = store.getAll();
         if (!countries.isEmpty()) {
             log.info("Total countries returned from getAll(): " + countries.size());
             return FXCollections.observableList(countries);
@@ -36,8 +44,13 @@ public class CountryController {
         return FXCollections.emptyObservableList();
     }
 
+    /**
+     * getById attempt to fetch a Country from the store
+     * @param id the id to search for
+     * @return the Country if found
+     */
     public static Country getById(int id) {
-        Country country = countryStore.getById(id);
+        Country country = store.getById(id);
         if (!Objects.equals(country.getCountryName(), "")) {
             log.info("Fetched country: " + country.getCountryName());
         }

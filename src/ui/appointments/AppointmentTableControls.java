@@ -2,11 +2,13 @@ package ui.appointments;
 
 import app.alerts.Alerts;
 import app.controllers.AppointmentController;
-import domain.Appointment;
-import domain.User;
+import domain.stores.Appointment.Appointment;
+import domain.stores.User.User;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.control.RadioButton;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.HBox;
 
 /**
@@ -44,12 +46,37 @@ public class AppointmentTableControls extends HBox {
         removeButton.getStyleClass().add("table-button");
         removeButton.setOnAction(event -> removeAppointment());
 
+        ToggleGroup tg = new ToggleGroup();
+
+        RadioButton allButton = new RadioButton("All");
+        allButton.setSelected(true);
+        allButton.setAlignment(Pos.CENTER_LEFT);
+        allButton.getStyleClass().add("radio-button");
+        allButton.setOnAction(event -> setAllList());
+
+        RadioButton weeklyButton = new RadioButton("This Week");
+        weeklyButton.setAlignment(Pos.CENTER_LEFT);
+        weeklyButton.getStyleClass().add("radio-button");
+        weeklyButton.setOnAction(event -> setWeeklyList());
+
+        RadioButton monthlyButton = new RadioButton("This Month");
+        monthlyButton.setAlignment(Pos.CENTER_LEFT);
+        monthlyButton.getStyleClass().add("radio-button");
+        monthlyButton.setOnAction(event -> setMonthlyList());
+
+        allButton.setToggleGroup(tg);
+        weeklyButton.setToggleGroup(tg);
+        monthlyButton.setToggleGroup(tg);
+
         this.setSpacing(10);
         this.setPadding(new Insets(10, 0, 10, 0));
         this.getChildren().addAll(
                 addButton,
                 updateButton,
-                removeButton
+                removeButton,
+                allButton,
+                weeklyButton,
+                monthlyButton
         );
     }
 
@@ -80,7 +107,6 @@ public class AppointmentTableControls extends HBox {
     private void removeAppointment() {
         Appointment appointment = appointmentTableView.getAppointmentFromRow();
         if (appointment != null) {
-            // TODO: Add check for any existing Appointments.
             if (!AppointmentController.deleteAppointment(appointment.getAppointmentId())) {
                 Alerts.Error("Failed to delete appointment.");
             } else {
@@ -90,5 +116,26 @@ public class AppointmentTableControls extends HBox {
         } else {
             Alerts.Warning("No appointment selected.");
         }
+    }
+
+    /**
+     * setAllList displays all appointments
+     */
+    private void setAllList() {
+        appointmentTableView.refreshAppointments();
+    }
+
+    /**
+     * setWeeklyList filters the tableview to show the appointments in the current week.
+     */
+    private void setWeeklyList() {
+        appointmentTableView.setWeeklyAppointments();
+    }
+
+    /**
+     * setMonthlyList filters the tableview to show the appointments in the current month.
+     */
+    private void setMonthlyList() {
+        appointmentTableView.setMonthlyAppointments();
     }
 }

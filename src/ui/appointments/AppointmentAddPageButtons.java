@@ -1,6 +1,8 @@
 package ui.appointments;
 
-import domain.Appointment;
+import app.alerts.Alerts;
+import app.controllers.AppointmentController;
+import domain.stores.Appointment.Appointment;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;
@@ -21,12 +23,12 @@ public class AppointmentAddPageButtons extends HBox {
             Appointment a = AppointmentInfoForm.getAppointmentFromForm();
             if (a != null) {
                 System.out.println("appointment: " + a);
-                //if (!AppointmentController.addAppointment(a)) {
-                //    Alerts.Error("Appointment " + a.getAppointmentId() + " could not be added!");
-                //} else {
-                //    Alerts.Info("Appointment " + a.getAppointmentId() + " added successfully!");
-                //    window.close();
-                //}
+                if (!AppointmentController.addAppointment(a)) {
+                    Alerts.Error("Appointment " + a.getAppointmentId() + " could not be added!");
+                } else {
+                    Alerts.Info("Appointment " + a.getAppointmentId() + " added successfully!");
+                    window.close();
+                }
             }
         });
         Button cancelButton = new Button("Cancel");

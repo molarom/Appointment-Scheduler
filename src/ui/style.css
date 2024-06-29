@@ -123,6 +123,11 @@
     -fx-text-fill: -bg;
 }
 
+.radio-button {
+    -fx-background-color: -bg;
+    -fx-text-fill: -text;
+}
+
 /* Table Views */
 .table-view {
     -fx-background-color: -bg;
@@ -170,4 +175,12 @@
 .table-view .virtual-flow .scroll-bar:horizontal .track,
 .table-view .virtual-flow .scroll-bar:horizontal .track-background {
     -fx-background-color: transparent;
+}
+
+.chart-legend {
+    -fx-background-color: -secondary;
+}
+
+.chart-pie-label {
+    -fx-fill: -text;
 }

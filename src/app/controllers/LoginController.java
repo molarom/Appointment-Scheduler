@@ -1,8 +1,8 @@
 package app.controllers;
 
-import domain.User;
 import domain.database.SQL;
-import domain.stores.UserStore;
+import domain.stores.User.Store;
+import domain.stores.User.User;
 
 import java.io.IOException;
 import java.util.logging.*;
@@ -14,7 +14,7 @@ import java.util.logging.*;
  */
 public class LoginController {
     private static final Logger log = Logger.getLogger("LoginController");
-    private static UserStore userStore = null;
+    private static Store store = null;
 
     /**
      * Configure sets up the required parameters for the Controller.
@@ -23,7 +23,7 @@ public class LoginController {
      * @param db the SQL instance to interact with.
      */
     public static void Configure(SQL db) {
-        userStore = new UserStore(db);
+        store = new Store(db);
 
         log.setLevel(Level.INFO);
         log.setUseParentHandlers(false);
@@ -41,13 +41,13 @@ public class LoginController {
     }
 
     /**
-     * authenticate queries the userStore to authenticate a user.
+     * authenticate queries the store to authenticate a user.
      *
      * @param username the username
      * @param password the password
      */
     public static User authenticate(String username, String password) {
-        User user = userStore.login(username, password);
+        User user = store.login(username, password);
         if (user != null) {
             log.info("successful login for user=" + username);
             return user;

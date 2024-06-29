@@ -1,9 +1,9 @@
 package app.controllers;
 
-import domain.Country;
-import domain.FirstLevelDivision;
 import domain.database.SQL;
-import domain.stores.FirstLevelDivisionStore;
+import domain.stores.Country.Country;
+import domain.stores.FirstLevelDivision.FirstLevelDivision;
+import domain.stores.FirstLevelDivision.Store;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -11,15 +11,31 @@ import java.util.List;
 import java.util.Objects;
 import java.util.logging.Logger;
 
+/**
+ * DivisionsController contains methods for the UI to interact with the database.
+ *
+ * @author Brandon Epperson
+ */
 public class DivisionsController {
     private static Logger log = null;
-    private static FirstLevelDivisionStore divisionStore;
+    private static Store divisionStore;
 
+    /**
+     * Configure sets up the required parameters for the Controller.
+     * This should only be called once.
+     *
+     * @param db     the SQL instance to interact with.
+     * @param logger the logger to use
+     */
     static void Configure(SQL db, Logger logger) {
-        divisionStore = new FirstLevelDivisionStore(db);
+        divisionStore = new Store(db);
         log = logger;
     }
 
+    /**
+     * getAllDivisions fetches all divisions from the store
+     * @return Observable list of FirstLevelDivision
+     */
     public static ObservableList<FirstLevelDivision> GetAllDivisions() {
         List<FirstLevelDivision> divisions = divisionStore.getAllDivisions();
         if (!divisions.isEmpty()) {
@@ -30,6 +46,11 @@ public class DivisionsController {
         return FXCollections.observableArrayList();
     }
 
+    /**
+     * fetches divisions by country from the store.
+     * @param country the country to search for
+     * @return observable list of country
+     */
     public static ObservableList<FirstLevelDivision> getAllByCountry(Country country) {
         List<FirstLevelDivision> divisionList = divisionStore.getAllByCountryId(country);
         if (!divisionList.isEmpty()) {
@@ -40,6 +61,11 @@ public class DivisionsController {
         return FXCollections.emptyObservableList();
     }
 
+    /**
+     * attempts to fetch a division by id from the store
+     * @param id the id to search for
+     * @return the division if found
+     */
     public static FirstLevelDivision getDivisionById(int id) {
         FirstLevelDivision division = divisionStore.getDivisionById(id);
         if (!Objects.equals(division.getDivisionName(), "")) {

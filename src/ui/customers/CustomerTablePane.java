@@ -1,10 +1,17 @@
 package ui.customers;
 
-import domain.User;
+import domain.stores.User.User;
 import javafx.geometry.Insets;
 import javafx.scene.layout.VBox;
 
+/**
+ * CustomerTablePane contains the buttons and tableview displayed in the application.
+ */
 public class CustomerTablePane extends VBox {
+    /**
+     * Constructs a new CustomerTablePane
+     * @param currentUser the user to reference in the current context.
+     */
     public CustomerTablePane(User currentUser) {
         CustomerTableView customerTableView = new CustomerTableView();
         CustomerTableControls customerTableControls = new CustomerTableControls(currentUser, customerTableView);

@@ -138,7 +138,7 @@ public class SQL {
     }
 
     /**
-     * Converts a ResultSet to a List for handling of generic types.
+     * Converts a ResultSet to Rows for handling of generic types.
      *
      * @param rs the ResultSet to convert
      * @return the list of converted row objects

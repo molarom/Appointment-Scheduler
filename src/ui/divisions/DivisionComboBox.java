@@ -1,8 +1,8 @@
 package ui.divisions;
 
 import app.controllers.DivisionsController;
-import domain.Country;
-import domain.FirstLevelDivision;
+import domain.stores.Country.Country;
+import domain.stores.FirstLevelDivision.FirstLevelDivision;
 import javafx.beans.binding.ObjectBinding;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
