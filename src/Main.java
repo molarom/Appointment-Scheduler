@@ -53,8 +53,8 @@ public class Main extends Application {
             // ------------------------------------------------------
             // Setup the Database
 
-            SQL db;
-            String dbProps = "database.properties";
+            SQL db = null;
+            String dbProps = "lib/database.properties";
             try (FileInputStream fis = new FileInputStream(dbProps)) {
                 Properties dbConfig = new Properties();
                 dbConfig.load(fis);
@@ -68,13 +68,7 @@ public class Main extends Application {
                 );
             } catch (FileNotFoundException ex) {
                 logger.warning("failed to locate database file " + dbProps);
-                db = new SQL(
-                        "localhost",
-                        "3306",
-                        "c195",
-                        "root",
-                        "password"
-                );
+                System.exit(-1);
             }
 
             // Make sure connection is valid.
