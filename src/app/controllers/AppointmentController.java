@@ -163,4 +163,11 @@ public class AppointmentController {
         log.warning("No rows fetched from getMonthlyReport");
         return FXCollections.emptyObservableList();
     }
+
+    /**
+     * @return the number of appointments
+     */
+    public static int countByCustomerId(int id) {
+        return store.countByCustomerId(id);
+    }
 }

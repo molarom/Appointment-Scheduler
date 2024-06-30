@@ -54,7 +54,7 @@ public class Main extends Application {
             // Setup the Database
 
             SQL db;
-            String dbProps = "lib/database.properties";
+            String dbProps = "database.properties";
             try (FileInputStream fis = new FileInputStream(dbProps)) {
                 Properties dbConfig = new Properties();
                 dbConfig.load(fis);

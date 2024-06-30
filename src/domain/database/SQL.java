@@ -150,7 +150,7 @@ public class SQL {
         while (rs.next()) {
             Row row = new Row(columnCount);
             for (int i = 1; i <= columnCount; i++) {
-                row.put(rsmd.getColumnName(i), rs.getObject(i));
+                row.put(rsmd.getColumnName(i).toLowerCase(), rs.getObject(i));
             }
             rows.add(row);
         }

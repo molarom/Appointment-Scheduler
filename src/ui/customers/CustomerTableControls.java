@@ -1,6 +1,7 @@
 package ui.customers;
 
 import app.alerts.Alerts;
+import app.controllers.AppointmentController;
 import app.controllers.CustomerController;
 import domain.stores.Customer.CustomerView;
 import domain.stores.User.User;
@@ -80,7 +81,10 @@ public class CustomerTableControls extends HBox {
     private void removeCustomer() {
         CustomerView customer = customerTableView.getCustomerViewFromRow();
         if (customer != null) {
-            // TODO: Add check for any existing Appointments.
+            if (AppointmentController.countByCustomerId(customer.getCustomerId()) != 0) {
+                Alerts.Error(customer.getCustomerName() + " still has scheduled appointments.");
+                return;
+            }
             if (!CustomerController.deleteCustomer(customer.getCustomerId())) {
                 Alerts.Error("Failed to delete customer.");
             } else {

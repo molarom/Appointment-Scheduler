@@ -258,6 +258,22 @@ public class Store {
         return appointments;
     }
 
+    /**
+     * countByCustomerId attempts to fetch the number of appointments for a provided customer id.
+     *
+     * @param id the user id
+     * @return the number of appointments
+     */
+    public int countByCustomerId(int id) {
+        String query = "SELECT " +
+                "count(appointment_id) " +
+                "FROM appointments " +
+                "WHERE customer_id = ?";
+
+        Rows rows = db.PreparedQuery(query, id);
+        int count = 0;
+        return rows.get(0).Scan(count);
+    }
 
     /**
      * @return the number of appointments in the database.

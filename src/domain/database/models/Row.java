@@ -48,17 +48,18 @@ public class Row extends HashMap<String, Object> {
                     continue;
                 }
                 f.setAccessible(true);
-                if (this.get(f.getAnnotation(Column.class).name()) instanceof Long value) {
+                String colName = f.getAnnotation(Column.class).name().toLowerCase();
+                if (this.get(colName) instanceof Long value) {
                     f.set(dest, value.intValue());
                     continue;
                 }
                 if (f.getType() != Time.class) {
-                    f.set(dest, this.get(f.getAnnotation(Column.class).name()));
+                    f.set(dest, this.get(colName));
                     continue;
                 }
 
                 // If it's coming from the DB it should be stored in UTC.
-                Time t = Time.fromObject(this.get(f.getAnnotation(Column.class).name()), Time.UTC);
+                Time t = Time.fromObject(this.get(colName), Time.UTC);
                 f.set(dest, t);
                 f.setAccessible(false);
             }

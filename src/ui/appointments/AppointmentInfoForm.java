@@ -2,6 +2,7 @@ package ui.appointments;
 
 import app.alerts.Alerts;
 import app.controllers.AppointmentController;
+import app.controllers.CustomerController;
 import domain.stores.Appointment.Appointment;
 import domain.stores.Contact.Contact;
 import domain.stores.User.User;
@@ -154,10 +155,24 @@ public class AppointmentInfoForm extends GridPane {
         Label customerLabel = new Label("Customer");
         this.add(customerLabel, 0, 10);
         this.add(customerComboBox, 1, 10);
+        if (appointment.getCustomerId() != 0) {
+            customerComboBox.getItems().forEach(c -> {
+                if (c.getCustomerId() == appointment.getAppointmentId()) {
+                   customerComboBox.setCustomer(c);
+                }
+            });
+        }
 
         Label userLabel = new Label("User");
         this.add(userLabel, 0, 11);
         this.add(userComboBox, 1, 11);
+        if (appointment.getUserId() != 0) {
+            userComboBox.getItems().forEach(u -> {
+                if (u.getUserId() == appointment.getUserId()) {
+                   userComboBox.setUser(u);
+                }
+            });
+        }
 
 
         this.setPadding(new Insets(10, 10, 10, 10));
@@ -246,12 +261,12 @@ public class AppointmentInfoForm extends GridPane {
 
         List<Appointment> appointments = AppointmentController.getAppointments();
         for (Appointment appt : appointments) {
-            if (start.isInRange(appt.getStart(), appt.getEnd())) {
+            if (start.isInRange(appt.getStart(), appt.getEnd()) && a.getAppointmentId() != appt.getAppointmentId()) {
                 Alerts.Warning("Appointment start time overlaps with Appointment ID " + appt.getAppointmentId() + " Title " + appt.getTitle());
                 return null;
             }
 
-            if (end.isInRange(appt.getStart(), appt.getEnd())) {
+            if (end.isInRange(appt.getStart(), appt.getEnd()) && a.getAppointmentId() != appt.getAppointmentId()) {
                 Alerts.Warning("Appointment end time overlaps with Appointment ID " + appt.getAppointmentId() + " Title " + appt.getTitle());
                 return null;
             }
